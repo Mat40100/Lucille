@@ -5,19 +5,18 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/user")
- */
 class UserController extends AbstractController
 {
     /**
-     * @Route("/", methods={"GET"})
+     * @Route("//user", methods={"GET"})
+     * @IsGranted("ROLE_ADMIN")
      */
     public function index(UserRepository $userRepository): Response
     {
@@ -27,7 +26,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", methods={"GET","POST"})
+     * @Route("/user/new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -59,20 +58,34 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"})
+     * @Route("/user/{id}", methods={"GET"})
+     * @IsGranted("ROLE_USER")
      */
     public function show(User $user): Response
     {
+        if(!$user === $this->getUser() & !$this->isGranted("ROLE_ADMIN")) {
+            $this->addFlash("warning","Vous n'avez pas accès aux autres utlisateurs.");
+
+            return $this->redirectToRoute("home");
+        }
+
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", methods={"GET","POST"})
+     * @Route("/user/{id}/edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, User $user): Response
     {
+        if(!$user === $this->getUser() & !$this->isGranted("ROLE_ADMIN")) {
+            $this->addFlash("warning", "Vous n'avez pas accès aux autres utlisateurs.");
+
+            return $this->redirectToRoute("home");
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -91,10 +104,16 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"})
+     * @Route("/user/{id}", methods={"DELETE"})
      */
     public function delete(Request $request, User $user): Response
     {
+        if(!$user === $this->getUser() & !$this->isGranted("ROLE_ADMIN")) {
+            $this->addFlash("Vous n'avez pas accès aux autres utlisateurs.");
+
+            return $this->redirectToRoute("home");
+        }
+
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
