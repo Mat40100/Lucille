@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\File;
 use App\Service\FileService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Bundle\FrameworkBundle\Controller\ControllerTrait;
 use Symfony\Component\Routing\Annotation\Route;
 
 class FileController extends AbstractController
