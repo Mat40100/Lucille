@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+    {{ form_widget(form.comment) }}
+    <ul class="files" data-prototype="{{ form_widget(form.files.vars.prototype)|e('html_attr') }}"></ul>
+
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('EmbedUser') }}
+{% endblock %}
