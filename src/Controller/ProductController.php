@@ -122,9 +122,18 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/product/{id}", methods={"DELETE"})
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Request $request, Product $product): Response
     {
+        if ($product->getIsValid() & !$this->isGranted("ROLE_ADMIN")) {
+            $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
+
+            return $this->render("product/show.html.twig", [
+                'product' => $product
+            ]);
+        }
+
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);
