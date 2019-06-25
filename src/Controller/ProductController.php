@@ -2,27 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\File;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\FileService;
-use App\Services\FileServices;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Finder\Exception\AccessDeniedException;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-/**
- * @Route("/product")
- */
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/", methods={"GET"})
+     * @Route("/product/", methods={"GET"})
      * @IsGranted("ROLE_ADMIN")
      */
     public function index(ProductRepository $productRepository): Response
@@ -33,7 +26,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/new", methods={"GET","POST"})
+     * @Route("/product/new", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
     public function create(Request $request, FileService $fileService): Response
@@ -66,7 +59,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"GET"})
+     * @Route("/product/{id}", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
     public function show(Product $product): Response
@@ -83,7 +76,21 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", methods={"GET","POST"})
+     * @Route("/myproducts", methods={"GET"})
+     * @IsGranted("ROLE_USER")
+     */
+    public function showOwned()
+    {
+        $user = $this->getUser();
+
+        return $this->render("product/index.html.twig", [
+            'products' => $user->getProducts()
+        ]);
+
+    }
+
+    /**
+     * @Route("/product/{id}/edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Product $product): Response
     {
@@ -105,7 +112,7 @@ class ProductController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", methods={"DELETE"})
+     * @Route("/product/{id}", methods={"DELETE"})
      */
     public function delete(Request $request, Product $product): Response
     {
