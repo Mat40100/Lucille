@@ -9,16 +9,22 @@
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
-            </li>
             {% if is_granted("ROLE_USER") %}
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_product_myproducts') }}">Mes demandes</a>
-                </li>
+                {% if not is_granted("ROLE_ADMIN") %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_product_myproducts') }}">Mes demandes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_product_create') }}">Faire une demande de devis</a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
                 </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
+                    </li>
             {% endif %}
 
             {% if is_granted("ROLE_ADMIN") %}
@@ -29,9 +35,6 @@
                     <a class="nav-link" href="{{ path('app_user_index') }}">Mes clients</a>
                 </li>
             {% endif %}
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_product_create') }}">Faire une demande de devis</a>
-            </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
