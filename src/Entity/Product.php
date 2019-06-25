@@ -63,6 +63,7 @@ class Product
         $this->files = new ArrayCollection();
         $this->setIsValid(false);
         $this->setIsPayed(false);
+        $this->setState('pending');
     }
 
     public function getId(): ?int

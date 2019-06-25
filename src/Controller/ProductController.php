@@ -27,7 +27,6 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/product/new", methods={"GET","POST"})
-     * @IsGranted("ROLE_USER")
      */
     public function create(Request $request, FileService $fileService): Response
     {
@@ -93,13 +92,13 @@ class ProductController extends AbstractController
      * @Route("/product/{id}/edit", methods={"GET","POST"})
      * @IsGranted("ROLE_USER")
      */
-    public function edit(Request $request, Product $product): Response
+    public function edit(Request $request, Product $product): Response ##TODO : FIX EDITING FILES
     {
         if ($product->getIsValid() & !$this->isGranted("ROLE_ADMIN")) {
                 $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
 
-                return $this->render("product/show.html.twig", [
-                    'product' => $product
+                return $this->redirectToRoute("product/show.html.twig", [
+                    'id' => $product->getId()
                 ]);
         }
 
@@ -109,7 +108,7 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('product_index', [
+            return $this->redirectToRoute('app_product_show', [
                 'id' => $product->getId(),
             ]);
         }
@@ -138,8 +137,10 @@ class ProductController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($product);
             $entityManager->flush();
+
+            $this->addFlash("success", "Product deleted");
         }
 
-        return $this->redirectToRoute('product_index');
+        return $this->redirectToRoute('home');
     }
 }
