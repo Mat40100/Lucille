@@ -14,9 +14,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ path('app_product_myproducts') }}">Mes demandes</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_product_create') }}">Faire une demande de devis</a>
-                    </li>
                 {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
@@ -34,6 +31,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_user_index') }}">Mes clients</a>
                 </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_product_create') }}">Faire une demande de devis</a>
+                    </li>
             {% endif %}
         </ul>
         <form class="form-inline my-2 my-lg-0">
