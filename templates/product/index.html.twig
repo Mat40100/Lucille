@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Estimate</th>
+                <th>Etat de la demande</th>
                 <th>IsValid</th>
                 <th>IsPayed</th>
                 <th>Comment</th>
@@ -21,6 +22,7 @@
             <tr>
                 <td>{{ product.id }}</td>
                 <td>{{ product.estimate }}</td>
+                <td>{{ product.state }}</td>
                 <td>{{ product.isValid ? 'Yes' : 'No' }}</td>
                 <td>{{ product.isPayed ? 'Yes' : 'No' }}</td>
                 <td>{{ product.comment }}</td>

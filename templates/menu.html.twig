@@ -12,9 +12,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_login') }}">Se connecter</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
-            </li>
+            {% if is_granted("ROLE_USER") %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_product_myproducts') }}">Mes demandes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('app_logout') }}">Se déconnecter</a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_product_create') }}">Faire une demande de devis</a>
             </li>

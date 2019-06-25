@@ -79,7 +79,7 @@ class ProductController extends AbstractController
      * @Route("/myproducts", methods={"GET"})
      * @IsGranted("ROLE_USER")
      */
-    public function showOwned()
+    public function myProducts()
     {
         $user = $this->getUser();
 
@@ -91,9 +91,18 @@ class ProductController extends AbstractController
 
     /**
      * @Route("/product/{id}/edit", methods={"GET","POST"})
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Request $request, Product $product): Response
     {
+        if ($product->getIsValid() & !$this->isGranted("ROLE_ADMIN")) {
+                $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
+
+                return $this->render("product/show.html.twig", [
+                    'product' => $product
+                ]);
+        }
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 

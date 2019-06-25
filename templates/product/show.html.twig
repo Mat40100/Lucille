@@ -30,7 +30,7 @@
             <tr>
                 {% for file in product.files %}
             <tr>
-                <th>{{ file.name }}</th>
+                <th><a href="{{ path('app_file_downloadfile', {'file' : file.id }) }}">{{ file.name }}</a></th>
             </tr>
                 {% endfor %}
             </tr>
