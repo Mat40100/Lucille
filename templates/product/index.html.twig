@@ -21,7 +21,12 @@
         <tbody>
         {% for product in products %}
             <tr>
-                <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }}</a></td> {# TODO : implement orphan users #}
+                {% if product.user %}
+                    <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }}</a></td>
+                {% else %}
+                    <td><a href="{{ path('app_orphan_show', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }}</a></td>
+                {% endif %}
+
                 <td>{{ product.state }}</td>
                 <td>{{ product.isValid ? 'Yes' : 'No' }}</td>
                 <td>{{ product.isPayed ? 'Yes' : 'No' }}</td>

@@ -25,10 +25,10 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            foreach ($product->getFiles() as $item) {
+            foreach ($product->getFiles() as $file) {
 
-                $item->setProduct($product);
-                $fileService->saveFile($item);
+                $file->setProduct($product);
+                $fileService->saveFile($file);
             }
 
             $productService->newProduct($product);

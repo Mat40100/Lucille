@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\OrphanUser;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Repository\ProductRepository;

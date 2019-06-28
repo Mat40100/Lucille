@@ -5,7 +5,12 @@ var $newLinkLi = $('<li></li>').append($addTagButton);
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
-    $collectionHolder = $('ul.files');
+
+    if($('#orphan_user_product_files').length) {
+        $collectionHolder = $('#orphan_user_product_files');
+    }else{
+        $collectionHolder = $('ul.files');
+    }
 
     // add the "add a tag" anchor and li to the tags ul
     $collectionHolder.append($newLinkLi);

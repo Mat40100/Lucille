@@ -19,7 +19,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="product", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="product", orphanRemoval=true, cascade={"persist"})
      */
     private $files;
 

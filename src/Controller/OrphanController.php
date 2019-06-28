@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\OrphanUser;
-use App\Form\OrphanUser1Type;
+use App\Form\OrphanUserType;
 use App\Repository\OrphanUserRepository;
+use App\Service\FileService;
+use App\Service\OrphanUserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,16 +21,20 @@ class OrphanController extends AbstractController
     /**
      * @Route("/new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, FileService $fileService, OrphanUserService $userService): Response
     {
         $orphanUser = new OrphanUser();
         $form = $this->createForm(OrphanUserType::class, $orphanUser);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($orphanUser);
-            $entityManager->flush();
+            foreach ($orphanUser->getProduct()->getFiles() as $file) {
+
+                $file->setProduct($orphanUser->getProduct());
+                $fileService->saveFile($file);
+            }
+            $userService->save($orphanUser);
 
             $this->addFlash('success', 'Your request has been saved, you\'ll be contacted soon');
             return $this->redirectToRoute('home');
@@ -40,6 +46,10 @@ class OrphanController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/orphan/{id}")
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function show(OrphanUser $orphanUser): Response
     {
         return $this->render('orphan_user/show.html.twig', [
@@ -47,7 +57,11 @@ class OrphanController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, OrphanUser $orphanUser): Response
+    /**
+     * @Route("/admin/orphan/edit/{id}")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function edit(OrphanUser $orphanUser, Request $request): Response
     {
         $form = $this->createForm(OrphanUserType::class, $orphanUser);
         $form->handleRequest($request);
@@ -56,7 +70,7 @@ class OrphanController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('app_orphan_edit', [
-                'id' => $orphanUser->getId(),
+                'orphan' => $orphanUser->getId(),
             ]);
         }
 
@@ -66,6 +80,10 @@ class OrphanController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/admin/orphan/delete/{id}")
+     * @IsGranted("ROLE_ADMIN")
+     */
     public function delete(Request $request, OrphanUser $orphanUser): Response
     {
         if ($this->isCsrfTokenValid('delete'.$orphanUser->getId(), $request->request->get('_token'))) {
@@ -75,13 +93,5 @@ class OrphanController extends AbstractController
         }
 
         return $this->redirectToRoute('home');
-    }
-
-
-    public function index(OrphanUserRepository $orphanUserRepository): Response
-    {
-        return $this->render('orphan_user/index.html.twig', [
-            'orphan_users' => $orphanUserRepository->findAll(),
-        ]);
     }
 }

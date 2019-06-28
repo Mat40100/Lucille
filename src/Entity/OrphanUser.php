@@ -22,7 +22,7 @@ class OrphanUser
     private $phoneNumber;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="orphanUser")
+     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="orphanUser", cascade={"persist"})
      */
     private $product;
 
