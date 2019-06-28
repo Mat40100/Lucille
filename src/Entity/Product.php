@@ -24,11 +24,6 @@ class Product
     private $files;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $estimate;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isValid;
@@ -98,18 +93,6 @@ class Product
                 $file->setProduct(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getEstimate(): ?int
-    {
-        return $this->estimate;
-    }
-
-    public function setEstimate(?int $estimate): self
-    {
-        $this->estimate = $estimate;
 
         return $this;
     }

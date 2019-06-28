@@ -35,7 +35,6 @@ class ProductType extends AbstractType
 
         if ($this->security->isGranted("ROLE_ADMIN")) {
             $builder
-                ->add('estimate', NumberType::class)
                 ->add('isValid', ChoiceType::class, [
                     'choices'  => [
                         'Yes' => true,

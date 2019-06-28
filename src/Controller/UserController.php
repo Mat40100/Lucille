@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class UserController extends AbstractController
 {
@@ -28,7 +30,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, UserService $userService): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -44,9 +46,7 @@ class UserController extends AbstractController
                 ]);
             }
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            $userService->saveNewUser($user);
 
             return $this->redirectToRoute('app_user_index');
         }

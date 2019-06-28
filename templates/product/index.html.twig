@@ -11,7 +11,6 @@
                 {% if is_granted("ROLE_ADMIN") %}
                     <th>Client</th>
                 {% endif %}
-                <th>Estimate</th>
                 <th>Etat de la demande</th>
                 <th>IsValid</th>
                 <th>IsPayed</th>
@@ -23,7 +22,6 @@
         {% for product in products %}
             <tr>
                 <td><a href="{{ path('app_user_show', {'id': product.user.id }) }}">{{ product.user.lastName }}</a></td> {# TODO : implement orphan users #}
-                <td>{{ product.estimate }}</td>
                 <td>{{ product.state }}</td>
                 <td>{{ product.isValid ? 'Yes' : 'No' }}</td>
                 <td>{{ product.isPayed ? 'Yes' : 'No' }}</td>
