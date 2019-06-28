@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrphanUser index{% endblock %}
+
+{% block body %}
+    <h1>OrphanUser index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>PhoneNumber</th>
+                <th>LastName</th>
+                <th>FirstName</th>
+                <th>PostalAddress</th>
+                <th>Email</th>
+                <th>Company</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for orphan_user in orphan_users %}
+            <tr>
+                <td>{{ orphan_user.id }}</td>
+                <td>{{ orphan_user.phoneNumber }}</td>
+                <td>{{ orphan_user.lastName }}</td>
+                <td>{{ orphan_user.firstName }}</td>
+                <td>{{ orphan_user.postalAddress }}</td>
+                <td>{{ orphan_user.email }}</td>
+                <td>{{ orphan_user.company }}</td>
+                <td>
+                    <a href="{{ path('app_orphan_show', {'id': orphan_user.id}) }}">show</a>
+                    <a href="{{ path('app_orphan_edit', {'id': orphan_user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_orphan_new') }}">Create new</a>
+{% endblock %}

@@ -21,14 +21,16 @@
         <tbody>
         {% for product in products %}
             <tr>
-                <td><a href="{{ path('app_user_show', {'id': product.user.id }) }}">{{ product.user.lastName }}</a></td> {# TODO : implement orphan users #}
+                <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }}</a></td> {# TODO : implement orphan users #}
                 <td>{{ product.state }}</td>
                 <td>{{ product.isValid ? 'Yes' : 'No' }}</td>
                 <td>{{ product.isPayed ? 'Yes' : 'No' }}</td>
                 <td>{{ product.comment }}</td>
                 <td>
-                    <a href="{{ path('app_product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+                    {% if not product.isValid %}
+                        <a href="{{ path('app_userspace_editproduct', {'product': product.id}) }}">Edit product</a>
+                    {% endif %}
+                    <a href="{{ path('app_userspace_showproduct', {'product': product.id}) }}">show</a>
                 </td>
             </tr>
         {% else %}
@@ -39,5 +41,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_product_create') }}">Create new</a>
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('app_adminspace_products') }}">back to list</a>
+    {% endif %}
 {% endblock %}

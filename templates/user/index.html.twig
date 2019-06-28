@@ -27,8 +27,8 @@
                 <td>{{ user.billingAddress }}</td>
                 <td>{{ user.phoneNumber }}</td>
                 <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}">show</a>
+                    <a href="{{ path('app_adminspace_edituser', {'user': user.id}) }}">Edit</a>
                 </td>
             </tr>
         {% else %}
@@ -38,6 +38,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_user_new') }}">Create new</a>
 {% endblock %}

@@ -26,16 +26,18 @@
             <tr>
                 {% for file in product.files %}
             <tr>
-                <th><a href="{{ path('app_file_downloadfile', {'file' : file.id }) }}">{{ file.name }}</a></th>
+                <th><a href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': file.product.id }) }}">{{ file.name }}</a></th>
             </tr>
                 {% endfor %}
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('app_product_index') }}">back to list</a>
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('app_adminspace_products') }}">back to list</a>
+    {% endif %}
 
-    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
-
-    {{ include('product/_delete_form.html.twig') }}
+    {% if not is_granted("ROLE_ADMIN") %}
+        {{ include('product/_delete_form.html.twig') }}
+    {% endif %}
 {% endblock %}

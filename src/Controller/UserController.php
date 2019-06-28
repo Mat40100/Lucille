@@ -17,17 +17,6 @@ use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 class UserController extends AbstractController
 {
     /**
-     * @Route("//user", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function index(UserRepository $userRepository): Response
-    {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
-    }
-
-    /**
      * @Route("/user/new", methods={"GET","POST"})
      */
     public function new(Request $request, UserService $userService): Response
@@ -57,44 +46,26 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/user/{id}", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
     public function show(User $user): Response
     {
-        if(!$user === $this->getUser() & !$this->isGranted("ROLE_ADMIN")) {
-            $this->addFlash("warning","Vous n'avez pas accès aux autres utlisateurs.");
-
-            return $this->redirectToRoute("home");
-        }
-
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
     }
 
-    /**
-     * @Route("/user/{id}/edit", methods={"GET","POST"})
-     * @IsGranted("ROLE_USER")
-     */
     public function edit(Request $request, User $user): Response
     {
-        if(!$user === $this->getUser() & !$this->isGranted("ROLE_ADMIN")) {
-            $this->addFlash("warning", "Vous n'avez pas accès aux autres utlisateurs.");
-
-            return $this->redirectToRoute("home");
-        }
-
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app_user_index', [
-                'id' => $user->getId(),
-            ]);
+            $this->addFlash("success", "Le profil a bien été modifié");
+
+            if ($this->isGranted("ROLE_ADMIN")) return $this->redirectToRoute('app_adminspace_clients');
+
+            return $this->redirectToRoute('app_userspace_show');
         }
 
         return $this->render('user/edit.html.twig', [
@@ -103,9 +74,6 @@ class UserController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/user/{id}", methods={"DELETE"})
-     */
     public function delete(Request $request, User $user): Response
     {
         if(!$user === $this->getUser() & !$this->isGranted("ROLE_ADMIN")) {
@@ -121,5 +89,12 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_user_index');
+    }
+
+    public function index(UserRepository $userRepository): Response
+    {
+        return $this->render('user/index.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
     }
 }

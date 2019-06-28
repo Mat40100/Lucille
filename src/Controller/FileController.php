@@ -3,20 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\File;
+use App\Entity\Product;
 use App\Service\FileService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
 
 class FileController extends AbstractController
 {
-    /**
-     * @Route("/download/file-{file}")
-     */
-    public function downloadFile(File $file, FileService $fileService)
+    public function downloadFile(File $file, Product $product, FileService $fileService)
     {
-        $fileToDownload = $fileService->getFileUrl($file);
+        if($file->getProduct() === $product && ($product->getUser() === $this->getUser() || $product->getOrphanUser() != null)) {
+            $fileToDownload = $fileService->getFileUrl($file);
 
-        return $this->file($fileToDownload, $file->getName());
+            return $this->file($fileToDownload, $file->getName());
+        }
+
+        $this->addFlash('warning', "Ce fichier ne vous appartient pas");
+
+        return $this->redirectToRoute('home');
     }
 
 }

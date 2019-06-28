@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\OrphanUser;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -23,6 +24,7 @@ class OrphanUserType extends AbstractType
             ->add('postalAddress', TextareaType::class)
             ->add('phoneNumber', TelType::class)
             ->add('company', TextType::class)
+            ->add('product', ProductType::class)
         ;
     }
 

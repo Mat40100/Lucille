@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}OrphanUser{% endblock %}
+
+{% block body %}
+    <h1>OrphanUser</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ orphan_user.id }}</td>
+            </tr>
+            <tr>
+                <th>PhoneNumber</th>
+                <td>{{ orphan_user.phoneNumber }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ orphan_user.lastName }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ orphan_user.firstName }}</td>
+            </tr>
+            <tr>
+                <th>PostalAddress</th>
+                <td>{{ orphan_user.postalAddress }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ orphan_user.email }}</td>
+            </tr>
+            <tr>
+                <th>Company</th>
+                <td>{{ orphan_user.company }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_orphan_index') }}">back to list</a>
+
+    <a href="{{ path('app_orphan_edit', {'id': orphan_user.id}) }}">edit</a>
+
+    {{ include('orphan_user/_delete_form.html.twig') }}
+{% endblock %}

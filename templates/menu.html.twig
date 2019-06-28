@@ -12,7 +12,7 @@
             {% if is_granted("ROLE_USER") %}
                 {% if not is_granted("ROLE_ADMIN") %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_product_myproducts') }}">Mes demandes</a>
+                        <a class="nav-link" href="{{ path('app_userspace_showownedproducts') }}">Mes demandes</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
@@ -26,14 +26,14 @@
 
             {% if is_granted("ROLE_ADMIN") %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_product_index') }}">Mes commandes</a>
+                    <a class="nav-link" href="{{ path('app_adminspace_products') }}">Mes commandes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_user_index') }}">Mes clients</a>
+                    <a class="nav-link" href="{{ path('app_adminspace_clients') }}">Mes clients</a>
                 </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_product_create') }}">Faire une demande de devis</a>
+                        <a class="nav-link" href="{{ path('app_userspace_createproduct') }}">Créer une commande</a>
                     </li>
             {% endif %}
         </ul>

@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\FileService;
+use App\Service\ProductService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,28 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
-    /**
-     * @Route("/product/", methods={"GET"})
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function index(ProductRepository $productRepository): Response
-    {
-        return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findAll(),
-        ]);
-    }
 
-    /**
-     * @Route("/product/new", methods={"GET","POST"})
-     */
-    public function create(Request $request, FileService $fileService): Response
+    public function create(Request $request, FileService $fileService, ProductService $productService): Response
     {
         $product = new Product();
 
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
-
-        $entityManager = $this->getDoctrine()->getManager();
 
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -45,8 +31,7 @@ class ProductController extends AbstractController
                 $fileService->saveFile($item);
             }
 
-            $entityManager->persist($product);
-            $entityManager->flush();
+            $productService->newProduct($product);
 
             return $this->redirectToRoute('home');
         }
@@ -57,10 +42,6 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/product/{id}", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
     public function show(Product $product): Response
     {
         if (!$this->getUser() === $product->getUser() & !$this->isGranted("ROLE_ADMIN")){
@@ -74,10 +55,6 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/myproducts", methods={"GET"})
-     * @IsGranted("ROLE_USER")
-     */
     public function myProducts()
     {
         $user = $this->getUser();
@@ -88,17 +65,13 @@ class ProductController extends AbstractController
 
     }
 
-    /**
-     * @Route("/product/{id}/edit", methods={"GET","POST"})
-     * @IsGranted("ROLE_USER")
-     */
-    public function edit(Request $request, Product $product): Response ##TODO : FIX EDITING FILES
+    public function edit(Request $request, Product $product) ##TODO : FIX EDITING FILES
     {
-        if ($product->getIsValid() & !$this->isGranted("ROLE_ADMIN")) {
+        if ($product->getIsValid() and !$this->isGranted("ROLE_ADMIN")) {
                 $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
 
-                return $this->redirectToRoute("product/show.html.twig", [
-                    'id' => $product->getId()
+                return $this->redirectToRoute("app_userspace_showproduct", [
+                    'product' => $product->getId()
                 ]);
         }
 
@@ -108,8 +81,8 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app_product_show', [
-                'id' => $product->getId(),
+            return $this->redirectToRoute('app_userspace_showproduct', [
+                'product' => $product->getId(),
             ]);
         }
 
@@ -119,10 +92,6 @@ class ProductController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/product/{id}", methods={"DELETE"})
-     * @IsGranted("ROLE_USER")
-     */
     public function delete(Request $request, Product $product): Response
     {
         if ($product->getIsValid() & !$this->isGranted("ROLE_ADMIN")) {
