@@ -27,6 +27,6 @@ class HomeController extends AbstractController
             return $this->render('home/newProduct.html.twig');
         }
 
-        return $this->redirectToRoute('app_product_new');
+        return $this->redirectToRoute('app_userspace_createproduct');
     }
 }
