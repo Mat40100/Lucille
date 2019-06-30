@@ -1,20 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
-
 {% block body %}
-    <h1>User index</h1>
+    <h1>Liste des utilisateurs</h1>
 
     <table class="table">
         <thead>
             <tr>
                 <th>Email</th>
-                <th>LastName</th>
-                <th>FirstName</th>
-                <th>Company</th>
-                <th>BillingAddress</th>
-                <th>PhoneNumber</th>
-                <th>actions</th>
+                <th>Nom de famille</th>
+                <th>Prénom</th>
+                <th>Entreprise</th>
+                <th>Adresse de facturation</th>
+                <th>Numéro de téléphone</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,13 +25,13 @@
                 <td>{{ user.billingAddress }}</td>
                 <td>{{ user.phoneNumber }}</td>
                 <td>
-                    <a href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}">show</a>
-                    <a href="{{ path('app_adminspace_edituser', {'user': user.id}) }}">Edit</a>
+                    <a href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}">Voir</a>
+                    <a href="{{ path('app_adminspace_edituser', {'user': user.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="10">no records found</td>
+                <td colspan="10">Pas d'utilisateurs trouvés !</td>
             </tr>
         {% endfor %}
         </tbody>

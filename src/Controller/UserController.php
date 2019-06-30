@@ -152,7 +152,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('user/new.html.twig', [
+        return $this->render('user/passwordRecovery.html.twig', [
             'form' => $form->createView()
         ]);
     }

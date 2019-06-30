@@ -32,21 +32,23 @@ class ProductType extends AbstractType
             $builder
                 ->add('isValid', ChoiceType::class, [
                     'choices'  => [
-                        'Yes' => true,
-                        'No' => false,
+                        'Oui' => true,
+                        'Non' => false,
                     ],
+                    'label' => 'Validée ?'
                 ])
                 ->add('isPayed', ChoiceType::class, [
                     'choices'  => [
-                        'Yes' => true,
-                        'No' => false,
+                        'Oui' => true,
+                        'Non' => false,
                     ],
+                    'label' => 'Payée ?',
                 ])
                 ->add('state', ChoiceType::class, [
                     'choices'  => [
-                        'Started' => 'started',
-                        'Over' => 'over',
-                        'Pending' => 'pending'
+                        'Commencée' => 'Commencée',
+                        'Terminée' => 'Terminée',
+                        'En attente' => 'En attente'
                     ],
                 ])
             ;
