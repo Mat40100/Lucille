@@ -6,6 +6,7 @@
 parameters:
     files_directory: '%kernel.project_dir%/public/uploads/product/files'
     bills_directory: '%kernel.project_dir%/public/uploads/product/bills'
+    devis_directory: '%kernel.project_dir%/public/uploads/product/devis'
 
 services:
     # default configuration for services in *this* file
@@ -29,6 +30,7 @@ services:
         arguments:
             $files_directory: '%files_directory%'
             $bills_directory: '%bills_directory%'
+            $devis_directory: '%devis_directory%'
         
 
     # add more service definitions when explicit configuration is needed

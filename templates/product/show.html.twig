@@ -31,10 +31,10 @@
     </table>
 
     {% if product.bill is not null %}
-        <a href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}">
+        <a href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}">Facture</a>
     {% endif %}
     {% if product.devis is not null %}
-        <a href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"></a>
+        <a href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}">Devis</a>
     {% endif %}
 
     {% if is_granted("ROLE_ADMIN") %}

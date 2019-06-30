@@ -35,11 +35,6 @@ class Bill
     private $file;
 
     /**
-     * @ORM\Column(type="string", length=5)
-     */
-    private $ext;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="bill", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -90,18 +85,6 @@ class Bill
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getExt(): ?string
-    {
-        return $this->ext;
-    }
-
-    public function setExt(string $ext): self
-    {
-        $this->ext = $ext;
 
         return $this;
     }

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+
+{% block body %}
+    <h1>Ajouter une facture ou un devis</h1>
+
+    {{ include('bill&devis/_form.html.twig') }}
+
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('app_adminspace_seeproduct', {'product': product.id }) }}">Retour à la commande</a>
+    {% endif %}
+{% endblock %}

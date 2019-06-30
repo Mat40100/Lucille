@@ -5,27 +5,43 @@ namespace App\Service;
 
 
 use App\Entity\Bill;
+use App\Entity\Devis;
 use App\Entity\File;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
     private $files_directory;
     private $bills_directory;
+    private $devis_directory;
+
     private $entityManager;
 
-    public function __construct($files_directory, $bills_directory, EntityManagerInterface $entityManager)
+    public function __construct($files_directory, $bills_directory, $devis_directory, EntityManagerInterface $entityManager)
     {
         $this->files_directory = $files_directory;
         $this->bills_directory = $bills_directory;
+        $this->devis_directory = $devis_directory;
+
         $this->entityManager = $entityManager;
     }
 
-    public function getFileUrl(File $file)
+    public function getFileUrl($file)
     {
-        $url = $this->files_directory."/".$file->getEncodedName();
+        if ($file instanceof File) {
+            $dir = $this->files_directory;
+        }
+
+        if ($file instanceof Bill) {
+            $dir = $this->bills_directory;
+        }
+
+        if ($file instanceof Devis) {
+
+        }
+
+        $url = $dir."/".$file->getEncodedName();
 
         return $url;
     }
@@ -34,7 +50,7 @@ class FileService
      * @param File || Bill $file
      * Save file of any kind
      */
-    public function saveFile($file)
+    public function saveFile(File $file)
     {
         $uploadedFile = $file->getFile();
         $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
@@ -52,6 +68,48 @@ class FileService
         }
 
         $this->entityManager->persist($file);
+    }
+
+    public function saveBill(Bill $bill)
+    {
+        $uploadedFile = $bill->getFile();
+        $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
+
+        $bill->setName($uploadedFile->getClientOriginalName());
+        $bill->setEncodedName($fileName);
+
+        try {
+            $uploadedFile->move(
+                $this->bills_directory,
+                $fileName
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+
+        $this->entityManager->persist($bill);
+        $this->entityManager->flush();
+    }
+
+    public function saveDevis(Devis $devis)
+    {
+        $uploadedFile = $devis->getFile();
+        $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
+
+        $devis->setName($uploadedFile->getClientOriginalName());
+        $devis->setEncodedName($fileName);
+
+        try {
+            $uploadedFile->move(
+                $this->devis_directory,
+                $fileName
+            );
+        } catch (FileException $e) {
+            // ... handle exception if something happens during file upload
+        }
+
+        $this->entityManager->persist($devis);
+        $this->entityManager->flush();
     }
 
     private function generateUniqueFileName()

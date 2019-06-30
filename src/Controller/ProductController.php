@@ -6,6 +6,7 @@ use App\Entity\Bill;
 use App\Entity\Devis;
 use App\Entity\Product;
 use App\Form\BillType;
+use App\Form\DevisType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\FileService;
@@ -124,15 +125,15 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $fileService->saveFile($form->getData());
             $product->setBill($form->getData());
+            $fileService->saveBill($form->getData());
 
             return $this->redirectToRoute('app_adminspace_seeproduct', [
                 'product' => $product->getId()
             ]);
         }
 
-        return $this->render('product/new.html.twig', [
+        return $this->render('bill&devis/index.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
         ]);
@@ -142,19 +143,19 @@ class ProductController extends AbstractController
     {
         $devis = new Devis();
 
-        $form = $this->createForm(BillType::class, $devis);
+        $form = $this->createForm(DevisType::class, $devis);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $fileService->saveFile($form->getData());
             $product->setDevis($form->getData());
+            $fileService->saveFile($form->getData());
 
             return $this->redirectToRoute('app_adminspace_seeproduct', [
                 'product' => $product->getId()
             ]);
         }
 
-        return $this->render('product/new.html.twig', [
+        return $this->render('bill&devis/index.html.twig', [
             'product' => $product,
             'form' => $form->createView(),
         ]);

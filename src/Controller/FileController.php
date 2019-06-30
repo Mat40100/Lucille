@@ -32,6 +32,10 @@ class FileController extends AbstractController
             return $this->file($fileToDownload, $bill->getName());
         }
 
+        $this->addFlash('warning', "Ce fichier ne vous appartient pas");
+
+        return $this->redirectToRoute('home');
+
     }
 
     public function downloadDevis(Devis $devis, Product $product, FileService $fileService)

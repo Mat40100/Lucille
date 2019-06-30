@@ -84,7 +84,7 @@ class AdminSpaceController extends AbstractController
      */
     public function uploadDevis(Request $request, Product $product, ProductController $controller, FileService $fileService)
     {
-        return $controller->uploadDevis($request, $product,$fileService);
+        return $controller->uploadDevis($request, $product, $fileService);
     }
 
     /**
