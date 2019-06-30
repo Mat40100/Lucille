@@ -1,7 +1,7 @@
 security:
     encoders:
         App\Entity\User:
-            algorithm: argon2i
+            algorithm: auto
             cost: 12
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -32,6 +32,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/profile/password/send-token$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/choose$, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+

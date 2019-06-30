@@ -17,37 +17,45 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add('email', EmailType::class)
-            ->add('password',  RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'first_options'  => ['label' => 'Password'],
-                'second_options' => ['label' => 'Repeat Password'],
-            ])
-            ->add('lastName', TextType::class, [
-                'required' => false
-            ])
-            ->add('firstName', TextType::class, [
-                'required' => false
-            ])
-            ->add('company', TextType::class, [
-                'required' => false
-            ])
-            ->add('billingAddress', TextareaType::class)
-            ->add('phoneNumber', TelType::class)
-        ;
-
-        if ($options['reset'] === true ) {
+        if($options['email'] === true) {
             $builder
-                ->remove('email')
-                ->remove('lastName')
-                ->remove('firstName')
-                ->remove('company')
-                ->remove('billingAddress')
-                ->remove('phoneNumber')
+                ->add('email', EmailType::class)
+            ;
+        }
+        elseif($options['reset'] === true) {
+            $builder
+                ->add('password',  RepeatedType::class, [
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'The password fields must match.',
+                    'options' => ['attr' => ['class' => 'password-field']],
+                    'required' => true,
+                    'first_options'  => ['label' => 'Password'],
+                    'second_options' => ['label' => 'Repeat Password'],
+                ])
+            ;
+        }
+        else {
+            $builder
+                ->add('email', EmailType::class)
+                ->add('password',  RepeatedType::class, [
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'The password fields must match.',
+                    'options' => ['attr' => ['class' => 'password-field']],
+                    'required' => true,
+                    'first_options'  => ['label' => 'Password'],
+                    'second_options' => ['label' => 'Repeat Password'],
+                ])
+                ->add('lastName', TextType::class, [
+                    'required' => false
+                ])
+                ->add('firstName', TextType::class, [
+                    'required' => false
+                ])
+                ->add('company', TextType::class, [
+                    'required' => false
+                ])
+                ->add('billingAddress', TextareaType::class)
+                ->add('phoneNumber', TelType::class)
             ;
         }
     }
@@ -56,6 +64,8 @@ class UserType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'email' => false,
+            'reset' => false
         ]);
     }
 }

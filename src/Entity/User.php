@@ -56,11 +56,6 @@ class User implements UserInterface
     private $products;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Bill", mappedBy="user")
-     */
-    private $bills;
-
-    /**
      * @ORM\Column(type="text", length=500, nullable=false)
      */
     private $billingAddress;
@@ -78,7 +73,6 @@ class User implements UserInterface
     public function __construct()
     {
         $this->products = new ArrayCollection();
-        $this->bills = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -220,37 +214,6 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($product->getUser() === $this) {
                 $product->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Bill[]
-     */
-    public function getBills(): Collection
-    {
-        return $this->bills;
-    }
-
-    public function addBill(Bill $bill): self
-    {
-        if (!$this->bills->contains($bill)) {
-            $this->bills[] = $bill;
-            $bill->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBill(Bill $bill): self
-    {
-        if ($this->bills->contains($bill)) {
-            $this->bills->removeElement($bill);
-            // set the owning side to null (unless already changed)
-            if ($bill->getUser() === $this) {
-                $bill->setUser(null);
             }
         }
 

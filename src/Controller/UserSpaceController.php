@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/profile")
+ * @Route("/profil")
  * @IsGranted("ROLE_USER")
  */
 class UserSpaceController extends AbstractController
@@ -44,14 +44,6 @@ class UserSpaceController extends AbstractController
     public function delete()
     {
         ##TODO
-    }
-
-    /**
-     * @Route("/password/reset-{resetToken}")
-     */
-    public function changePassword(User $user, Request $request, UserController $controller, UserService $service)
-    {
-       return $controller->resetPassword($request,$user, $service);
     }
 
     /**

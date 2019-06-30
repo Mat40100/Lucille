@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Service\MailService;
 use App\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -98,6 +99,42 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/password/send-token")
+     */
+    public function sendToken(Request $request, UserService $userService, MailService $mailService)
+    {
+        $user = new User();
+
+        $form = $this->createForm(UserType::class, $user, [
+            'email' => true
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $form->get('email')->getData()]);
+
+            if ($user) {
+
+                $userService->sendToken($user);
+                $mailService->sendRecoveryMail($user);
+
+                $this->addFlash("success", "Un email avec un lien pour recréer un mot de passe a été envoyé sur votre messagerie.");
+
+                return $this->redirectToRoute('home');
+            };
+
+            $this->addFlash("warning", "Nous ne trouvons pas votre email, vérifiez vos informations");
+        }
+
+        return $this->render('user/new.html.twig',[
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/password/reset-{resetToken}")
+     */
     public function resetPassword(Request $request, User $user, UserService $service)
     {
         if (null === $user) {
@@ -106,15 +143,17 @@ class UserController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType::class, $user, ['reset' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $service->resetPassword($user);
 
-            return $this->redirectToRoute('login');
+            return $this->redirectToRoute('app_login');
         }
 
-        return $this->render('user/new.html.twig');
+        return $this->render('user/new.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
