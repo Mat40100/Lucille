@@ -39,6 +39,17 @@ class UserType extends AbstractType
             ->add('billingAddress', TextareaType::class)
             ->add('phoneNumber', TelType::class)
         ;
+
+        if ($options['reset'] === true ) {
+            $builder
+                ->remove('email')
+                ->remove('lastName')
+                ->remove('firstName')
+                ->remove('company')
+                ->remove('billingAddress')
+                ->remove('phoneNumber')
+            ;
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

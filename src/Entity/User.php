@@ -70,6 +70,11 @@ class User implements UserInterface
      */
     private $phoneNumber;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetToken;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -272,6 +277,18 @@ class User implements UserInterface
     public function setPhoneNumber(int $phoneNumber): self
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

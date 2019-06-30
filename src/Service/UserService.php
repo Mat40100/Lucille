@@ -27,4 +27,10 @@ class UserService
         $this->entityManager->flush();
 
     }
+
+    public function resetPassword(User $user) {
+        $user->setPassword($this->encoder->encodePassword($user ,$user->getPassword()));
+
+        $this->entityManager->flush();
+    }
 }

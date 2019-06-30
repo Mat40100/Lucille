@@ -97,4 +97,24 @@ class UserController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
+
+    public function resetPassword(Request $request, User $user, UserService $service)
+    {
+        if (null === $user) {
+            $this->addFlash("warning","Ce token n'est pas attribué");
+
+            return $this->redirectToRoute('home');
+        }
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $service->resetPassword($user);
+
+            return $this->redirectToRoute('login');
+        }
+
+        return $this->render('user/new.html.twig');
+    }
 }

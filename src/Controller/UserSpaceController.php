@@ -6,8 +6,11 @@ use App\Entity\Bill;
 use App\Entity\Devis;
 use App\Entity\File;
 use App\Entity\Product;
+use App\Entity\User;
+use App\Form\UserType;
 use App\Service\FileService;
 use App\Service\ProductService;
+use App\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,11 +47,11 @@ class UserSpaceController extends AbstractController
     }
 
     /**
-     * @Route("/password/reset")
+     * @Route("/password/reset-{resetToken}")
      */
-    public function changePassword(Request $request)
+    public function changePassword(User $user, Request $request, UserController $controller, UserService $service)
     {
-        ##TODO
+       return $controller->resetPassword($request,$user, $service);
     }
 
     /**
