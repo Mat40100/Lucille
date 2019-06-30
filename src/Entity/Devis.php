@@ -7,9 +7,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BillRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\DevisRepository")
  */
-class Bill
+class Devis
 {
     /**
      * @ORM\Id()
@@ -21,12 +21,12 @@ class Bill
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $encodedName;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $encodedName;
 
     /**
      * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
@@ -40,8 +40,7 @@ class Bill
     private $ext;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="bill", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="devis", cascade={"persist", "remove"})
      */
     private $product;
 
@@ -70,18 +69,6 @@ class Bill
         return $this;
     }
 
-    public function getEncodedName(): ?string
-    {
-        return $this->encodedName;
-    }
-
-    public function setEncodedName(string $encodedName): self
-    {
-        $this->encodedName = $encodedName;
-
-        return $this;
-    }
-
     public function getName(): ?string
     {
         return $this->name;
@@ -90,6 +77,18 @@ class Bill
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getEncodedName(): ?string
+    {
+        return $this->encodedName;
+    }
+
+    public function setEncodedName(string $encodedName): self
+    {
+        $this->encodedName = $encodedName;
 
         return $this;
     }
@@ -111,7 +110,7 @@ class Bill
         return $this->product;
     }
 
-    public function setProduct(Product $product): self
+    public function setProduct(?Product $product): self
     {
         $this->product = $product;
 

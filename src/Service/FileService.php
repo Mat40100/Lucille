@@ -4,9 +4,11 @@
 namespace App\Service;
 
 
+use App\Entity\Bill;
 use App\Entity\File;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileService
 {
@@ -28,7 +30,11 @@ class FileService
         return $url;
     }
 
-    public function saveFile(File $file)
+    /**
+     * @param File || Bill $file
+     * Save file of any kind
+     */
+    public function saveFile($file)
     {
         $uploadedFile = $file->getFile();
         $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();

@@ -24,7 +24,7 @@ class HomeController extends AbstractController
     {
         if (!$this->isGranted('ROLE_USER')) {
 
-            return $this->render('home/newBill.html.twig');
+            return $this->render('home/newProduct.html.twig');
         }
 
         return $this->redirectToRoute('app_product_new');

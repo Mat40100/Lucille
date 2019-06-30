@@ -20,16 +20,27 @@
                 <td>{{ product.comment }}</td>
             </tr>
             <tr>
+                <th>Fichiers</th>
                 {% for file in product.files %}
-            <tr>
-                <th><a href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': file.product.id }) }}">{{ file.name }}</a></th>
-            </tr>
+                    <th><a href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}">{{ file.name }}</a></th>
+                {% else %}
+                    <th>Pas de fichiers</th>
                 {% endfor %}
             </tr>
         </tbody>
     </table>
 
+    {% if product.bill is not null %}
+        <a href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}">
+    {% endif %}
+    {% if product.devis is not null %}
+        <a href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"></a>
+    {% endif %}
+
     {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Ajouter un devis</a>
+        <a href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Ajouter une facture</a>
+
         <a href="{{ path('app_adminspace_products') }}">back to list</a>
     {% endif %}
 

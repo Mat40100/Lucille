@@ -53,6 +53,16 @@ class Product
      */
     private $state;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Bill", mappedBy="product", cascade={"persist", "remove"})
+     */
+    private $bill;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Devis", mappedBy="product", cascade={"persist", "remove"})
+     */
+    private $devis;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -165,6 +175,41 @@ class Product
     public function setState(?string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getBill(): ?Bill
+    {
+        return $this->bill;
+    }
+
+    public function setBill(Bill $bill): self
+    {
+        $this->bill = $bill;
+
+        // set the owning side of the relation if necessary
+        if ($this !== $bill->getProduct()) {
+            $bill->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function getDevis(): ?Devis
+    {
+        return $this->devis;
+    }
+
+    public function setDevis(Devis $devis): self
+    {
+        $this->devis = $devis;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newProduct = $devis === null ? null : $this;
+        if ($newProduct !== $devis->getProduct()) {
+            $devis->setProduct($newProduct);
+        }
 
         return $this;
     }

@@ -27,6 +27,7 @@ class File
      * @ORM\Column(type="string", length=255)
      */
     private $encodedName;
+
     /**
      * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
      * @Assert\File(mimeTypes={ "application/pdf" })

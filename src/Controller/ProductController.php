@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Bill;
+use App\Entity\Devis;
 use App\Entity\Product;
+use App\Form\BillType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use App\Service\FileService;
@@ -111,5 +114,49 @@ class ProductController extends AbstractController
         }
 
         return $this->redirectToRoute('home');
+    }
+
+    public function uploadBill(Request $request, Product $product, FileService $fileService)
+    {
+        $bill = new Bill();
+
+        $form = $this->createForm(BillType::class, $bill);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $fileService->saveFile($form->getData());
+            $product->setBill($form->getData());
+
+            return $this->redirectToRoute('app_adminspace_seeproduct', [
+                'product' => $product->getId()
+            ]);
+        }
+
+        return $this->render('product/new.html.twig', [
+            'product' => $product,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    public function uploadDevis(Request $request, Product $product, FileService $fileService)
+    {
+        $devis = new Devis();
+
+        $form = $this->createForm(BillType::class, $devis);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $fileService->saveFile($form->getData());
+            $product->setDevis($form->getData());
+
+            return $this->redirectToRoute('app_adminspace_seeproduct', [
+                'product' => $product->getId()
+            ]);
+        }
+
+        return $this->render('product/new.html.twig', [
+            'product' => $product,
+            'form' => $form->createView(),
+        ]);
     }
 }
