@@ -13,7 +13,13 @@ class FileType extends AbstractType
     {
         $builder
             ->add('file', \Symfony\Component\Form\Extension\Core\Type\FileType::class, [
-                'label' => 'Fichier (PDF file)'
+                'label' => false,
+                'constraints' => [
+                    new \Symfony\Component\Validator\Constraints\File([
+                        'maxSize' => '80M',
+                        'mimeTypesMessage' => 'Please upload a valid PDF document'
+                    ])
+                ]
             ])
         ;
     }

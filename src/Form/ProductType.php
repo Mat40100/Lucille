@@ -23,7 +23,12 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('comment', TextareaType::class)
+            ->add('comment', TextareaType::class, [
+                'label' => false,
+                'attr' => [
+                    'placeholder' => 'Commentaires'
+                ]
+            ])
         ;
 
         $builder->addEventSubscriber(new addFileFieldSubscriber());
@@ -50,6 +55,7 @@ class ProductType extends AbstractType
                         'Terminée' => 'Terminée',
                         'En attente' => 'En attente'
                     ],
+                    'label' => 'Etat de la commande'
                 ])
             ;
         }

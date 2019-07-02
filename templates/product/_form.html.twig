@@ -1,11 +1,41 @@
 {{ form_start(form) }}
-    {{ form_widget(form.comment) }}
 
-    {% if form.files is defined %}
-        <ul class="files" data-prototype="{{ form_widget(form.files.vars.prototype)|e('html_attr') }}"></ul>
+    {% if is_granted("ROLE_ADMIN") %}
+        <div class="form-group row flex-column align-content-center justify-content-center col-lg-6 col-md-4">
+            {{ form_row(form.isPayed) }}
+            {{ form_row(form.isValid) }}
+            {{ form_row(form.state) }}
+        </div>
     {% endif %}
 
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="form-group">
+        {{ form_label(form.comment) }}
+        {{ form_widget(form.comment, {'attr': {'class':'form-control'}}) }}
+    </div>
+
+
+    <div class="form-group row flex-column align-content-center justify-content-center">
+        {% if form.files is defined %}
+            {{ form_label(form.files) }}
+            <div class="files row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.files.vars.prototype)|e('html_attr') }}">
+
+                {% for file in form.files %}
+                    <div class="row col-auto file justify-content-center align-items-center">
+                        <div class="col text-right">{{ file.vars.value.name }}</div>
+                        <button type="button" class="btn btn-danger delete"></button>
+
+                        <div style="display:none">{{ form_widget(file) }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div style="display:none">{{ form_rest(form) }}</div>
+    </div>
+
+    <div class="form-group justify-content-center row col-12">
+        <button type="submit" class="col-auto btn btn-success">Valider</button>
+    </div>
 {{ form_end(form) }}
 
 {% block javascripts %}

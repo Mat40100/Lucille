@@ -19,7 +19,11 @@ class UserType extends AbstractType
     {
         if($options['email'] === true) {
             $builder
-                ->add('email', EmailType::class)
+                ->add('email', EmailType::class, [
+                    'attr' => [
+                        'placeholder' => 'Email'
+                    ]
+                ])
             ;
         }
         elseif($options['reset'] === true) {
@@ -29,14 +33,22 @@ class UserType extends AbstractType
                     'invalid_message' => 'The password fields must match.',
                     'options' => ['attr' => ['class' => 'password-field']],
                     'required' => true,
-                    'first_options'  => ['label' => 'Password'],
-                    'second_options' => ['label' => 'Repeat Password'],
+                    'first_options'  => ['label' => 'Password', 'attr' => [
+                        'placeholder' => 'Mot de passe'
+                    ]],
+                    'second_options' => ['label' => 'Repeat Password', 'attr' => [
+                        'placeholder' => 'Mot de passe'
+                    ]],
                 ])
             ;
         }
         else {
             $builder
-                ->add('email', EmailType::class)
+                ->add('email', EmailType::class, [
+                    'attr' => [
+                        'placeholder' => 'E-mail'
+                    ]
+                ])
                 ->add('password',  RepeatedType::class, [
                     'type' => PasswordType::class,
                     'invalid_message' => 'The password fields must match.',
@@ -46,16 +58,33 @@ class UserType extends AbstractType
                     'second_options' => ['label' => 'Repeat Password'],
                 ])
                 ->add('lastName', TextType::class, [
-                    'required' => false
+                    'required' => false,
+                    'attr' => [
+                        'placeholder' => 'Nom de famille'
+                    ]
                 ])
                 ->add('firstName', TextType::class, [
-                    'required' => false
+                    'required' => false,
+                    'attr' => [
+                        'placeholder' => 'Prénom'
+                    ]
                 ])
                 ->add('company', TextType::class, [
-                    'required' => false
+                    'required' => false,
+                    'attr' => [
+                        'placeholder' => 'Entreprise'
+                    ]
                 ])
-                ->add('billingAddress', TextareaType::class)
-                ->add('phoneNumber', TelType::class)
+                ->add('billingAddress', TextareaType::class, [
+                    'attr' => [
+                    'placeholder' => 'Adresse de facturation'
+                    ]
+                ])
+                ->add('phoneNumber', TelType::class, [
+                    'attr' => [
+                        'placeholder' => 'Numéro de téléphone'
+                    ]
+                ])
             ;
         }
     }

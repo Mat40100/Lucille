@@ -1,8 +1,17 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div>
-        <a href="{{ path('app_login') }}">En se connectant ou en créant un compte</a>
-        <a href="{{ path('app_orphan_new') }}">Sans se connecter</a>
+    <div class="row col-12 text-center flex-column">
+        <a href="{{ path('app_login') }}">
+            <button class="m-2 btn btn-lg btn-primary">
+                En se connectant ou en créant un compte
+            </button>
+        </a>
+
+        <a href="{{ path('app_orphan_new') }}">
+            <button class="m-2 btn btn-lg btn-info">
+                Sans se connecter
+            </button>
+        </a>
     </div>
 {% endblock %}

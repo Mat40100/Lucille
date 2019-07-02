@@ -12,23 +12,23 @@
                 <th>Etat de la demande</th>
                 <th>Commande validée ?</th>
                 <th>Commande payée ?</th>
-                <th>Commentaires</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
         {% for product in products %}
             <tr>
-                {% if product.user %}
-                    <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }}</a></td>
-                {% else %}
-                    <td><a href="{{ path('app_orphan_show', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }}</a></td>
+                {% if is_granted("ROLE_ADMIN") %}
+                    {% if product.user %}
+                        <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }}</a></td>
+                    {% else %}
+                        <td><a href="{{ path('app_orphan_show', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }}</a></td>
+                    {% endif %}
                 {% endif %}
 
                 <td>{{ product.state }}</td>
                 <td>{{ product.isValid ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
-                <td>{{ product.comment }}</td>
                 <td>
                     {% if not product.isValid or is_granted("ROLE_ADMIN") %}
                         <a href="{{ path('app_userspace_editproduct', {'product': product.id }) }}">Modifier la commande</a>

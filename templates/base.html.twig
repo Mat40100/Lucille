@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Site web de Lucille Gauthier{% endblock %}</title>
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
             <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         {% endblock %}
     </head>
@@ -12,7 +13,10 @@
             {{ include('menu.html.twig') }}
         {% endblock %}
 
-        {% block body %}FDP{% endblock %}
+        <div class="container-fluid flex-column justify-content-center">
+            {% block body %}
+            {% endblock %}
+        </div>
 
         {% block javascripts %}
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

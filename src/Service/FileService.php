@@ -52,22 +52,24 @@ class FileService
      */
     public function saveFile(File $file)
     {
-        $uploadedFile = $file->getFile();
-        $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
+        if (!$file->getId()) {
+            $uploadedFile = $file->getFile();
+            $fileName = $this->generateUniqueFileName().'.'.$uploadedFile->guessExtension();
 
-        $file->setName($uploadedFile->getClientOriginalName());
-        $file->setEncodedName($fileName);
+            $file->setName($uploadedFile->getClientOriginalName());
+            $file->setEncodedName($fileName);
 
-        try {
-            $uploadedFile->move(
-                $this->files_directory,
-                $fileName
-            );
-        } catch (FileException $e) {
-            // ... handle exception if something happens during file upload
+            try {
+                $uploadedFile->move(
+                    $this->files_directory,
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+
+            $this->entityManager->persist($file);
         }
-
-        $this->entityManager->persist($file);
     }
 
     public function saveBill(Bill $bill)

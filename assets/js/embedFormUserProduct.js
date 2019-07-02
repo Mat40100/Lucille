@@ -1,7 +1,7 @@
 var $collectionHolder;
 
-var $addTagButton = $('<button type="button" class="add_file_link">Add a tag</button>');
-var $newLinkLi = $('<li></li>').append($addTagButton);
+var $addTagButton = $('<button type="button" class="btn btn-primary add_file_link m-2">Ajouter un fichier</button>');
+var $newLinkLi = $('<div class="row justify-content-center align-items-center"></div>').append($addTagButton);
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
     if($('#orphan_user_product_files').length) {
         $collectionHolder = $('#orphan_user_product_files');
     }else{
-        $collectionHolder = $('ul.files');
+        $collectionHolder = $('div.files');
     }
 
     // add the "add a tag" anchor and li to the tags ul
@@ -33,19 +33,27 @@ function addFileForm($collectionHolder, $newLinkLi) {
     var index = $collectionHolder.data('index');
 
     var newForm = prototype;
-    // You need this only if you didn't set 'label' => false in your tags field in TaskType
-    // Replace '__name__label__' in the prototype's HTML to
-    // instead be a number based on how many items we have
-    // newForm = newForm.replace(/__name__label__/g, index);
 
-    // Replace '__name__' in the prototype's HTML to
-    // instead be a number based on how many items we have
     newForm = newForm.replace(/__name__/g, index);
 
     // increase the index with one for the next item
     $collectionHolder.data('index', index + 1);
+    $collectionHolder.attr('class', 'files row col-12  flex-column align-items-center justify-content-center');
 
-    // Display the form in the page in an li, before the "Add a tag" link li
+    deleteButton = $('<button class="btn btn-danger">Supprimer</button>');
+
     var $newFormLi = $('<li></li>').append(newForm);
+
+    $newFormLi = $newFormLi.children(0).append(deleteButton);
+    $newFormLi.attr('class', 'row justify-content-center m-2');
+
     $newLinkLi.before($newFormLi);
+
+    deleteButton.on('click', function(e){
+        $(this).parent().remove();
+    })
 }
+
+$('.delete').on('click', function(e){
+   $(this).parent().remove();
+});

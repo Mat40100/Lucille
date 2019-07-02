@@ -40,7 +40,6 @@ class OrphanController extends AbstractController
         }
 
         return $this->render('orphan_user/new.html.twig', [
-            'orphan_user' => $orphanUser,
             'form' => $form->createView(),
         ]);
     }

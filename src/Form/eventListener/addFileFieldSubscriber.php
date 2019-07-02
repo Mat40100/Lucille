@@ -22,12 +22,16 @@ class addFileFieldSubscriber implements EventSubscriberInterface
         $product = $event->getData();
         $form = $event->getForm();
 
-        if (!$product || null === $product->getId()) {
+        ##if (!$product || null === $product->getId()) {
             $form->add('files', CollectionType::class, [
+                'label' => 'Fichiers (PDF)',
+                'required' => false,
+                'by_reference' => false,
                 'entry_type' => FileType::class,
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
+                'allow_delete' => true
             ]);
-        }
+        ##}
     }
 }

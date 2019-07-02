@@ -28,12 +28,42 @@ class OrphanUserType extends AbstractType
         $builder->addEventSubscriber(new removeProductFieldSubscriber());
 
         $builder
-            ->add('lastName', TextType::class)
-            ->add('firstName', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('postalAddress', TextareaType::class)
-            ->add('phoneNumber', TelType::class)
-            ->add('company', TextType::class)
+            ->add('lastName', TextType::class, [
+                'label' => 'Nom de famille',
+                'attr' => [
+                    'placeholder' => 'Nom de famille'
+                ]
+            ])
+            ->add('firstName', TextType::class, [
+                'label' => 'Prénom',
+                'attr' => [
+                    'placeholder' => 'Prénom'
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'label' => 'E-mail',
+                'attr' => [
+                    'placeholder' => 'E-mail'
+                ]
+            ])
+            ->add('postalAddress', TextareaType::class, [
+                'label' => 'Adresse postale / Adresse de facturation',
+                'attr' => [
+                    'placeholder' => 'Adresse postale / Adresse de facturation'
+                ]
+            ])
+            ->add('phoneNumber', TelType::class, [
+                'label' => 'Numéro de téléphone',
+                'attr' => [
+                    'placeholder' => 'Téléphone'
+                ]
+            ])
+            ->add('company', TextType::class, [
+                'label' => 'Entreprise',
+                'attr' => [
+                    'placeholder' => 'Entreprise'
+                ]
+            ])
         ;
     }
 

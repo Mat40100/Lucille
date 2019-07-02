@@ -30,7 +30,6 @@ class File
 
     /**
      * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
-     * @Assert\File(mimeTypes={ "application/pdf" })
      */
     private $file;
 

@@ -1,9 +1,12 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Nouvelle commande</h1>
+        <h1 class="col-12 text-center">Nouvelle commande</h1>
 
-    {{ include('orphan_user/_form.html.twig') }}
+        <div class="col-12 row justify-content-center">
+            {{ include('orphan_user/_form.html.twig') }}
+        </div>
 
-    <a href="{{ path('home') }}">Retour à l'accueil</a>
+        <a class="text-center" href="{{ path('home') }}">Retour à l'accueil</a>
+
 {% endblock %}

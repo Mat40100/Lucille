@@ -69,7 +69,7 @@ class ProductController extends AbstractController
 
     }
 
-    public function edit(Request $request, Product $product) ##TODO : FIX EDITING FILES
+    public function edit(Request $request, Product $product, FileService $fileService) ##TODO : FIX EDITING FILES
     {
         if ($product->getIsValid() and !$this->isGranted("ROLE_ADMIN")) {
                 $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
@@ -83,6 +83,12 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            foreach ($product->getFiles() as $file) {
+                $file->setProduct($product);
+                $fileService->saveFile($file);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('app_userspace_showproduct', [

@@ -75,9 +75,9 @@ class UserSpaceController extends AbstractController
     /**
      * @Route("/product/edit-{product}")
      */
-    public function editProduct(Product $product, ProductController $controller, Request $request)
+    public function editProduct(Product $product, ProductController $controller, Request $request, FileService $fileService)
     {
-        return $controller->edit($request,$product);
+        return $controller->edit($request,$product, $fileService);
     }
 
     /**
@@ -87,7 +87,6 @@ class UserSpaceController extends AbstractController
     {
         return $controller->delete($request,$product);
     }
-
 
     /**
      * @Route("/download/{product}-bill-{bill}")
