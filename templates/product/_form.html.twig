@@ -59,7 +59,7 @@
             {% endif %}
 
             {% if is_granted("ROLE_ADMIN") %}
-                <a class="col-12" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
+                <a id ="addDevis" class="col-12" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
             {% endif %}
         </div>
 
@@ -72,7 +72,7 @@
             {% endif %}
 
             {% if is_granted("ROLE_ADMIN") %}
-                <a class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
+                <a id ="addBill" class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
             {% endif %}
         </div>
     </div>
@@ -84,4 +84,5 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('EmbedUser') }}
+    {{ encore_entry_script_tags('FactureBill') }}
 {% endblock %}
