@@ -60,15 +60,9 @@
         </div>
     </div>
 
-    {% if not product.isValid or is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('app_userspace_editproduct', {'product': product.id }) }}">Modifier la commande</a>
-    {% endif %}
+    <div class="row flex-column">
+        {{ include('product/editButton.html.twig') }}
 
-    {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('app_adminspace_products') }}">Retour sur la liste</a>
-    {% endif %}
-
-    {% if not is_granted("ROLE_ADMIN") and not product.isValid %}
-        {{ include('product/_delete_form.html.twig') }}
-    {% endif %}
+        {{ include('product/returnToListButton.html.twig') }}
+    </div>
 {% endblock %}

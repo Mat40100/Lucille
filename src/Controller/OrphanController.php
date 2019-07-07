@@ -35,7 +35,7 @@ class OrphanController extends AbstractController
             }
             $userService->save($orphanUser);
 
-            $this->addFlash('success', 'Your request has been saved, you\'ll be contacted soon');
+            $this->addFlash('success', 'Votre commande est en attente de validation, vous serez bientôt contacté.');
             return $this->redirectToRoute('home');
         }
 
