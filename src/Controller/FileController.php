@@ -13,7 +13,7 @@ class FileController extends AbstractController
 {
     public function downloadFile(File $file, Product $product, FileService $fileService)
     {
-        if($file->getProduct() === $product && ($product->getUser() === $this->getUser() || $product->getOrphanUser() != null)) {
+        if(($this->isGranted("ROLE_ADMIN")) || $file->getProduct() === $product && ($product->getUser() === $this->getUser())) {
             $fileToDownload = $fileService->getFileUrl($file);
 
             return $this->file($fileToDownload, $file->getName());
@@ -26,7 +26,7 @@ class FileController extends AbstractController
 
     public function downloadBill(Bill $bill, Product $product, FileService $fileService)
     {
-        if($bill->getProduct() === $product && ($product->getUser() === $this->getUser() || $product->getOrphanUser() != null)) {
+        if(($this->isGranted("ROLE_ADMIN")) ||$bill->getProduct() === $product && ($product->getUser() === $this->getUser())) {
             $fileToDownload = $fileService->getFileUrl($bill);
 
             return $this->file($fileToDownload, $bill->getName());
@@ -40,10 +40,14 @@ class FileController extends AbstractController
 
     public function downloadDevis(Devis $devis, Product $product, FileService $fileService)
     {
-        if($devis->getProduct() === $product && ($product->getUser() === $this->getUser() || $product->getOrphanUser() != null)) {
+        if(($this->isGranted("ROLE_ADMIN")) ||$devis->getProduct() === $product && ($product->getUser() === $this->getUser())) {
             $fileToDownload = $fileService->getFileUrl($devis);
 
             return $this->file($fileToDownload, $devis->getName());
         }
+
+        $this->addFlash('warning', "Ce fichier ne vous appartient pas");
+
+        return $this->redirectToRoute('home');
     }
 }

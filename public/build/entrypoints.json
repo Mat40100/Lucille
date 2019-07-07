@@ -12,8 +12,16 @@
     "EmbedUser": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors~EmbedUser~FactureBill.js",
         "/build/vendors~EmbedUser.js",
         "/build/EmbedUser.js"
+      ]
+    },
+    "FactureBill": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~EmbedUser~FactureBill.js",
+        "/build/FactureBill.js"
       ]
     }
   }

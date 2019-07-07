@@ -27,7 +27,10 @@ class FileService
         $this->entityManager = $entityManager;
     }
 
-    public function getFileUrl($file)
+    /**
+     * @param File $file || Devis $devis || Bill $bill
+     */
+    public function getDir($file)
     {
         if ($file instanceof File) {
             $dir = $this->files_directory;
@@ -38,19 +41,24 @@ class FileService
         }
 
         if ($file instanceof Devis) {
-
+            $dir = $this->devis_directory;
         }
 
-        $url = $dir."/".$file->getEncodedName();
+        return $dir;
+    }
+
+    public function getFileUrl($file)
+    {
+        $url = $this->getDir($file)."/".$file->getEncodedName();
 
         return $url;
     }
 
     /**
-     * @param File || Bill $file
+     * @param File $file
      * Save file of any kind
      */
-    public function saveFile(File $file)
+    public function saveFile($file)
     {
         if (!$file->getId()) {
             $uploadedFile = $file->getFile();
@@ -72,6 +80,9 @@ class FileService
         }
     }
 
+    /**
+     * @param Bill $bill
+     */
     public function saveBill(Bill $bill)
     {
         $uploadedFile = $bill->getFile();
@@ -93,6 +104,9 @@ class FileService
         $this->entityManager->flush();
     }
 
+    /**
+     * @param Devis $devis
+     */
     public function saveDevis(Devis $devis)
     {
         $uploadedFile = $devis->getFile();

@@ -39,11 +39,6 @@ class Devis
     private $file;
 
     /**
-     * @ORM\Column(type="string", length=5)
-     */
-    private $ext;
-
-    /**
      * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="devis", cascade={"persist", "remove"})
      */
     private $product;
@@ -93,18 +88,6 @@ class Devis
     public function setEncodedName(string $encodedName): self
     {
         $this->encodedName = $encodedName;
-
-        return $this;
-    }
-
-    public function getExt(): ?string
-    {
-        return $this->ext;
-    }
-
-    public function setExt(string $ext): self
-    {
-        $this->ext = $ext;
 
         return $this;
     }

@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Form\eventListener\addFileFieldSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,13 +36,6 @@ class ProductType extends AbstractType
 
         if ($this->security->isGranted("ROLE_ADMIN")) {
             $builder
-                ->add('isValid', ChoiceType::class, [
-                    'choices'  => [
-                        'Oui' => true,
-                        'Non' => false,
-                    ],
-                    'label' => 'Validée ?'
-                ])
                 ->add('isPayed', ChoiceType::class, [
                     'choices'  => [
                         'Oui' => true,
@@ -56,15 +50,30 @@ class ProductType extends AbstractType
                         'En attente' => 'En attente'
                     ],
                     'label' => 'Etat de la commande'
-                ])
-            ;
+                ]);
+
+             if (!$options['data']->getIsValid()) {
+                 $builder
+                     ->add('price', IntegerType::class, [
+                     'label' => 'Prix de la commande',
+                     'required' => false
+                     ])
+                     ->add('isValid', ChoiceType::class, [
+                         'choices'  => [
+                             'Oui' => true,
+                             'Non' => false,
+                         ],
+                         'label' => 'Validée ?'
+                     ])
+                 ;
+             }
         }
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Product::class,
+            'data_class' => Product::class
         ]);
     }
 }

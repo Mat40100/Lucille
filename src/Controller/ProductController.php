@@ -13,6 +13,7 @@ use App\Service\FileService;
 use App\Service\ProductService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -89,6 +90,17 @@ class ProductController extends AbstractController
                 $fileService->saveFile($file);
             }
 
+            if ((!$product->getPrice() || !$product->getDevis() )&& $product->getIsValid()) {
+                $product->setIsValid(false);
+
+                $form->addError(new FormError('Vous ne pouvez pas valider une commande sans mettre de prix et un devis.'));
+
+                return $this->render('product/edit.html.twig', [
+                    'product' => $product,
+                    'form' => $form->createView(),
+                ]);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('app_userspace_showproduct', [
@@ -134,9 +146,7 @@ class ProductController extends AbstractController
             $product->setBill($form->getData());
             $fileService->saveBill($form->getData());
 
-            return $this->redirectToRoute('app_adminspace_seeproduct', [
-                'product' => $product->getId()
-            ]);
+            return $this->redirect($request->request->get('referer'));
         }
 
         return $this->render('bill&devis/index.html.twig', [
@@ -154,11 +164,9 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product->setDevis($form->getData());
-            $fileService->saveFile($form->getData());
+            $fileService->saveDevis($form->getData());
 
-            return $this->redirectToRoute('app_adminspace_seeproduct', [
-                'product' => $product->getId()
-            ]);
+            return $this->redirect($request->request->get('referer'));
         }
 
         return $this->render('bill&devis/index.html.twig', [

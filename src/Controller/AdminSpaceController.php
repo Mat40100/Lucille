@@ -55,7 +55,7 @@ class AdminSpaceController extends AbstractController
     /**
      * @Route("/products")
      */
-    public function products(ProductController $controller, ProductRepository $repository)
+    public function products(ProductRepository $repository)
     {
         return $this->render('product/index.html.twig', [
             'products' => $repository->findAll()
@@ -72,7 +72,7 @@ class AdminSpaceController extends AbstractController
     }
 
     /**
-     * @Route("/facture/add/{product}")
+     * @Route("/bill/add/{product}")
      */
     public function uploadBill(Request $request, Product $product, ProductController $controller, FileService $fileService)
     {
@@ -80,7 +80,7 @@ class AdminSpaceController extends AbstractController
     }
 
     /**
-     * @Route("/bill/add/{product}")
+     * @Route("/devis/add/{product}")
      */
     public function uploadDevis(Request $request, Product $product, ProductController $controller, FileService $fileService)
     {

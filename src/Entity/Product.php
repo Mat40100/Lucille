@@ -63,6 +63,11 @@ class Product
      */
     private $devis;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $price;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -210,6 +215,18 @@ class Product
         if ($newProduct !== $devis->getProduct()) {
             $devis->setProduct($newProduct);
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): self
+    {
+        $this->price = $price;
 
         return $this;
     }

@@ -33,10 +33,17 @@
     </table>
 
     {% if product.bill is not null %}
-        <a href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}">Facture</a>
+        <button type="button"><a href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}">Facture</a></button>
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
+        {% endif %}
     {% endif %}
+
     {% if product.devis is not null %}
-        <a href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}">Devis</a>
+        <button type="button"><a href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}">Devis</a></button>
+        {% if is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
+        {% endif %}
     {% endif %}
 
     {% if not product.isValid or is_granted("ROLE_ADMIN") %}
@@ -44,9 +51,6 @@
     {% endif %}
 
     {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Ajouter un devis</a>
-        <a href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Ajouter une facture</a>
-
         <a href="{{ path('app_adminspace_products') }}">Retour sur la liste</a>
     {% endif %}
 
