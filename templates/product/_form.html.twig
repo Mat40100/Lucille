@@ -50,7 +50,7 @@
     </div>
 
     <div class="row justify-content-center align-items-center">
-        <div id="devis" class="col-auto row m-2 border rounded text-center justify-content-center">
+        <div id="devis" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
             <h3 class="col-12">Devis</h3>
             {% if product.devis is not null %}
                 <a class="col-12" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
@@ -63,7 +63,7 @@
             {% endif %}
         </div>
 
-        <div id="facture" class="col-auto row m-2 border rounded text-center justify-content-center">
+        <div id="facture" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
             <h3 class="col-12">Facture</h3>
             {% if product.bill is not null %}
                 <a class="col-12" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
