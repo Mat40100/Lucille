@@ -60,5 +60,7 @@
         {{ include('product/editButton.html.twig') }}
 
         {{ include('product/returnToListButton.html.twig') }}
+
+        <a href="{{ path('app_userspace_payproduct', {'product': product.id}) }}">Payer_TEST</a>
     </div>
 {% endblock %}

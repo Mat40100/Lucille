@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <input id="cardholder-name" type="text">
+    <!-- placeholder for Elements -->
+    <div id="card-element"></div>
+    <button id="card-button" data-secret="{{ intent.client_secret }}">
+        Submit Payment
+    </button>
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('paymentFormJs') }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('paymentFormCss') }}
+{% endblock %}

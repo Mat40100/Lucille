@@ -12,8 +12,25 @@
     "EmbedUser": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors~EmbedUser~paymentFormJs.js",
         "/build/vendors~EmbedUser.js",
         "/build/EmbedUser.js"
+      ]
+    },
+    "paymentFormCss": {
+      "js": [
+        "/build/runtime.js",
+        "/build/paymentFormCss.js"
+      ],
+      "css": [
+        "/build/paymentFormCss.css"
+      ]
+    },
+    "paymentFormJs": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~EmbedUser~paymentFormJs.js",
+        "/build/paymentFormJs.js"
       ]
     }
   }

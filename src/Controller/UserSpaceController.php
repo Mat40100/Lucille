@@ -10,6 +10,9 @@ use App\Form\ProductType;
 use App\Service\FileService;
 use App\Service\MailService;
 use App\Service\ProductService;
+use App\Service\StripeService;
+use App\Service\UserService;
+use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -131,5 +134,23 @@ class UserSpaceController extends AbstractController
     public function downloadDevis(Product $product, Devis $devis, FileController $controller, FileService $fileService)
     {
         return $controller->downloadDevis($devis,$product,$fileService);
+    }
+
+    /**
+     * @Route("/pay/propose/{product}")
+     */
+    public function payProduct(Product $product, StripeService $service)
+    {
+        $intent = $service->getIntent($product);
+
+        return $this->render('stripe/payment.html.twig', ['intent' => $intent]);
+    }
+
+    /**
+     * @Route("pay/AJAX/confirm_payment")
+     */
+    public function confirmPayment()
+    {
+
     }
 }

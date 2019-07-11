@@ -2,6 +2,10 @@
   "build/EmbedUser.js": "/build/EmbedUser.js",
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
+  "build/paymentFormCss.css": "/build/paymentFormCss.css",
+  "build/paymentFormCss.js": "/build/paymentFormCss.js",
+  "build/paymentFormJs.js": "/build/paymentFormJs.js",
   "build/runtime.js": "/build/runtime.js",
-  "build/vendors~EmbedUser.js": "/build/vendors~EmbedUser.js"
+  "build/vendors~EmbedUser.js": "/build/vendors~EmbedUser.js",
+  "build/vendors~EmbedUser~paymentFormJs.js": "/build/vendors~EmbedUser~paymentFormJs.js"
 }
