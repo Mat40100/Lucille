@@ -39,7 +39,7 @@ class Product
     private $user;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\OrphanUser", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\OrphanUser", inversedBy="product", cascade={"persist", "remove"})
      */
     private $orphanUser;
 
