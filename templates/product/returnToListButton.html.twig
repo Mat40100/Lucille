@@ -1,0 +1,3 @@
+{% if is_granted("ROLE_ADMIN") %}
+    <a class="col" href="{{ path('app_adminspace_products') }}">Retour sur la liste</a>
+{% endif %}

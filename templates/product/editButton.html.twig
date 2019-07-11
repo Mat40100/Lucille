@@ -1,0 +1,3 @@
+{% if not product.isValid or is_granted("ROLE_ADMIN") %}
+    <a class="col" href="{{ path('app_userspace_editproduct', {'product': product.id }) }}">Modifier la commande</a>
+{% endif %}

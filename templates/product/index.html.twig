@@ -13,6 +13,8 @@
                 <th>Etat de la demande</th>
                 <th>Commande validée ?</th>
                 <th>Commande payée ?</th>
+                <th>Devis ?</th>
+                <th>Facture ?</th>
                 <th></th>
             </tr>
         </thead>
@@ -32,6 +34,8 @@
                 <td>{{ product.state }}</td>
                 <td>{{ product.isValid ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
+                <td>{{ product.devis ? 'Oui' : 'Non' }}</td>
+                <td>{{ product.bill ? 'Oui' : 'Non' }}</td>
                 <td>
                     {{ include('product/editButton.html.twig') }}
 
