@@ -65,6 +65,11 @@ class Product
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $intentID;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -211,6 +216,18 @@ class Product
     public function setPrice(?int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getIntentID(): ?string
+    {
+        return $this->intentID;
+    }
+
+    public function setIntentID(?string $intentID): self
+    {
+        $this->intentID = $intentID;
 
         return $this;
     }

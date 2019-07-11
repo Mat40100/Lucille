@@ -11,8 +11,6 @@ use App\Service\FileService;
 use App\Service\MailService;
 use App\Service\ProductService;
 use App\Service\StripeService;
-use App\Service\UserService;
-use Psr\Container\ContainerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -147,10 +145,10 @@ class UserSpaceController extends AbstractController
     }
 
     /**
-     * @Route("pay/AJAX/confirm_payment")
+     * @Route("")
      */
-    public function confirmPayment()
+    public function receiveWebHooks(Request $request, StripeService $service)
     {
-
+        $service->checkStripeEndpoint();
     }
 }
