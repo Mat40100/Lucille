@@ -29,4 +29,12 @@ class HomeController extends AbstractController
 
         return $this->redirectToRoute('app_userspace_createproduct');
     }
+
+    /**
+     * @Route
+     */
+    public function propos()
+    {
+        return $this->render('home/propos.html.twig');
+    }
 }
