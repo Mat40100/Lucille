@@ -3,7 +3,7 @@
 {% block body %}
     <h1>{{ user.firstName }} {{ user.lastName }}</h1>
 
-    <table class="table">
+    <table class="table col-12">
         <tbody>
             <tr>
                 <th>Email</th>
@@ -29,6 +29,25 @@
                 <th>Numéro de téléphone</th>
                 <td>{{ user.phoneNumber }}</td>
             </tr>
+        </tbody>
+    </table>
+
+    <h3>Commandes</h3>
+    <table class="table text-center col-6">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Etat</th>
+        </tr>
+        </thead>
+        <tbody>
+
+            {% for product in user.products %}
+            <tr>
+                <td>{{ product.id }}</td>
+                <td>{{ product.state }}</td>
+            </tr>
+            {% endfor %}
         </tbody>
     </table>
 
