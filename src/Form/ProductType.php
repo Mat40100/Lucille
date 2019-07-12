@@ -47,26 +47,20 @@ class ProductType extends AbstractType
                     'choices'  => [
                         'Commencée' => 'Commencée',
                         'Terminée' => 'Terminée',
+                        'Validée' => 'Validée',
                         'En attente' => 'En attente'
                     ],
                     'label' => 'Etat de la commande'
                 ]);
 
-             if (!$options['data']->getIsValid()) {
-                 $builder
-                     ->add('price', IntegerType::class, [
-                     'label' => 'Prix de la commande',
-                     'required' => false
-                     ])
-                     ->add('isValid', ChoiceType::class, [
-                         'choices'  => [
-                             'Oui' => true,
-                             'Non' => false,
-                         ],
-                         'label' => 'Validée ?'
-                     ])
-                 ;
-             }
+            if ($options['data']->getState() == 'En attente' ) {
+                $builder
+                    ->add('price', IntegerType::class, [
+                        'label' => 'Prix de la commande',
+                        'required' => false
+                    ])
+                ;
+            }
         }
     }
 

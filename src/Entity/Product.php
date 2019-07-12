@@ -26,11 +26,6 @@ class Product
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isValid;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
     private $isPayed;
 
     /**
@@ -71,9 +66,8 @@ class Product
     public function __construct()
     {
         $this->files = new ArrayCollection();
-        $this->setIsValid(false);
         $this->setIsPayed(false);
-        $this->setState('pending');
+        $this->setState('En attente');
     }
 
     public function getId(): ?int
@@ -108,18 +102,6 @@ class Product
                 $file->setProduct(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getIsValid(): ?bool
-    {
-        return $this->isValid;
-    }
-
-    public function setIsValid(bool $isValid): self
-    {
-        $this->isValid = $isValid;
 
         return $this;
     }

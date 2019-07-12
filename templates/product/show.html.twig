@@ -5,30 +5,26 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Commande validée ?</th>
-                <td>{{ product.isValid ? 'Oui' : 'Non' }}</td>
-            </tr>
-            <tr>
-                <th>Commande payée ?</th>
-                <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
-            </tr>
-            <tr>
-                <th>Commentaires</th>
-                <td>{{ product.comment }}</td>
-            </tr>
-            <tr>
-                <th>Etat de la commande</th>
-                <td>{{ product.state }}</td>
-            </tr>
-            <tr>
-                <th>Fichiers</th>
-                {% for file in product.files %}
-                    <th><a href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}">{{ file.name }}</a></th>
-                {% else %}
-                    <th>Pas de fichiers</th>
-                {% endfor %}
-            </tr>
+        <tr>
+            <th>Commande payée ?</th>
+            <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
+        </tr>
+        <tr>
+            <th>Commentaires</th>
+            <td>{{ product.comment }}</td>
+        </tr>
+        <tr>
+            <th>Etat de la commande</th>
+            <td>{{ product.state }}</td>
+        </tr>
+        <tr>
+            <th>Fichiers</th>
+            {% for file in product.files %}
+                <th><a href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}">{{ file.name }}</a></th>
+            {% else %}
+                <th>Pas de fichiers</th>
+            {% endfor %}
+        </tr>
         </tbody>
     </table>
 

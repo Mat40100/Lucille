@@ -70,14 +70,14 @@ class ProductController extends AbstractController
 
     }
 
-    public function edit(Request $request, Product $product, FileService $fileService) ##TODO : FIX EDITING FILES
+    public function edit(Request $request, Product $product, FileService $fileService)
     {
-        if ($product->getIsValid() and !$this->isGranted("ROLE_ADMIN")) {
-                $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
+        if ( $product->getState() != 'En attente' and !$this->isGranted("ROLE_ADMIN")) {
+            $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
 
-                return $this->redirectToRoute("app_userspace_showproduct", [
-                    'product' => $product->getId()
-                ]);
+            return $this->redirectToRoute("app_userspace_showproduct", [
+                'product' => $product->getId()
+            ]);
         }
 
         $form = $this->createForm(ProductType::class, $product);
@@ -90,8 +90,8 @@ class ProductController extends AbstractController
                 $fileService->saveFile($file);
             }
 
-            if ((!$product->getPrice() || !$product->getDevis() )&& $product->getIsValid()) {
-                $product->setIsValid(false);
+            if ((!$product->getPrice() || !$product->getDevis() ) && $product->getState() != 'En attente') {
+                $product->setState('En attente');
 
                 $form->addError(new FormError('Vous ne pouvez pas valider une commande sans mettre de prix et un devis.'));
 
@@ -116,7 +116,7 @@ class ProductController extends AbstractController
 
     public function delete(Request $request, Product $product): Response
     {
-        if ($product->getIsValid() & !$this->isGranted("ROLE_ADMIN")) {
+        if ($product->getState() != 'En attente' && !$this->isGranted("ROLE_ADMIN")) {
             $this->addFlash("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
 
             return $this->render("product/show.html.twig", [

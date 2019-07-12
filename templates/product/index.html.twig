@@ -5,18 +5,18 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>ID</th>
-                {% if is_granted("ROLE_ADMIN") %}
-                    <th>Client</th>
-                {% endif %}
-                <th>Etat de la demande</th>
-                <th>Commande validée ?</th>
-                <th>Commande payée ?</th>
-                <th>Devis ?</th>
-                <th>Facture ?</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>ID</th>
+            {% if is_granted("ROLE_ADMIN") %}
+                <th>Client</th>
+            {% endif %}
+            <th>Etat de la demande</th>
+            <th>Paiement</th>
+            <th>Prix</th>
+            <th>Devis</th>
+            <th>Facture</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
         {% for product in products %}
@@ -32,8 +32,8 @@
                 {% endif %}
 
                 <td>{{ product.state }}</td>
-                <td>{{ product.isValid ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
+                <td>{{ product.price ? product.price : ' / ' }}</td>
                 <td>{{ product.devis ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.bill ? 'Oui' : 'Non' }}</td>
                 <td>
