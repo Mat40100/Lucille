@@ -2,21 +2,14 @@
 
 namespace App\Controller;
 
-use App\Entity\Bill;
-use App\Entity\Devis;
 use App\Entity\Product;
-use App\Form\BillType;
-use App\Form\DevisType;
 use App\Form\ProductType;
-use App\Repository\ProductRepository;
 use App\Service\FileService;
 use App\Service\ProductService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 
 class ProductController extends AbstractController
 {
@@ -78,7 +71,7 @@ class ProductController extends AbstractController
             $entityManager->remove($product);
             $entityManager->flush();
 
-            $this->addFlash("success", "Product deleted");
+            $this->addFlash("success", "Commande supprimée !");
         }
 
         return $this->redirectToRoute('home');
