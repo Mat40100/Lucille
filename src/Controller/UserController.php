@@ -38,7 +38,7 @@ class UserController extends AbstractController
 
             $userService->saveNewUser($user);
 
-            return $this->redirectToRoute('app_user_index');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('user/new.html.twig', [
@@ -72,30 +72,6 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
-        ]);
-    }
-
-    public function delete(Request $request, User $user): Response
-    {
-        if(!$user === $this->getUser() & !$this->isGranted("ROLE_ADMIN")) {
-            $this->addFlash("Vous n'avez pas accès aux autres utlisateurs.");
-
-            return $this->redirectToRoute("home");
-        }
-
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
-
-        return $this->redirectToRoute('app_user_index');
-    }
-
-    public function index(UserRepository $userRepository): Response
-    {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
         ]);
     }
 

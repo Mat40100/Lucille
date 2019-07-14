@@ -2,16 +2,21 @@
 
 namespace App\Controller;
 
+use App\Entity\Bill;
+use App\Entity\Devis;
 use App\Entity\OrphanUser;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Form\BillType;
+use App\Form\DevisType;
+use App\Form\OrphanUserType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Service\FileService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -31,9 +36,11 @@ class AdminSpaceController extends AbstractController
     /**
      * @Route("/users")
      */
-    public function clients(UserController $controller, UserRepository $repository)
+    public function clients(UserController $controller, UserRepository $userRepository)
     {
-        return $controller->index($repository);
+        return $this->render('user/index.html.twig', [
+            'users' => $userRepository->findAll(),
+        ]);
     }
 
     /**
@@ -53,6 +60,20 @@ class AdminSpaceController extends AbstractController
     }
 
     /**
+     * @Route("/user-{user}/delete")
+     */
+    public function userDelete(Request $request, User $user)
+    {
+        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($user);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('app_user_index');
+    }
+
+    /**
      * @Route("/products")
      */
     public function products(ProductRepository $repository)
@@ -63,20 +84,26 @@ class AdminSpaceController extends AbstractController
     }
 
     /**
-     * @Route("/product-{product}")
-     */
-
-    public function seeProduct(Product $product, ProductController $controller)
-    {
-        return $controller->show($product);
-    }
-
-    /**
      * @Route("/bill/add/{product}")
      */
     public function uploadBill(Request $request, Product $product, ProductController $controller, FileService $fileService)
     {
-        return $controller->uploadBill($request, $product, $fileService);
+        $bill = new Bill();
+
+        $form = $this->createForm(BillType::class, $bill);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product->setBill($form->getData());
+            $fileService->saveBill($form->getData());
+
+            return $this->redirect($request->request->get('referer'));
+        }
+
+        return $this->render('bill&devis/index.html.twig', [
+            'product' => $product,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -84,19 +111,21 @@ class AdminSpaceController extends AbstractController
      */
     public function uploadDevis(Request $request, Product $product, ProductController $controller, FileService $fileService)
     {
-        return $controller->uploadDevis($request, $product, $fileService);
-    }
+        $devis = new Devis();
 
-    /**
-     * @Route("/product/validate/{product}")
-     */
-    public function validateProduct(Product $product)
-    {
-        $product->setIsValid(true);
-        $this->getDoctrine()->getManager()->flush();
+        $form = $this->createForm(DevisType::class, $devis);
+        $form->handleRequest($request);
 
-        $this->redirectToRoute('app_adminspace_seeProduct', [
-            'product' => $product->getId()
+        if ($form->isSubmitted() && $form->isValid()) {
+            $product->setDevis($form->getData());
+            $fileService->saveDevis($form->getData());
+
+            return $this->redirect($request->request->get('referer'));
+        }
+
+        return $this->render('bill&devis/index.html.twig', [
+            'product' => $product,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -111,5 +140,54 @@ class AdminSpaceController extends AbstractController
         $this->redirectToRoute('app_adminspace_seeProduct', [
             'product' => $product->getId()
         ]);
+    }
+
+    /**
+     * @Route("/orphan/{id}")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function show(OrphanUser $orphanUser): Response
+    {
+        return $this->render('orphan_user/show.html.twig', [
+            'orphan_user' => $orphanUser,
+        ]);
+    }
+
+    /**
+     * @Route("/orphan/edit/{id}")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function edit(OrphanUser $orphanUser, Request $request): Response
+    {
+        $form = $this->createForm(OrphanUserType::class, $orphanUser);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('app_orphan_edit', [
+                'orphan' => $orphanUser->getId(),
+            ]);
+        }
+
+        return $this->render('orphan_user/edit.html.twig', [
+            'orphan_user' => $orphanUser,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/orphan/delete/{id}")
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function delete(Request $request, OrphanUser $orphanUser): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$orphanUser->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($orphanUser);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('home');
     }
 }
