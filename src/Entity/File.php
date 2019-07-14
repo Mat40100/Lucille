@@ -30,6 +30,11 @@ class File
 
     /**
      * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
+     * @Assert\File(
+     *     maxSize = "81920k",
+     *     mimeTypes = {"application/pdf", "application/x-pdf"},
+     *     mimeTypesMessage = "Please upload a valid PDF"
+     * )
      */
     private $file;
 
