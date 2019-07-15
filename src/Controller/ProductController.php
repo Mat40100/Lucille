@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Service\FileService;
+use App\Service\MailService;
 use App\Service\ProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -22,13 +23,16 @@ class ProductController extends AbstractController
         ]);
     }
 
-    public function edit(Request $request, Product $product, FileService $fileService, ProductService $productService)
+    public function edit(Request $request, Product $product, FileService $fileService, ProductService $productService, MailService $mailService)
     {
         if(!$productService->checkEditable($product)) return $this->render("product/show.html.twig", ['product' => $product]);
 
         if(!$productService->checkPermission($product)) return $this->redirectToRoute('home');
 
         $form = $this->createForm(ProductType::class, $product);
+
+        $oldstate = $product->getState();
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -47,6 +51,14 @@ class ProductController extends AbstractController
                     'product' => $product,
                     'form' => $form->createView(),
                 ]);
+            }
+
+            if($productService->isValidated($product, $oldstate)) {
+                $mailService->sendIsValidatedMail($product);
+            }
+
+            if($productService->isFinished($product, $oldstate)) {
+                $mailService->sendIsFinishedMail($product);
             }
 
             $this->getDoctrine()->getManager()->flush();

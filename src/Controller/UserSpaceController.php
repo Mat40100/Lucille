@@ -8,6 +8,7 @@ use App\Entity\File;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Service\FileService;
+use App\Service\MailService;
 use App\Service\ProductService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,9 +96,9 @@ class UserSpaceController extends AbstractController
     /**
      * @Route("/product/edit-{product}")
      */
-    public function editProduct(Product $product, ProductController $controller, Request $request, FileService $fileService, ProductService $productService)
+    public function editProduct(Product $product, ProductController $controller, Request $request, FileService $fileService, ProductService $productService, MailService $mailService)
     {
-        return $controller->edit($request,$product, $fileService, $productService);
+        return $controller->edit($request,$product, $fileService, $productService, $mailService);
     }
 
     /**

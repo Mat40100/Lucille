@@ -21,6 +21,17 @@ class UserFixtures extends Fixture
 
         $manager->persist($user);
 
+        $user2 = new User();
+
+        $user2->setEmail('lgauthier@akatraductions.com')
+            ->setFirstName('Lucille')
+            ->setLastName('Dolhen')
+            ->setPhoneNumber('0608004599')
+            ->setBillingAddress('Ascain')
+            ->setPassword('$argon2i$v=19$m=1024,t=2,p=2$ZUdzNFF4M0tKUVNvTHNRVQ$z1buhjJlOXm/niZBp4hCgwVvqv+0XqDbhMJ2cVA3eDw');
+
+        $manager->persist($user2);
+
         $manager->flush();
     }
 }
