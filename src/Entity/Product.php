@@ -68,11 +68,6 @@ class Product
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $purchaseId;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
     private $paymentIntent;
 
     /**
@@ -231,18 +226,6 @@ class Product
     public function setPrice(?int $price): self
     {
         $this->price = $price;
-
-        return $this;
-    }
-
-    public function getPurchaseId(): ?string
-    {
-        return $this->purchaseId;
-    }
-
-    public function setPurchaseId(?string $purchaseId): self
-    {
-        $this->purchaseId = $purchaseId;
 
         return $this;
     }
