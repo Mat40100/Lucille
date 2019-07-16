@@ -65,6 +65,11 @@ class Product
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $purchaseId;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -211,6 +216,18 @@ class Product
     public function setPrice(?int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPurchaseId(): ?int
+    {
+        return $this->purchaseId;
+    }
+
+    public function setPurchaseId(int $purchaseId): self
+    {
+        $this->purchaseId = $purchaseId;
 
         return $this;
     }

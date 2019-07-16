@@ -85,6 +85,6 @@ class StripeController extends AbstractController
 
         http_response_code(200); // PHP 5.4 or greater
 
-        return new Response('ok',200 );
+        return new Response($event->object['client_reference_id'],200 );
     }
 }

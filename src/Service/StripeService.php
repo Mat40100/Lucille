@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
 use Stripe\Webhook;
@@ -22,9 +23,13 @@ class StripeService
         $this->security =$security;
     }
 
-    public function getPaymentSession(Product $product)
+    public function getPaymentSession(Product $product, EntityManagerInterface $entityManager)
     {
         Stripe::setApiKey(getenv('STRIPE_SK_TEST'));
+
+        $uniqId =  uniqid() . '_' . md5(mt_rand());
+        $product->setPurchaseId($uniqId);
+        $entityManager->flush();
 
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -35,6 +40,7 @@ class StripeService
                 'currency' => 'eur',
                 'quantity' => 1,
             ]],
+            'client_reference_id' => $product->getPurchaseId(),
             'success_url' => getenv("DEFAULT_URL").'/pay/success',
             'cancel_url' => getenv("DEFAULT_URL").'/pay/refused',
         ]);
