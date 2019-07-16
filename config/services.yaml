@@ -7,7 +7,7 @@ parameters:
     files_directory: '%kernel.project_dir%/public/uploads/product/files'
     bills_directory: '%kernel.project_dir%/public/uploads/product/bills'
     devis_directory: '%kernel.project_dir%/public/uploads/product/devis'
-    email: 'mathieu.dolhen@gmail.com'
+    email: 'lgauthier@akatraductions.com'
 
 services:
     # default configuration for services in *this* file
