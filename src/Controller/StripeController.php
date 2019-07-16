@@ -68,21 +68,24 @@ class StripeController extends AbstractController
             );
         } catch(\UnexpectedValueException $e) {
             // Invalid payload
-            http_response_code(400); // PHP 5.4 or greater
-            exit();
+
+            return new Response('fail', 400);
         } catch(SignatureVerification $e) {
             // Invalid signature
-            http_response_code(400); // PHP 5.4 or greater
-            exit();
+
+            return new Response('fail', 400);
         }
 
         // Handle the checkout.session.completed event
-        if ($event->type == 'checkout.session.completed') {
+        if ($event->type == 'charge.succeeded') {
             $session = $event->data->object;
-            $id = $event->id;
+            $id = $session->payment_intent;
+            $receipt = $session->receipt_url;
 
-            $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['purchaseId' => $session->client_reference_id]);
+            $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['purchaseId' => $session->id]);
             $product->setSucceedPaymentID($id);
+            $product->setPaymentReceipt($receipt);
+
             $product->setIsPayed('true');
             $this->getDoctrine()->getManager()->flush();
         }

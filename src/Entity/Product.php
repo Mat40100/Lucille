@@ -75,6 +75,11 @@ class Product
      */
     private $succeedPaymentID;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentReceipt;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -245,6 +250,18 @@ class Product
     public function setSucceedPaymentID(?string $succeedPaymentID): self
     {
         $this->succeedPaymentID = $succeedPaymentID;
+
+        return $this;
+    }
+
+    public function getPaymentReceipt(): ?string
+    {
+        return $this->paymentReceipt;
+    }
+
+    public function setPaymentReceipt(?string $paymentReceipt): self
+    {
+        $this->paymentReceipt = $paymentReceipt;
 
         return $this;
     }
