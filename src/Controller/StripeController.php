@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Service\StripeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Stripe\Error\SignatureVerification;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -69,7 +70,7 @@ class StripeController extends AbstractController
             // Invalid payload
             http_response_code(400); // PHP 5.4 or greater
             exit();
-        } catch(\Stripe\Error\SignatureVerification $e) {
+        } catch(SignatureVerification $e) {
             // Invalid signature
             http_response_code(400); // PHP 5.4 or greater
             exit();
@@ -78,13 +79,18 @@ class StripeController extends AbstractController
         // Handle the checkout.session.completed event
         if ($event->type == 'checkout.session.completed') {
             $session = $event->data->object;
+            $id = $event->id;
 
-            // Fulfill the purchase...
-            //TODO;
+            $datas = json_decode($session, true);
+
+            $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['purchaseId' => $datas['client_reference_id']]);
+            $product->setSucceedPaymentID($id);
+            $product->setIsPayed('true');
+            $this->getDoctrine()->getManager()->flush();
         }
 
         http_response_code(200); // PHP 5.4 or greater
 
-        return new Response($event->object['client_reference_id'],200 );
+        return new Response($id,200 );
     }
 }

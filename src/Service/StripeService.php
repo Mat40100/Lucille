@@ -43,6 +43,7 @@ class StripeService
                 'quantity' => 1,
             ]],
             'client_reference_id' => $product->getPurchaseId(),
+            'customer_email' => $this->security->getUser()->getEmail(),
             'success_url' => getenv("DEFAULT_URL").'/pay/success',
             'cancel_url' => getenv("DEFAULT_URL").'/pay/refused',
         ]);

@@ -66,9 +66,14 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $purchaseId;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $succeedPaymentID;
 
     public function __construct()
     {
@@ -225,9 +230,21 @@ class Product
         return $this->purchaseId;
     }
 
-    public function setPurchaseId(string $purchaseId): self
+    public function setPurchaseId(?string $purchaseId): self
     {
         $this->purchaseId = $purchaseId;
+
+        return $this;
+    }
+
+    public function getSucceedPaymentID(): ?string
+    {
+        return $this->succeedPaymentID;
+    }
+
+    public function setSucceedPaymentID(?string $succeedPaymentID): self
+    {
+        $this->succeedPaymentID = $succeedPaymentID;
 
         return $this;
     }
