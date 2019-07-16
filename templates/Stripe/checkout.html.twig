@@ -1,0 +1,11 @@
+{% extends('base.html.twig') %}
+
+{% block body %}
+    {% if CHECKOUT_SESSION_ID is defined %}
+        <div id="pay" data-role="{{ CHECKOUT_SESSION_ID }}">Payer</div>
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('StripeApi') }}
+{% endblock %}

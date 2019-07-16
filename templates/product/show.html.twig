@@ -58,6 +58,7 @@
 
     <div class="row flex-column">
         {{ include('product/editButton.html.twig') }}
+        <a href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}">Payer_TEST</a>
 
         {{ include('product/returnToListButton.html.twig') }}
     </div>
