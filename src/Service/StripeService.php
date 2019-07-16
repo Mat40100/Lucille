@@ -16,20 +16,22 @@ class StripeService
 {
     private $stripe_pk;
     private $security;
+    private $entityManager;
 
-    public function __construct($stripe_pk, Security $security)
+    public function __construct($stripe_pk, Security $security, EntityManagerInterface $entityManager)
     {
         $this->stripe_pk = $stripe_pk;
         $this->security =$security;
+        $this->entityManager= $entityManager;
     }
 
-    public function getPaymentSession(Product $product, EntityManagerInterface $entityManager)
+    public function getPaymentSession(Product $product)
     {
         Stripe::setApiKey(getenv('STRIPE_SK_TEST'));
 
         $uniqId =  uniqid() . '_' . md5(mt_rand());
         $product->setPurchaseId($uniqId);
-        $entityManager->flush();
+        $this->entityManager->flush();
 
         $session = Session::create([
             'payment_method_types' => ['card'],
