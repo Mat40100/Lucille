@@ -81,8 +81,9 @@ class StripeController extends AbstractController
             $session = $event->data->object;
 
             $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
+
             $product->setReceiptUrl($session->receipt_url);
-            $product->setPaymentCharge($session);
+            $product->setPaymentCharge($session->id);
 
             $product->setIsPayed('true');
             $this->getDoctrine()->getManager()->flush();
