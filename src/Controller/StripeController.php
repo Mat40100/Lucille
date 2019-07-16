@@ -81,16 +81,12 @@ class StripeController extends AbstractController
             $session = $event->data->object;
             $id = $event->id;
 
-            $datas = json_decode($session, true);
-
-            /*$product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['purchaseId' => $datas['client_reference_id']]);
+            $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['purchaseId' => $session->client_reference_id]);
             $product->setSucceedPaymentID($id);
             $product->setIsPayed('true');
-            $this->getDoctrine()->getManager()->flush();*/
+            $this->getDoctrine()->getManager()->flush();
         }
 
-        http_response_code(200); // PHP 5.4 or greater
-
-        return new Response($id,200 );
+        return new Response('ok',200 );
     }
 }
