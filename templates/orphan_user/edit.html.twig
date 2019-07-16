@@ -5,7 +5,7 @@
 
     {{ include('orphan_user/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_orphan_show', {'id' : orphan_user.id }) }}">back to list</a>
+    <a href="{{ path('app_adminspace_orphanshow', {'id' : orphan_user.id }) }}">back to list</a>
 
     {{ include('orphan_user/_delete_form.html.twig') }}
 {% endblock %}

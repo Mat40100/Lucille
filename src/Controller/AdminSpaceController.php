@@ -146,7 +146,7 @@ class AdminSpaceController extends AbstractController
      * @Route("/orphan/{id}")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function show(OrphanUser $orphanUser): Response
+    public function orphanShow(OrphanUser $orphanUser): Response
     {
         return $this->render('orphan_user/show.html.twig', [
             'orphan_user' => $orphanUser,
@@ -157,7 +157,7 @@ class AdminSpaceController extends AbstractController
      * @Route("/orphan/edit/{id}")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function edit(OrphanUser $orphanUser, Request $request): Response
+    public function orphanEdit(OrphanUser $orphanUser, Request $request): Response
     {
         $form = $this->createForm(OrphanUserType::class, $orphanUser);
         $form->handleRequest($request);
@@ -180,7 +180,7 @@ class AdminSpaceController extends AbstractController
      * @Route("/orphan/delete/{id}")
      * @IsGranted("ROLE_ADMIN")
      */
-    public function delete(Request $request, OrphanUser $orphanUser): Response
+    public function orphanDelete(Request $request, OrphanUser $orphanUser): Response
     {
         if ($this->isCsrfTokenValid('delete'.$orphanUser->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

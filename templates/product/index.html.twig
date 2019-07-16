@@ -27,7 +27,7 @@
                     {% if product.user %}
                         <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }} {{ product.user.firstName }}</a></td>
                     {% else %}
-                        <td><a href="{{ path('app_orphan_show', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }} {{ product.orphanUser.firstName }}</a></td>
+                        <td><a href="{{ path('app_adminspace_orphanshow', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }} {{ product.orphanUser.firstName }}</a></td>
                     {% endif %}
                 {% endif %}
 
