@@ -66,7 +66,7 @@ class Product
     private $price;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $purchaseId;
 
