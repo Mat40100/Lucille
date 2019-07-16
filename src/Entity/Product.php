@@ -73,12 +73,17 @@ class Product
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $succeedPaymentID;
+    private $paymentIntent;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $paymentReceipt;
+    private $receiptUrl;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentCharge;
 
     public function __construct()
     {
@@ -242,26 +247,38 @@ class Product
         return $this;
     }
 
-    public function getSucceedPaymentID(): ?string
+    public function getPaymentIntent(): ?string
     {
-        return $this->succeedPaymentID;
+        return $this->paymentIntent;
     }
 
-    public function setSucceedPaymentID(?string $succeedPaymentID): self
+    public function setPaymentIntent(?string $paymentIntent): self
     {
-        $this->succeedPaymentID = $succeedPaymentID;
+        $this->paymentIntent = $paymentIntent;
 
         return $this;
     }
 
-    public function getPaymentReceipt(): ?string
+    public function getReceiptUrl(): ?string
     {
-        return $this->paymentReceipt;
+        return $this->receiptUrl;
     }
 
-    public function setPaymentReceipt(?string $paymentReceipt): self
+    public function setReceiptUrl(?string $receiptUrl): self
     {
-        $this->paymentReceipt = $paymentReceipt;
+        $this->receiptUrl = $receiptUrl;
+
+        return $this;
+    }
+
+    public function getPaymentCharge(): ?string
+    {
+        return $this->paymentCharge;
+    }
+
+    public function setPaymentCharge(?string $paymentCharge): self
+    {
+        $this->paymentCharge = $paymentCharge;
 
         return $this;
     }

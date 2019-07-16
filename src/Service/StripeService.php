@@ -29,9 +29,6 @@ class StripeService
     {
         Stripe::setApiKey(getenv('STRIPE_SK_TEST'));
 
-        $uniqId =  uniqid() . '_' . md5(mt_rand());
-        $product->setPurchaseId($uniqId);
-        $this->entityManager->flush();
 
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -42,11 +39,14 @@ class StripeService
                 'currency' => 'eur',
                 'quantity' => 1,
             ]],
-            'client_reference_id' => $product->getPurchaseId(),
             'customer_email' => $this->security->getUser()->getEmail(),
             'success_url' => getenv("DEFAULT_URL").'/pay/success',
             'cancel_url' => getenv("DEFAULT_URL").'/pay/refused',
         ]);
+
+        $product->setPaymentIntent($session['payment_intent']);
+
+        $this->entityManager->flush();
 
         return $session;
     }
