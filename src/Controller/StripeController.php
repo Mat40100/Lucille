@@ -79,12 +79,10 @@ class StripeController extends AbstractController
         // Handle the checkout.session.completed event
         if ($event->type == 'charge.succeeded') {
             $session = $event->data->object;
-            $id = $session->payment_intent;
-            $receipt = $session->receipt_url;
 
-            $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['purchaseId' => $session->id]);
-            $product->setSucceedPaymentID($id);
-            $product->setPaymentReceipt($receipt);
+            $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
+            $product->setReceiptUrl($session->receipt_url);
+            $product->setPaymentCharge($session);
 
             $product->setIsPayed('true');
             $this->getDoctrine()->getManager()->flush();
