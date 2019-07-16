@@ -220,12 +220,12 @@ class Product
         return $this;
     }
 
-    public function getPurchaseId(): ?int
+    public function getPurchaseId(): ?string
     {
         return $this->purchaseId;
     }
 
-    public function setPurchaseId(int $purchaseId): self
+    public function setPurchaseId(string $purchaseId): self
     {
         $this->purchaseId = $purchaseId;
 
