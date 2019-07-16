@@ -23,6 +23,9 @@ class ProductService
         $this->session = $session;
     }
 
+    /**
+     * @param Product $product
+     */
     public function newProduct(Product $product)
     {
         $product->setUser($this->security->getUser());
@@ -30,6 +33,10 @@ class ProductService
         $this->entityManager->flush();
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function checkPermission(Product $product)
     {
         if (!$this->security->getUser() === $product->getUser()){
@@ -41,9 +48,13 @@ class ProductService
         return true;
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function checkEditable(Product $product)
     {
-        if ($product->getState() != 'En attente' && !$this->isGranted("ROLE_ADMIN")) {
+        if ($product->getState() != 'En attente' && !$this->security->isGranted("ROLE_ADMIN")) {
             $this->session->getFlashBag()->add("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
 
             return false;
@@ -52,4 +63,41 @@ class ProductService
         return true;
     }
 
+    /**
+     * @param Product $product
+     * @param string $oldState
+     * @return bool
+     */
+    public function isValidated(Product $product, string $oldState)
+    {
+        if($product->getState() != 'En attente') {
+
+            if ($oldState === 'En attente') {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Product $product
+     * @param $oldState
+     * @return bool
+     */
+    public function isFinished(Product $product, $oldState)
+    {
+        if($product->getState() === 'Terminée') {
+
+            if ($oldState != 'Terminée') {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
 }
