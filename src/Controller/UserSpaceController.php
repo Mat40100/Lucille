@@ -145,10 +145,10 @@ class UserSpaceController extends AbstractController
     }
 
     /**
-     * @Route("")
+     * @Route("/pay/webhooks")
      */
     public function receiveWebHooks(Request $request, StripeService $service)
     {
-        $service->checkStripeEndpoint();
+        $service->checkStripeEndpoint($request);
     }
 }
