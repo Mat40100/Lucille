@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
+use Stripe\Customer;
 use Stripe\Error\SignatureVerification;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
@@ -31,6 +32,10 @@ class StripeService
         Stripe::setApiKey(getenv('STRIPE_SK_TEST'));
 
 
+        $customer = Customer::create([
+            'email' => $this->security->getUser()->getEmail()
+        ]);
+
         $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
@@ -40,7 +45,7 @@ class StripeService
                 'currency' => 'eur',
                 'quantity' => 1,
             ]],
-            'customer_email' => $this->security->getUser()->getEmail(),
+            'customer' => $customer->id,
             'success_url' => getenv("DEFAULT_URL").'/pay/success',
             'cancel_url' => getenv("DEFAULT_URL").'/pay/refused',
         ]);
@@ -89,8 +94,6 @@ class StripeService
                 if ($paymentIntent->status === 'succeeded') {
 
                     $product->setIsPayed('true');
-                    $product->setReceiptUrl($session->receipt_url);
-                    $product->setPaymentCharge($session->id);
 
                     $this->entityManager->flush();
                 }
