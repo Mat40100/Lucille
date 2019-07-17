@@ -54,11 +54,20 @@ class StripeController extends AbstractController
      */
     public function webHooks(StripeService $stripeService)
     {
-        if (false === $stripeService->checkWebHooks()) {
+        $status = $stripeService->checkWebHooks();
 
-            return new Response('error', 400);
+        switch($status) {
+            case 'ok' :
+                return new Response('ok',200 );
+
+                break;
+
+            case 'Invalid payload' || 'Invalid signature' || 'Product not found':
+                return new Response($status,400 );
+
+                break;
         }
 
-        return new Response('ok',200 );
+        return new Response('not handled case',400 );
     }
 }

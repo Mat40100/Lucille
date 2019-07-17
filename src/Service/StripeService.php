@@ -11,8 +11,6 @@ use Stripe\Error\SignatureVerification;
 use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Stripe\Webhook;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
 class StripeService
@@ -71,11 +69,11 @@ class StripeService
         } catch(\UnexpectedValueException $e) {
             // Invalid payload
 
-            return false;
+            return 'Invalid payload';
         } catch(SignatureVerification $e) {
             // Invalid signature
 
-            return false;
+            return 'Invalid signature';
         }
 
         switch ($event->type) {
@@ -92,11 +90,11 @@ class StripeService
                     $product->setReceiptUrl($session->receipt_url);
                     $product->setPaymentCharge($session->id);
 
-                }else return false;
+                }else return 'Product not found';
 
                 break;
         }
 
-        return true;
+        return 'ok';
     }
 }
