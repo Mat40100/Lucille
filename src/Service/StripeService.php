@@ -50,8 +50,8 @@ class StripeService
                 'amount' => $product->getPrice(),
                 'currency' => 'eur',
                 'quantity' => 1,
-                'receipt_email' => $user->getEmail()
             ]],
+            'receipt_email' => $user->getEmail(),
             'customer' => $customer,
             'success_url' => getenv("DEFAULT_URL").'/pay/success',
             'cancel_url' => getenv("DEFAULT_URL").'/pay/refused',
