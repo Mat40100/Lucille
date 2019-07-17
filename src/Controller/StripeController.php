@@ -62,7 +62,7 @@ class StripeController extends AbstractController
 
                 break;
 
-            case 'Invalid payload' || 'Invalid signature' || 'Product not found':
+            case 'Invalid payload' || 'Invalid signature' || 'Product not found' || 'Not handled event':
                 return new Response($status,400 );
 
                 break;

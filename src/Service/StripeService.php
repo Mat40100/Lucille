@@ -93,9 +93,11 @@ class StripeService
                     $product->setPaymentCharge($session->id);
                 }
 
+                return 'ok';
+
                 break;
         }
 
-        return 'All ok';
+        return 'Not handled event';
     }
 }
