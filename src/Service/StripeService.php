@@ -42,7 +42,6 @@ class StripeService
             $user->setStripeCustomer($customer);
         }
 
-
         $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => [[
@@ -58,7 +57,6 @@ class StripeService
         ]);
 
         $product->setPaymentIntent($session['payment_intent']);
-
 
         $this->entityManager->flush();
 

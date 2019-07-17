@@ -80,11 +80,6 @@ class Product
      */
     private $paymentCharge;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $stripeCustomer;
-
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -267,18 +262,6 @@ class Product
     public function setPaymentCharge(?string $paymentCharge): self
     {
         $this->paymentCharge = $paymentCharge;
-
-        return $this;
-    }
-
-    public function getStripeCustomer(): ?string
-    {
-        return $this->stripeCustomer;
-    }
-
-    public function setStripeCustomer(?string $stripeCustomer): self
-    {
-        $this->stripeCustomer = $stripeCustomer;
 
         return $this;
     }
