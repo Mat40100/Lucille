@@ -91,6 +91,8 @@ class StripeService
                     $product->setIsPayed('true');
                     $product->setReceiptUrl($session->receipt_url);
                     $product->setPaymentCharge($session->id);
+
+                    $this->entityManager->flush();
                 }
 
                 return 'ok';
