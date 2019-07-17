@@ -84,17 +84,18 @@ class StripeService
                 $paymentIntent = PaymentIntent::retrieve($session->payment_intent);
                 $product = $this->entityManager->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
 
-                if ($paymentIntent->status === 'succeeded' && null !== $product) {
+                if (null === $product) return 'Product not found';
+
+                if ($paymentIntent->status === 'succeeded') {
 
                     $product->setIsPayed('true');
                     $product->setReceiptUrl($session->receipt_url);
                     $product->setPaymentCharge($session->id);
-
-                }else return 'Product not found';
+                }
 
                 break;
         }
 
-        return 'ok';
+        return 'All ok';
     }
 }

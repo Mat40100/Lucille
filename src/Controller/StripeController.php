@@ -58,7 +58,7 @@ class StripeController extends AbstractController
 
         switch($status) {
             case 'ok' :
-                return new Response('ok',200 );
+                return new Response($status,200 );
 
                 break;
 
