@@ -54,7 +54,7 @@ class StripeController extends AbstractController
         $status = $stripeService->checkWebHooks();
 
         switch($status) {
-            case 'ok' :
+            case 'Purchase fullfiled' :
                 return new Response($status,200 );
 
                 break;
@@ -65,6 +65,6 @@ class StripeController extends AbstractController
                 break;
         }
 
-        return new Response('not handled case',400 );
+        return new Response('Not handled case',400 );
     }
 }

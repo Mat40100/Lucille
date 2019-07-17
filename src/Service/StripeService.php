@@ -50,6 +50,7 @@ class StripeService
                 'amount' => $product->getPrice(),
                 'currency' => 'eur',
                 'quantity' => 1,
+                'receipt_email' => $user->getEmail()
             ]],
             'customer' => $customer,
             'success_url' => getenv("DEFAULT_URL").'/pay/success',
@@ -104,7 +105,7 @@ class StripeService
                     $this->entityManager->flush();
                 }
 
-                return 'ok';
+                return 'Purchase fullfiled';
 
                 break;
         }
