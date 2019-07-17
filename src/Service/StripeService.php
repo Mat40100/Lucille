@@ -8,6 +8,7 @@ use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
 use Stripe\Error\SignatureVerification;
+use Stripe\PaymentIntent;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use Symfony\Component\HttpFoundation\Request;
@@ -77,17 +78,30 @@ class StripeService
             return false;
         }
 
-        // Handle the checkout.session.completed event
-        if ($event->type == 'charge.succeeded') {
-            $session = $event->data->object;
+        switch ($event->type) {
+            case 'charge.succeeded':
+                $session = $event->data->object;
 
-            $product = $this->entityManager->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
+                $product = $this->entityManager->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
 
-            $product->setReceiptUrl($session->receipt_url);
-            $product->setPaymentCharge($session->id);
+                $product->setReceiptUrl($session->receipt_url);
+                $product->setPaymentCharge($session->id);
+                $this->entityManager->flush();
 
-            $product->setIsPayed('true');
-            $this->entityManager->flush();
+                break;
+
+            case 'checkout.session.completed':
+                $session = $event->data->object;
+
+                $paymentIntent = PaymentIntent::retrieve($session->payment_intent);
+                $product = $this->entityManager->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
+
+                if ($paymentIntent->status === 'succeeded' && null !== $product) {
+
+                    $product->setIsPayed('true');
+                }else return false;
+
+                break;
         }
 
         return true;
