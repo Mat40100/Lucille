@@ -7,9 +7,11 @@ namespace App\Service;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Stripe\Checkout\Session;
+use Stripe\Error\SignatureVerification;
 use Stripe\Stripe;
 use Stripe\Webhook;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Security;
 
 class StripeService
@@ -51,8 +53,43 @@ class StripeService
         return $session;
     }
 
-    public function checkWebHooks(Request $request)
+    public function checkWebHooks()
     {
+        Stripe::setApiKey(getenv('STRIPE_SK_TEST'));
 
+        $endpoint_secret = getenv('ENDPOINT_SECRET');
+
+        $payload = @file_get_contents('php://input');
+        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
+        $event = null;
+
+        try {
+            $event = Webhook::constructEvent(
+                $payload, $sig_header, $endpoint_secret
+            );
+        } catch(\UnexpectedValueException $e) {
+            // Invalid payload
+
+            return false;
+        } catch(SignatureVerification $e) {
+            // Invalid signature
+
+            return false;
+        }
+
+        // Handle the checkout.session.completed event
+        if ($event->type == 'charge.succeeded') {
+            $session = $event->data->object;
+
+            $product = $this->entityManager->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
+
+            $product->setReceiptUrl($session->receipt_url);
+            $product->setPaymentCharge($session->id);
+
+            $product->setIsPayed('true');
+            $this->entityManager->flush();
+        }
+
+        return true;
     }
 }

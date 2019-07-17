@@ -52,41 +52,11 @@ class StripeController extends AbstractController
     /**
      * @Route("/webhooks")
      */
-    public function webHooks()
+    public function webHooks(StripeService $stripeService)
     {
-        Stripe::setApiKey('sk_test_W5kwb2cTZxdK74kTOhp2UNZg00zp3ZCZrB');
+        if (false === $stripeService->checkWebHooks()) {
 
-        $endpoint_secret = getenv('ENDPOINT_SECRET');
-
-        $payload = @file_get_contents('php://input');
-        $sig_header = $_SERVER['HTTP_STRIPE_SIGNATURE'];
-        $event = null;
-
-        try {
-            $event = Webhook::constructEvent(
-                $payload, $sig_header, $endpoint_secret
-            );
-        } catch(\UnexpectedValueException $e) {
-            // Invalid payload
-
-            return new Response('fail', 400);
-        } catch(SignatureVerification $e) {
-            // Invalid signature
-
-            return new Response('fail', 400);
-        }
-
-        // Handle the checkout.session.completed event
-        if ($event->type == 'charge.succeeded') {
-            $session = $event->data->object;
-
-            $product = $this->getDoctrine()->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
-
-            $product->setReceiptUrl($session->receipt_url);
-            $product->setPaymentCharge($session->id);
-
-            $product->setIsPayed('true');
-            $this->getDoctrine()->getManager()->flush();
+            return new Response('error', 400);
         }
 
         return new Response('ok',200 );
