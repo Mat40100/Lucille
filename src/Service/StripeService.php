@@ -30,11 +30,18 @@ class StripeService
     public function getPaymentSession(Product $product)
     {
         Stripe::setApiKey(getenv('STRIPE_SK_TEST'));
+        $user = $this->security->getUser();
 
+        $customer = $user->getStripeCustomer();
 
-        $customer = Customer::create([
-            'email' => $this->security->getUser()->getEmail()
-        ]);
+        if ($customer === null) {
+            $customer = Customer::create([
+                'email' => $user->getEmail()
+            ])->id;
+
+            $user->setStripeCustomer($customer);
+        }
+
 
         $session = Session::create([
             'payment_method_types' => ['card'],
@@ -45,12 +52,13 @@ class StripeService
                 'currency' => 'eur',
                 'quantity' => 1,
             ]],
-            'customer' => $customer->id,
+            'customer' => $customer,
             'success_url' => getenv("DEFAULT_URL").'/pay/success',
             'cancel_url' => getenv("DEFAULT_URL").'/pay/refused',
         ]);
 
         $product->setPaymentIntent($session['payment_intent']);
+
 
         $this->entityManager->flush();
 
