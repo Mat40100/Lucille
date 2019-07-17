@@ -71,19 +71,16 @@ class Product
     private $paymentIntent;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private $receiptUrl;
+    private $isStripePayed;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $paymentCharge;
 
     public function __construct()
     {
         $this->files = new ArrayCollection();
         $this->setIsPayed(false);
+        $this->setIsStripePayed(false);
         $this->setState('En attente');
     }
 
@@ -242,26 +239,14 @@ class Product
         return $this;
     }
 
-    public function getReceiptUrl(): ?string
+    public function getIsStripePayed(): ?bool
     {
-        return $this->receiptUrl;
+        return $this->isStripePayed;
     }
 
-    public function setReceiptUrl(?string $receiptUrl): self
+    public function setIsStripePayed(bool $isStripePayed): self
     {
-        $this->receiptUrl = $receiptUrl;
-
-        return $this;
-    }
-
-    public function getPaymentCharge(): ?string
-    {
-        return $this->paymentCharge;
-    }
-
-    public function setPaymentCharge(?string $paymentCharge): self
-    {
-        $this->paymentCharge = $paymentCharge;
+        $this->isStripePayed = $isStripePayed;
 
         return $this;
     }
