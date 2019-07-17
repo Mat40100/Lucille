@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class StripeController extends AbstractController
 {
     /**
-     * @Route("/pay/product/{id}")
+     * @Route("/product/{id}")
      * @IsGranted("ROLE_USER")
      */
     public function redirectToCheckout(Product $product, StripeService $stripeService)

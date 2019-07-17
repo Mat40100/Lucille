@@ -79,16 +79,6 @@ class StripeService
         }
 
         switch ($event->type) {
-            case 'charge.succeeded':
-                $session = $event->data->object;
-
-                $product = $this->entityManager->getRepository(Product::class)->findOneBy(['paymentIntent' => $session->payment_intent]);
-
-                $product->setReceiptUrl($session->receipt_url);
-                $product->setPaymentCharge($session->id);
-                $this->entityManager->flush();
-
-                break;
 
             case 'checkout.session.completed':
                 $session = $event->data->object;
@@ -99,6 +89,9 @@ class StripeService
                 if ($paymentIntent->status === 'succeeded' && null !== $product) {
 
                     $product->setIsPayed('true');
+                    $product->setReceiptUrl($session->receipt_url);
+                    $product->setPaymentCharge($session->id);
+
                 }else return false;
 
                 break;
