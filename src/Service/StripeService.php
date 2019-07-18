@@ -52,8 +52,8 @@ class StripeService
                 'quantity' => 1,
             ]],
             'customer' => $customer,
-            'success_url' => getenv("DEFAULT_URL").'/pay/success',
-            'cancel_url' => getenv("DEFAULT_URL").'/pay/refused',
+            'success_url' => getenv("DEFAULT_URL").'/pay/success/'.$product->getId(),
+            'cancel_url' => getenv("DEFAULT_URL").'/pay/refused/'.$product->getId(),
         ]);
 
         $product->setPaymentIntent($session['payment_intent']);

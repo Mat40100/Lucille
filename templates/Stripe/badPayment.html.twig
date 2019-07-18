@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="border container-fluid rw justify-content-center align-items-center">
+        <p>Le paiement n'a pas abouti.</p>
+
+        <a href="{{ path('app_stripe_redirecttocheckout', {'product' : product.id}) }}"><button class="btn btn-primary">Paiement</button></a>
+
+
+        <a href="{{ path('app_userspace_showproduct', {'product' : product.id}) }}"><button class="btn btn-primary">Retour sur la commande</button></a>
+    </div>
+{% endblock %}
