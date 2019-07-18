@@ -35,12 +35,12 @@ class StripeController extends AbstractController
     {
         if($product->getIsStripePayed()) {
 
-            return $this->render(':Stripe:goodPayment.html.twig', [
+            return $this->render('Stripe/goodPayment.html.twig', [
                 'product' => $product
             ]);
         }
 
-        return $this->render(':Stripe:badPayment.html.twig', [
+        return $this->render('Stripe/badPayment.html.twig', [
             'message' => 'Nous n\'avons pas reçu le retour de paiement de votre commande, vérifiez la présence d\'une facture dans votre boîte mail, et contacez Lucille',
             'product' => $product
         ]);
@@ -51,7 +51,7 @@ class StripeController extends AbstractController
      */
     public function paymentRefused(Product $product)
     {
-        return $this->render(':Stripe:badPayment.html.twig', [
+        return $this->render('Stripe/badPayment.html.twig', [
             'message' => 'Votre commande n\'a pas été payée, vous pouvez faire un nouvel essai depuis la page de votre commande.',
             'product' => $product
         ]);
