@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="border container-fluid rw justify-content-center align-items-center">
+        <p>Paiement réussi !</p>
+
+        <p>Vous allez recevoir un mail avec votre reçu, vous avez également maintenant accès aux livrables de votre commande.</p>
+
+        <a href="{{ path('app_userspace_showproduct', {'product' : product.id}) }}"><button class="btn btn-primary">Retour sur la commande</button></a>
+    </div>
+{% endblock %}

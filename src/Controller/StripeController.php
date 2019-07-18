@@ -29,21 +29,32 @@ class StripeController extends AbstractController
     }
 
     /**
-     * @Route("/success")
+     * @Route("/success/{product}")
      */
-    public function paymentSuccess(Request $request)
+    public function paymentSuccess(Product $product)
     {
-        dump($request);
-        die();
+        if($product->getIsStripePayed()) {
+
+            return $this->render(':Stripe:goodPayment.html.twig', [
+                'product' => $product
+            ]);
+        }
+
+        return $this->render(':Stripe:badPayment.html.twig', [
+            'message' => 'Nous n\'avons pas reçu le retour de paiement de votre commande, vérifiez la présence d\'une facture dans votre boîte mail, et contacez Lucille',
+            'product' => $product
+        ]);
     }
 
     /**
-     * @Route("/refused")
+     * @Route("/refused/{product}")
      */
-    public function paymentRefused(Request $request)
+    public function paymentRefused(Product $product)
     {
-        dump($request);
-        die();
+        return $this->render(':Stripe:badPayment.html.twig', [
+            'message' => 'Votre commande n\'a pas été payée, vous pouvez faire un nouvel essai depuis la page de votre commande.',
+            'product' => $product
+        ]);
     }
 
     /**
