@@ -21,6 +21,14 @@ class StripeController extends AbstractController
      */
     public function redirectToCheckout(Product $product, StripeService $stripeService)
     {
+        if($product->getIsStripePayed() || $product->getIsPayed()) {
+
+            $this->addFlash('warning', 'Cette commande a déjà été réglée.');
+
+            return $this->redirectToRoute('app_userspace_showproduct', [
+                'product' => $product
+            ]);
+        }
         $paymentSession = $stripeService->getPaymentSession($product);
 
         return $this->render('Stripe/checkout.html.twig', [

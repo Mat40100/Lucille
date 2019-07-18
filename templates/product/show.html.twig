@@ -25,6 +25,18 @@
                 <th>Pas de fichiers</th>
             {% endfor %}
         </tr>
+
+        <tr>
+            <th>Livrables</th>
+
+            {% if product.isStripePayed or product.isPayed %}
+                {% for livrable in product.livrables %}
+                    {#TODO#}
+                {% else %}
+                    <th>Pas de fichiers</th>
+                {% endfor %}
+            {% endif %}
+        </tr>
         </tbody>
     </table>
 
@@ -45,7 +57,11 @@
         <div id="facture" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
             <h3 class="col-12">Facture</h3>
             {% if product.bill is not null %}
-                <a class="col-12" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
+                {% if product.isStripePayed or product.isPayed %}
+                    <a class="col-12" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
+                {% else %}
+                    <p>Vous devez régler votre commande pour obtenir une facture.</p>
+                {% endif %}
             {% else %}
                 <p>Pas de facture ...</p>
             {% endif %}
