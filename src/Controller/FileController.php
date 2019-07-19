@@ -26,7 +26,7 @@ class FileController extends AbstractController
 
     public function downloadBill(Bill $bill, Product $product, FileService $fileService)
     {
-        if(($this->isGranted("ROLE_ADMIN")) ||$bill->getProduct() === $product && ($product->getUser() === $this->getUser())) {
+        if(($this->isGranted("ROLE_ADMIN")) ||$bill->getProduct() === $product && ($product->getUser() === $this->getUser()) && ($product->getIsStripePayed() || $product->getIsPayed())) {
             $fileToDownload = $fileService->getFileUrl($bill);
 
             return $this->file($fileToDownload, $bill->getName());

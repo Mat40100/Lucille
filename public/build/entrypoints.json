@@ -12,8 +12,16 @@
     "EmbedUser": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors~EmbedUser~StripeApi.js",
         "/build/vendors~EmbedUser.js",
         "/build/EmbedUser.js"
+      ]
+    },
+    "StripeApi": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~EmbedUser~StripeApi.js",
+        "/build/StripeApi.js"
       ]
     }
   }

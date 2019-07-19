@@ -70,6 +70,11 @@ class User implements UserInterface
      */
     private $resetToken;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $stripeCustomer;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
@@ -252,6 +257,18 @@ class User implements UserInterface
     public function setResetToken(?string $resetToken): self
     {
         $this->resetToken = $resetToken;
+
+        return $this;
+    }
+
+    public function getStripeCustomer(): ?string
+    {
+        return $this->stripeCustomer;
+    }
+
+    public function setStripeCustomer(?string $stripeCustomer): self
+    {
+        $this->stripeCustomer = $stripeCustomer;
 
         return $this;
     }

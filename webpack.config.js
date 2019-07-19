@@ -25,6 +25,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('EmbedUser', './assets/js/embedFormUserProduct.js')
+    .addEntry('StripeApi', './assets/js/StripeApi.js')
 
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')

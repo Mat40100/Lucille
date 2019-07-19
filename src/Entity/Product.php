@@ -65,10 +65,21 @@ class Product
      */
     private $price;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paymentIntent;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isStripePayed;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
         $this->setIsPayed(false);
+        $this->setIsStripePayed(false);
         $this->setState('En attente');
     }
 
@@ -211,6 +222,30 @@ class Product
     public function setPrice(?int $price): self
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPaymentIntent(): ?string
+    {
+        return $this->paymentIntent;
+    }
+
+    public function setPaymentIntent(?string $paymentIntent): self
+    {
+        $this->paymentIntent = $paymentIntent;
+
+        return $this;
+    }
+
+    public function getIsStripePayed(): ?bool
+    {
+        return $this->isStripePayed;
+    }
+
+    public function setIsStripePayed(bool $isStripePayed): self
+    {
+        $this->isStripePayed = $isStripePayed;
 
         return $this;
     }

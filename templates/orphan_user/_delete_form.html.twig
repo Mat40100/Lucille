@@ -1,4 +1,4 @@
-<form method="post" action="{{ path('app_orphan_delete', {'id': orphan_user.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form method="post" action="{{ path('app_adminspace_orphandelete', {'id': orphan_user.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ orphan_user.id) }}">
     <button class="btn">Delete</button>

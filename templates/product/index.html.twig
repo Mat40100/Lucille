@@ -12,6 +12,7 @@
             {% endif %}
             <th>Etat de la demande</th>
             <th>Paiement</th>
+            <th>Paiement en ligne </th>
             <th>Prix</th>
             <th>Devis</th>
             <th>Facture</th>
@@ -27,12 +28,13 @@
                     {% if product.user %}
                         <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }} {{ product.user.firstName }}</a></td>
                     {% else %}
-                        <td><a href="{{ path('app_orphan_show', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }} {{ product.orphanUser.firstName }}</a></td>
+                        <td><a href="{{ path('app_adminspace_orphanshow', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }} {{ product.orphanUser.firstName }}</a></td>
                     {% endif %}
                 {% endif %}
 
                 <td>{{ product.state }}</td>
                 <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
+                <td>{{ product.isStripePayed ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.price ? product.price : ' / ' }}</td>
                 <td>{{ product.devis ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.bill ? 'Oui' : 'Non' }}</td>

@@ -30,20 +30,8 @@
             {{ form_widget(form.postalAddress, { 'attr': {'class': 'form-control'} }) }}
         </div>
     </div>
-
-    <div class="row col-12 justify-content-center align-items-center text-center">
-        {{ form_label(form.product) }}
-        {{ form_widget(form.product.comment, {'attr':{'class':'col-12 m-2'}}) }}
-
-        {{ form_widget(form.product.files) }}
-
-        <div class="form-group justify-content-center row col-12">
-            <button class="col-auto btn btn-success">{{ button_label|default('Valider') }}</button>
-        </div>
-
-        <div style="display: none">
         {{ form_rest(form) }}
-    </div>
+
 {{ form_end(form) }}
 
 {% block javascripts %}

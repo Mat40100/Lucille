@@ -8,6 +8,7 @@ parameters:
     bills_directory: '%kernel.project_dir%/public/uploads/product/bills'
     devis_directory: '%kernel.project_dir%/public/uploads/product/devis'
     email: 'lgauthier@akatraductions.com'
+    stripe_pk: 'pk_test_W2lQqUZ0BHapP3fyYddX35DJ009ZFdfKJt'
 
 services:
     # default configuration for services in *this* file
@@ -36,6 +37,10 @@ services:
     App\Service\MailService:
         arguments:
             $email: '%email%'
+
+    App\Service\StripeService:
+        arguments:
+            $stripe_pk: '%stripe_pk%'
 
         
 
