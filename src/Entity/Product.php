@@ -75,19 +75,12 @@ class Product
      */
     private $isStripePayed;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Livrable", mappedBy="product", cascade={"persist", "remove"})
-     */
-    private $livrables;
-
-
     public function __construct()
     {
         $this->files = new ArrayCollection();
         $this->setIsPayed(false);
         $this->setIsStripePayed(false);
         $this->setState('En attente');
-        $this->livrables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -253,37 +246,6 @@ class Product
     public function setIsStripePayed(bool $isStripePayed): self
     {
         $this->isStripePayed = $isStripePayed;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Livrable[]
-     */
-    public function getLivrables(): Collection
-    {
-        return $this->livrables;
-    }
-
-    public function addLivrable(Livrable $livrable): self
-    {
-        if (!$this->livrables->contains($livrable)) {
-            $this->livrables[] = $livrable;
-            $livrable->setProduct($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLivrable(Livrable $livrable): self
-    {
-        if ($this->livrables->contains($livrable)) {
-            $this->livrables->removeElement($livrable);
-            // set the owning side to null (unless already changed)
-            if ($livrable->getProduct() === $this) {
-                $livrable->setProduct(null);
-            }
-        }
 
         return $this;
     }

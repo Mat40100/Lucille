@@ -28,7 +28,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($form->get('company')->getData() === null & ($form->get('firstName')->getData() === null || $form->get('lastName')->getData() === null)) {
-                $form->addError(new FormError('Vous devez soit entrer vos Nom et prénom, soit donner le nom de votre entreprise.'));
+                $form->addError(new FormError('Vous devez soit entrer vos nom et prénom, soit donner le nom de votre entreprise.'));
 
                 return $this->render('user/new.html.twig', [
                     'user' => $user,

@@ -30,11 +30,7 @@
             <th>Livrables</th>
 
             {% if product.isStripePayed or product.isPayed %}
-                {% for livrable in product.livrables %}
-                    {#TODO#}
-                {% else %}
-                    <th>Pas de fichiers</th>
-                {% endfor %}
+                {# TODO : montrer livrables #}
             {% endif %}
         </tr>
         </tbody>

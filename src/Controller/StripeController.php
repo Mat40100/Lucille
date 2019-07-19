@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Service\ProductService;
 use App\Service\StripeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,8 +19,11 @@ class StripeController extends AbstractController
      * @Route("/product/{id}")
      * @IsGranted("ROLE_USER")
      */
-    public function redirectToCheckout(Product $product, StripeService $stripeService)
+    public function redirectToCheckout(Product $product, StripeService $stripeService, ProductService $productService)
     {
+        if(!$productService->checkPermission($product)) $this->redirectToRoute('home');
+
+
         if($product->getIsStripePayed() || $product->getIsPayed()) {
 
             $this->addFlash('warning', 'Cette commande a déjà été réglée.');
@@ -38,9 +41,12 @@ class StripeController extends AbstractController
 
     /**
      * @Route("/success/{product}")
+     * @IsGranted("ROLE_USER")
      */
-    public function paymentSuccess(Product $product)
+    public function paymentSuccess(Product $product, ProductService $productService)
     {
+        if(!$productService->checkPermission($product)) $this->redirectToRoute('home');
+
         if($product->getIsStripePayed()) {
 
             return $this->render('Stripe/goodPayment.html.twig', [
@@ -56,9 +62,12 @@ class StripeController extends AbstractController
 
     /**
      * @Route("/refused/{product}")
+     * @Route("ROLE_USER")
      */
-    public function paymentRefused(Product $product)
+    public function paymentRefused(Product $product, ProductService $productService)
     {
+        if(!$productService->checkPermission($product)) $this->redirectToRoute('home');
+
         return $this->render('Stripe/badPayment.html.twig', [
             'message' => 'Votre commande n\'a pas été payée, vous pouvez faire un nouvel essai depuis la page de votre commande.',
             'product' => $product
