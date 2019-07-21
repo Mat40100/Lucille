@@ -30,7 +30,7 @@ class StripeController extends AbstractController
             $this->addFlash('warning', 'Cette commande a déjà été réglée.');
 
             return $this->redirectToRoute('app_userspace_showproduct', [
-                'product' => $product
+                'product' => $product->getId()
             ]);
         }
         $paymentSession = $stripeService->getPaymentSession($product);
