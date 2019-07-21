@@ -167,6 +167,10 @@ class Product
         return $this;
     }
 
+    /**
+     * @example En attente || Validée || Commencée || Terminée
+     * @return string || null
+     */
     public function getState(): ?string
     {
         return $this->state;

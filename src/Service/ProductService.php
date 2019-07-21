@@ -100,4 +100,15 @@ class ProductService
 
         return false;
     }
+
+    public function isPayable(Product $product)
+    {
+        if(!$product->getState() === ('Validée'|| 'Commencée' || 'Terminée')) {
+            $this->session->getFlashBag()->add("warning", "Vous ne pouvez pas payer une commande si elle n'est pas au moins validée.");
+
+            return false;
+        }
+
+        return true;
+    }
 }

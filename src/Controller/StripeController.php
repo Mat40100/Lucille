@@ -23,6 +23,7 @@ class StripeController extends AbstractController
     {
         if(!$productService->checkPermission($product)) $this->redirectToRoute('home');
 
+        if(!$productService->isPayable($product)) $this->redirectToRoute('app_userspace_showproduct', ['product' => $product->getId()]);
 
         if($product->getIsStripePayed() || $product->getIsPayed()) {
 
