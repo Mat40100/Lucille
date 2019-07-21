@@ -28,7 +28,8 @@ class UserFixtures extends Fixture
             ->setLastName('Dolhen')
             ->setPhoneNumber('0608004599')
             ->setBillingAddress('Ascain')
-            ->setPassword('$argon2id$v=19$m=65536,t=6,p=1$d8/+6jnHdtLPu9ZXwdJUcQ$uil/vKrKpeH/NBJj/l0cMTefvS8f0YejFGGqoEgNxQs');
+            ->setRoles(["ROLE_ADMIN"])
+            ->setPassword('$argon2id$v=19$m=65536,t=6,p=1$g0CYRmZYHI1tLwuvb3iYvg$hOgKqQt0Y9SFlUcYnfChSfotYIC9NBmjjWZ+QB5rpGI');
 
         $manager->persist($user2);
 
