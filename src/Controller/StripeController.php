@@ -21,9 +21,9 @@ class StripeController extends AbstractController
      */
     public function redirectToCheckout(Product $product, StripeService $stripeService, ProductService $productService)
     {
-        if(!$productService->checkPermission($product)) $this->redirectToRoute('home');
+        if(!$productService->checkPermission($product)) return $this->redirectToRoute('home');
 
-        if(!$productService->isPayable($product)) $this->redirectToRoute('app_userspace_showproduct', ['product' => $product->getId()]);
+        if(!$productService->isPayable($product)) return $this->redirectToRoute('app_userspace_showproduct', ['product' => $product->getId()]);
 
         if($product->getIsStripePayed() || $product->getIsPayed()) {
 

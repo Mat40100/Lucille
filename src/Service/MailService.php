@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Product;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Security;
 use Twig\Environment;
 
@@ -23,16 +24,16 @@ class MailService
         $this->security = $security;
     }
 
-    public function sendRecoveryMail()
+    public function sendRecoveryMail(User $user)
     {
         $message = (new \Swift_Message('Récupération de compte Akatraduction !'))
             ->setFrom($this->email)
-            ->setTo($this->security->getUser()->getEmail())
+            ->setTo($user->getEmail())
             ->setBody(
                 $this->renderer->render(
                 // templates/emails/registration.html.twig
                     'mails/passwordRecovery.html.twig',
-                    ['user' => $this->security->getUser()]
+                    ['user' => $user]
                 ),
                 'text/html'
             )
