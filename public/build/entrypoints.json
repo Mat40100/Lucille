@@ -9,18 +9,26 @@
         "/build/app.css"
       ]
     },
-    "EmbedUser": {
+    "EmbedFiles": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~EmbedUser~StripeApi.js",
-        "/build/vendors~EmbedUser.js",
-        "/build/EmbedUser.js"
+        "/build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js",
+        "/build/vendors~EmbedFiles~EmbedLivrables.js",
+        "/build/EmbedFiles.js"
+      ]
+    },
+    "EmbedLivrables": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js",
+        "/build/vendors~EmbedFiles~EmbedLivrables.js",
+        "/build/EmbedLivrables.js"
       ]
     },
     "StripeApi": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~EmbedUser~StripeApi.js",
+        "/build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js",
         "/build/StripeApi.js"
       ]
     }

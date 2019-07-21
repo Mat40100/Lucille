@@ -7,9 +7,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\DevisRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\LivrablesRepository")
  */
-class Devis
+class Livrable
 {
     /**
      * @ORM\Id()
@@ -29,7 +29,6 @@ class Devis
     private $encodedName;
 
     /**
-     * @Assert\NotBlank(message="Please, upload the product brochure as a PDF file.")
      * @Assert\File(
      *     maxSize = "81920k",
      *     mimeTypes = {"application/pdf", "application/x-pdf"},
@@ -39,7 +38,7 @@ class Devis
     private $file;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="devis", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Product", inversedBy="livrables")
      */
     private $product;
 

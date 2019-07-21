@@ -95,7 +95,9 @@ class AdminSpaceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product->setBill($form->getData());
-            $fileService->saveBill($form->getData());
+            $fileService->saveFile($form->getData());
+            $this->getDoctrine()->getManager()->flush();
+
 
             return $this->redirect($request->request->get('referer'));
         }
@@ -118,7 +120,8 @@ class AdminSpaceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $product->setDevis($form->getData());
-            $fileService->saveDevis($form->getData());
+            $fileService->saveFile($form->getData());
+            $this->getDoctrine()->getManager()->flush();
 
             return $this->redirect($request->request->get('referer'));
         }

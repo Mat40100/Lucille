@@ -3,6 +3,6 @@
     <form method="post" action="{{ path('app_userspace_deleteproduct', {'product': product.id}) }}" onsubmit="return confirm('Vous êtes certain de vouloir supprimer ceete commande?');">
         <input type="hidden" name="_method" value="DELETE">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-        <button class="btn btn-danger">Delete</button>
+        <button class="btn btn-danger">Supprimer</button>
     </form>
 {% endif %}

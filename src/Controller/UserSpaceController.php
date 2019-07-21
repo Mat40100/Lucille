@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Bill;
 use App\Entity\Devis;
 use App\Entity\File;
+use App\Entity\Livrable;
 use App\Entity\Product;
 use App\Form\ProductType;
 use App\Service\FileService;
@@ -132,5 +133,13 @@ class UserSpaceController extends AbstractController
     public function downloadDevis(Product $product, Devis $devis, FileController $controller, FileService $fileService)
     {
         return $controller->downloadDevis($devis,$product,$fileService);
+    }
+
+    /**
+     * @Route("/download/{product}-livrable-{livrable}")
+     */
+    public function downloadLivrable(Product $product, Livrable $livrable, FileController $controller, FileService $fileService)
+    {
+        return $controller->downloadLivrable($livrable, $product, $fileService);
     }
 }

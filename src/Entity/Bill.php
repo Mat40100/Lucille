@@ -44,27 +44,28 @@ class Bill
      */
     private $product;
 
+    /**
+     * @ORM\Column(type="string", length=5)
+     */
+    private $extension;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFile(): ?UploadedFile
     {
         return $this->file;
     }
 
-    /**
-     * @param UploadedFile $file
-     * @return File
-     */
-
     public function setFile(UploadedFile $file): self
     {
         $this->file = $file;
+
+        $this->setEncodedName(md5(uniqid()));
+        $this->setName($this->getFile()->getClientOriginalName());
+        $this->setExtension($this->getFile()->guessExtension());
 
         return $this;
     }
@@ -101,6 +102,18 @@ class Bill
     public function setProduct(Product $product): self
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(string $extension): self
+    {
+        $this->extension = $extension;
 
         return $this;
     }

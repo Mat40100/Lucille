@@ -1,9 +1,10 @@
 {
-  "build/EmbedUser.js": "/build/EmbedUser.js",
+  "build/EmbedFiles.js": "/build/EmbedFiles.js",
+  "build/EmbedLivrables.js": "/build/EmbedLivrables.js",
   "build/StripeApi.js": "/build/StripeApi.js",
   "build/app.css": "/build/app.css",
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
-  "build/vendors~EmbedUser.js": "/build/vendors~EmbedUser.js",
-  "build/vendors~EmbedUser~StripeApi.js": "/build/vendors~EmbedUser~StripeApi.js"
+  "build/vendors~EmbedFiles~EmbedLivrables.js": "/build/vendors~EmbedFiles~EmbedLivrables.js",
+  "build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js": "/build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js"
 }
