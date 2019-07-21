@@ -290,4 +290,55 @@ class Product
 
         return $this;
     }
+
+    /**
+     * @param Product $product
+     * @return bool
+     */
+    public function getIsPayable()
+    {
+        if($this->getState() === ('En attente')) {
+
+             return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Product $product
+     * @param $oldState
+     * @return bool
+     */
+    public function getIsFinished($oldState)
+    {
+        if($this->getState() === 'Terminée') {
+
+            if ($oldState != 'Terminée') {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param string $oldState
+     * @return bool
+     */
+    public function getIsValidated(string $oldState)
+    {
+        if($this->getState() != 'En attente') {
+
+            if ($oldState === 'En attente') {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
 }

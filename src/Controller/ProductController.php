@@ -56,11 +56,11 @@ class ProductController extends AbstractController
                 ]);
             }
 
-            if($productService->isValidated($product, $oldstate)) {
+            if($product->getIsValidated($oldstate)) {
                 $mailService->sendIsValidatedMail($product);
             }
 
-            if($productService->isFinished($product, $oldstate)) {
+            if($product->getIsFinished($oldstate)) {
                 $mailService->sendIsFinishedMail($product);
             }
 

@@ -23,7 +23,11 @@ class StripeController extends AbstractController
     {
         if(!$productService->checkPermission($product)) return $this->redirectToRoute('home');
 
-        if(!$productService->isPayable($product)) return $this->redirectToRoute('app_userspace_showproduct', ['product' => $product->getId()]);
+        if(!$product->getIsPayable()) {
+            $this->addFlash('warning', 'La commande doit-être au minimum validée pour effectuer un paiement.');
+
+            return $this->redirectToRoute('app_userspace_showproduct', ['product' => $product->getId()]);
+        }
 
         if($product->getIsStripePayed() || $product->getIsPayed()) {
 

@@ -43,7 +43,7 @@
 <div class="row col-12">
     {% for type, messages in app.session.flashbag.all() %}
         {% for message in messages %}
-            <div class="flash-{{type}}">{{message}}</div>
+            <div class="alert alert-{{type}}">{{message}}</div>
         {% endfor %}
     {% endfor %}
 </div>

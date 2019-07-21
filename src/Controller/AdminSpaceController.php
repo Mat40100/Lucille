@@ -36,7 +36,7 @@ class AdminSpaceController extends AbstractController
     /**
      * @Route("/users")
      */
-    public function clients(UserController $controller, UserRepository $userRepository)
+    public function clients(UserRepository $userRepository)
     {
         return $this->render('user/index.html.twig', [
             'users' => $userRepository->findAll(),
@@ -70,7 +70,7 @@ class AdminSpaceController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_user_index');
+        return $this->redirectToRoute('app_adminspace_clients');
     }
 
     /**
@@ -140,7 +140,7 @@ class AdminSpaceController extends AbstractController
         $product->setIsPayed(true);
         $this->getDoctrine()->getManager()->flush();
 
-        $this->redirectToRoute('app_adminspace_seeProduct', [
+        $this->redirectToRoute('app_userspace_showproduct', [
             'product' => $product->getId()
         ]);
     }
@@ -168,7 +168,7 @@ class AdminSpaceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app_orphan_edit', [
+            return $this->redirectToRoute('app_adminspace_orphanedit', [
                 'orphan' => $orphanUser->getId(),
             ]);
         }
