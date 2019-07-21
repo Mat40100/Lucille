@@ -67,15 +67,17 @@
 
         <div id="facture" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
             <h3 class="col-12 text-center">Facture</h3>
-            {% if product.bill is not null %}
-                {% if product.isPayed or is_granted('ROLE_ADMIN')%}
+            {% if product.isPayed or is_granted('ROLE_ADMIN')%}
+                {% if product.bill is not null %}
                     <a class="col-12" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
                 {% else %}
-                    <p>Vous devez régler votre commande pour obtenir une facture.</p>
+                    <p>Pas de facture ...</p>
                 {% endif %}
             {% else %}
-                <p>Pas de facture ...</p>
+                <p>Vous devez régler votre commande pour obtenir une facture.</p>
             {% endif %}
+
+
 
             {% if is_granted("ROLE_ADMIN") %}
                 <a id ="addBill" class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
