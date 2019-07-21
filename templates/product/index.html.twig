@@ -12,7 +12,6 @@
             {% endif %}
             <th>Etat de la demande</th>
             <th>Paiement</th>
-            <th>Paiement en ligne </th>
             <th>Prix</th>
             <th>Devis</th>
             <th>Facture</th>
@@ -34,7 +33,6 @@
 
                 <td>{{ product.state }}</td>
                 <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
-                <td>{{ product.isStripePayed ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.price ? product.price : ' / ' }}</td>
                 <td>{{ product.devis ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.bill ? 'Oui' : 'Non' }}</td>

@@ -10,10 +10,6 @@
             <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
         </tr>
         <tr>
-            <th>Commande payée par Stripe ?</th>
-            <td>{{ product.isStripePayed ? 'Oui' : 'Non' }}</td>
-        </tr>
-        <tr>
             <th>Commentaires</th>
             <td>{{ product.comment }}</td>
         </tr>
@@ -27,22 +23,22 @@
         </tbody>
     </table>
 
-    <div class="row justify-content-center align-items-center border rounded p-2">
-            <h3>Fichiers</h3>
+    <div class="row justify-content-center align-items-center border rounded p-2 m-2">
+        <h3 class="col-12 text-center">Fichiers</h3>
 
-            {% for file in product.files %}
-                <a class="m-2" href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}"><button class="btn btn-success">{{ file.name }}</button></a>
-            {% else %}
-                <div class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-                    <p>Pas de fichiers</p>
-                </div>
-            {% endfor %}
+        {% for file in product.files %}
+            <a class="m-2" href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}"><button class="btn btn-success">{{ file.name }}</button></a>
+        {% else %}
+            <div class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
+                <p>Pas de fichiers</p>
+            </div>
+        {% endfor %}
     </div>
 
-    <div class="row justify-content-center align-items-center border rounded p-2">
-            <h3>Livrables</h3>
+    <div class="row justify-content-center align-items-center border rounded p-2 m-2">
+        <h3 class="col-12 text-center">Livrables</h3>
 
-            {% if product.isStripePayed or product.isPayed or is_granted('ROLE_ADMIN') %}
+        {% if product.isPayed or is_granted('ROLE_ADMIN') %}
                 {% for livrable in product.livrables %}
                     <a href="{{ path('app_userspace_downloadlivrable', { 'livrable' : livrable.id, 'product' : product.id}) }}"><button class="btn btn-success">{{ livrable.name }}</button></a>
                 {% else %}
@@ -50,16 +46,14 @@
                         <p>Pas de fichiers</p>
                     </div>
                 {% endfor %}
-            {% else %}
-                <div class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-                    <p>Pour avoir accès aux livrables, vous devez régler la commande.</p>
-                </div>
-            {% endif %}
+        {% else %}
+            <p>Pour avoir accès aux livrables, vous devez régler la commande.</p>
+        {% endif %}
     </div>
 
     <div class="row justify-content-center align-items-center">
-        <div id="devis" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-            <h3 class="col-12">Devis</h3>
+        <div id="devis" class="col-auto row p-2 m-1 border rounded justify-content-center">
+            <h3 class="col-12 text-center">Devis</h3>
             {% if product.devis is not null %}
                 <a class="col-12" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
             {% else %}
@@ -72,9 +66,9 @@
         </div>
 
         <div id="facture" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-            <h3 class="col-12">Facture</h3>
+            <h3 class="col-12 text-center">Facture</h3>
             {% if product.bill is not null %}
-                {% if product.isStripePayed or product.isPayed or is_granted('ROLE_ADMIN')%}
+                {% if product.isPayed or is_granted('ROLE_ADMIN')%}
                     <a class="col-12" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
                 {% else %}
                     <p>Vous devez régler votre commande pour obtenir une facture.</p>
@@ -89,9 +83,12 @@
         </div>
     </div>
 
-    <div class="row flex-column">
+    <div class="row">
         {{ include('product/editButton.html.twig') }}
-        <a href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}">Payer_TEST</a>
+
+        {% if not product.isPayed  and not is_granted('ROLE_ADMIN')%}
+            <a class="m-2" href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}"><button class="btn btn-primary">Payer en ligne</button></a>
+        {% endif %}
 
         {{ include('product/returnToListButton.html.twig') }}
     </div>

@@ -45,7 +45,7 @@ class ProductController extends AbstractController
                 $fileService->saveFile($file);
             }
 
-            if ((!$product->getPrice() || !$product->getDevis() ) && $product->getState() != 'En attente') {
+            if ((!$product->getPrice() || !$product->getDevis() ) && $product->getIsValid()) {
                 $product->setState('En attente');
 
                 $form->addError(new FormError('Vous ne pouvez pas valider une commande sans mettre de prix et un devis.'));
@@ -57,10 +57,14 @@ class ProductController extends AbstractController
             }
 
             if($product->getIsValidated($oldstate)) {
+                $this->addFlash('success', 'La commande a été validée, un mail a été envoyé au client.');
+
                 $mailService->sendIsValidatedMail($product);
             }
 
             if($product->getIsFinished($oldstate)) {
+                $this->addFlash('success', 'La commande est terminée, un mail de notification a été envoyé !');
+
                 $mailService->sendIsFinishedMail($product);
             }
 

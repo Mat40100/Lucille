@@ -29,8 +29,7 @@ class StripeController extends AbstractController
             return $this->redirectToRoute('app_userspace_showproduct', ['product' => $product->getId()]);
         }
 
-        if($product->getIsStripePayed() || $product->getIsPayed()) {
-
+        if($product->getIsPayed()) {
             $this->addFlash('warning', 'Cette commande a déjà été réglée.');
 
             return $this->redirectToRoute('app_userspace_showproduct', [

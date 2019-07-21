@@ -137,7 +137,7 @@ class AdminSpaceController extends AbstractController
      */
     public function confirmPayment(Product $product)
     {
-        $product->setIsPayed(true);
+        $product->setIsOffLinePayed(true);
         $this->getDoctrine()->getManager()->flush();
 
         $this->redirectToRoute('app_userspace_showproduct', [

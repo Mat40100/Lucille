@@ -28,7 +28,7 @@ class Product
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isPayed;
+    private $isOffLinePayed;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="products")
@@ -83,7 +83,7 @@ class Product
     public function __construct()
     {
         $this->files = new ArrayCollection();
-        $this->setIsPayed(false);
+        $this->setIsOffLinePayed(false);
         $this->setIsStripePayed(false);
         $this->setState('En attente');
         $this->livrables = new ArrayCollection();
@@ -125,14 +125,14 @@ class Product
         return $this;
     }
 
-    public function getIsPayed(): ?bool
+    public function getIsOffLinePayed(): ?bool
     {
-        return $this->isPayed;
+        return $this->isOffLinePayed;
     }
 
-    public function setIsPayed(bool $isPayed): self
+    public function setIsOffLinePayed(bool $isOffLinePayed): self
     {
-        $this->isPayed = $isPayed;
+        $this->isOffLinePayed = $isOffLinePayed;
 
         return $this;
     }
@@ -340,5 +340,23 @@ class Product
         }
 
         return false;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getIsPayed()
+    {
+        if ($this->getIsOffLinePayed() || $this->getIsStripePayed()) {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getIsValid()
+    {
+        if ($this->getState() !== 'En attente') return true;
     }
 }
