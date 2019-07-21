@@ -7,6 +7,7 @@ parameters:
     files_directory: '%kernel.project_dir%/public/uploads/product/files'
     bills_directory: '%kernel.project_dir%/public/uploads/product/bills'
     devis_directory: '%kernel.project_dir%/public/uploads/product/devis'
+    livrables_directory: '%kernel.project_dir%/public/uploads/product/livrables'
     email: 'lgauthier@akatraductions.com'
     stripe_pk: 'pk_test_W2lQqUZ0BHapP3fyYddX35DJ009ZFdfKJt'
 
@@ -33,6 +34,7 @@ services:
             $files_directory: '%files_directory%'
             $bills_directory: '%bills_directory%'
             $devis_directory: '%devis_directory%'
+            $livrables_directory: '%livrables_directory%'
 
     App\Service\MailService:
         arguments:

@@ -1,27 +1,27 @@
-var $collectionHolder;
+var $collectionLivrableHolder;
 
-var $addTagButton = $('<button type="button" class="btn btn-primary add_file_link m-2">Ajouter un fichier</button>');
-var $newLinkLi = $('<div class="row justify-content-center align-items-center"></div>').append($addTagButton);
+var $addLivrableButton = $('<button type="button" class="btn btn-primary add_livrable_link m-2">Ajouter un fichier</button>');
+var $newLinkLivrable = $('<div class="row justify-content-center align-items-center"></div>').append($addLivrableButton);
 
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
 
     if($('#orphan_user_product_files').length) {
-        $collectionHolder = $('#orphan_user_product_files');
+        $collectionLivrableHolder = $('#orphan_user_product_livrables');
     }else{
-        $collectionHolder = $('div.files');
+        $collectionLivrableHolder = $('div.livrables');
     }
 
     // add the "add a tag" anchor and li to the tags ul
-    $collectionHolder.append($newLinkLi);
+    $collectionLivrableHolder.append($newLinkLivrable);
 
     // count the current form inputs we have (e.g. 2), use that as the new
     // index when inserting a new item (e.g. 2)
-    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    $collectionLivrableHolder.data('index', $collectionLivrableHolder.find(':input').length);
 
-    $addTagButton.on('click', function(e) {
+    $addLivrableButton.on('click', function(e) {
         // add a new tag form (see next code block)
-        addFileForm($collectionHolder, $newLinkLi);
+        addFileForm($collectionLivrableHolder, $newLinkLivrable);
     });
 });
 
@@ -55,5 +55,5 @@ function addFileForm($collectionHolder, $newLinkLi) {
 }
 
 $('.delete').on('click', function(e){
-   $(this).parent().remove();
+    $(this).parent().remove();
 });

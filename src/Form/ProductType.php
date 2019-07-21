@@ -6,6 +6,7 @@ use App\Entity\Product;
 use App\Form\eventListener\addFileFieldSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +26,7 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('comment', TextareaType::class, [
-                'label' => false,
+                'label' => 'Commentaire sur la traductions à produire',
                 'attr' => [
                     'placeholder' => 'Commentaires'
                 ]
@@ -51,7 +52,18 @@ class ProductType extends AbstractType
                         'En attente' => 'En attente'
                     ],
                     'label' => 'Etat de la commande'
-                ]);
+                ])
+                ->add('livrables', CollectionType::class, [
+                    'label' => 'Livrables',
+                    'required' => false,
+                    'by_reference' => false,
+                    'entry_type' => LivrableType::class,
+                    'entry_options' => ['label' => false],
+                    'allow_add' => true,
+                    'allow_delete' => true,
+                    'prototype' => true
+                ])
+            ;
 
             if ($options['data']->getState() == 'En attente' ) {
                 $builder

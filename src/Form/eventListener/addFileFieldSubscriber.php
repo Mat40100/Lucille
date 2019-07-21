@@ -24,7 +24,7 @@ class addFileFieldSubscriber implements EventSubscriberInterface
 
         ##if (!$product || null === $product->getId()) {
             $form->add('files', CollectionType::class, [
-                'label' => 'Fichiers (PDF)',
+                'label' => 'Fichiers à traduire',
                 'required' => false,
                 'by_reference' => false,
                 'entry_type' => FileType::class,

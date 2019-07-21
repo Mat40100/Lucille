@@ -24,7 +24,8 @@ Encore
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
     .addEntry('app', './assets/js/app.js')
-    .addEntry('EmbedUser', './assets/js/embedFormUserProduct.js')
+    .addEntry('EmbedFiles', './assets/js/embedFilesForm.js')
+    .addEntry('EmbedLivrables', './assets/js/embedLivrablesForm.js')
     .addEntry('StripeApi', './assets/js/StripeApi.js')
 
     //.addEntry('page1', './assets/js/page1.js')
