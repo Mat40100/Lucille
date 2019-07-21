@@ -15,6 +15,7 @@
             <th>Prix</th>
             <th>Devis</th>
             <th>Facture</th>
+            <th>Date de création</th>
             <th></th>
         </tr>
         </thead>
@@ -36,6 +37,7 @@
                 <td>{{ product.price ? product.price : ' / ' }}</td>
                 <td>{{ product.devis ? 'Oui' : 'Non' }}</td>
                 <td>{{ product.bill ? 'Oui' : 'Non' }}</td>
+                <td>{{ product.creationDate|date("m/d/Y h:i") }}</td>
                 <td>
                     {{ include('product/editButton.html.twig') }}
 

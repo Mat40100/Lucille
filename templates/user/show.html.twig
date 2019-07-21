@@ -29,6 +29,12 @@
                 <th>Numéro de téléphone</th>
                 <td>{{ user.phoneNumber }}</td>
             </tr>
+            <tr>
+                <th>Numéro de téléphone</th>
+                <td>{{ user.creationDate | date("m/d/Y h:i") }}</td>
+            </tr>
+
+
         </tbody>
     </table>
 

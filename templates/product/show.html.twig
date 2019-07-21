@@ -17,7 +17,10 @@
             <th>Etat de la commande</th>
             <td>{{ product.state }}</td>
         </tr>
-
+        <tr>
+            <th>Création de la commande</th>
+            <td>{{ product.creationDate | date("m/d/Y h:i")}}</td>
+        </tr>
 
 
         </tbody>

@@ -80,6 +80,11 @@ class Product
      */
     private $livrables;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function __construct()
     {
         $this->files = new ArrayCollection();
@@ -87,6 +92,7 @@ class Product
         $this->setIsStripePayed(false);
         $this->setState('En attente');
         $this->livrables = new ArrayCollection();
+        $this->setCreationDate(new \DateTime());
     }
 
     public function getId(): ?int
@@ -358,5 +364,17 @@ class Product
     public function getIsValid()
     {
         if ($this->getState() !== 'En attente') return true;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
+
+        return $this;
     }
 }

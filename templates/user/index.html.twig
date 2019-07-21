@@ -12,6 +12,7 @@
                 <th>Entreprise</th>
                 <th>Adresse de facturation</th>
                 <th>Numéro de téléphone</th>
+                <th>Date de création</th>
                 <th></th>
             </tr>
         </thead>
@@ -24,6 +25,7 @@
                 <td>{{ user.company }}</td>
                 <td>{{ user.billingAddress }}</td>
                 <td>{{ user.phoneNumber }}</td>
+                <td>{{ user.creationDate | date("m/d/Y h:i") }}</td>
                 <td>
                     <a href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}">Voir</a>
                     <a href="{{ path('app_adminspace_edituser', {'user': user.id}) }}">Modifier</a>

@@ -75,9 +75,15 @@ class User implements UserInterface
      */
     private $stripeCustomer;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $creationDate;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->setCreationDate(new \DateTime());
     }
 
     public function getId(): ?int
@@ -269,6 +275,18 @@ class User implements UserInterface
     public function setStripeCustomer(?string $stripeCustomer): self
     {
         $this->stripeCustomer = $stripeCustomer;
+
+        return $this;
+    }
+
+    public function getCreationDate(): ?\DateTimeInterface
+    {
+        return $this->creationDate;
+    }
+
+    public function setCreationDate(\DateTimeInterface $creationDate): self
+    {
+        $this->creationDate = $creationDate;
 
         return $this;
     }
