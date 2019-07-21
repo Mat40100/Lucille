@@ -10,6 +10,10 @@
             <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
         </tr>
         <tr>
+            <th>Commande payée par Stripe ?</th>
+            <td>{{ product.isStripePayed ? 'Oui' : 'Non' }}</td>
+        </tr>
+        <tr>
             <th>Commentaires</th>
             <td>{{ product.comment }}</td>
         </tr>
