@@ -66,7 +66,7 @@ class StripeController extends AbstractController
 
     /**
      * @Route("/refused/{product}")
-     * @Route("ROLE_USER")
+     * @IsGranted("ROLE_USER")
      */
     public function paymentRefused(Product $product, ProductService $productService)
     {
