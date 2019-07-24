@@ -1,4 +1,35 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+    <div class="form-group">
+        {{ form_widget(form.firstName,  { 'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.lastName,  { 'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.email,  { 'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.company,  { 'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.phoneNumber,  { 'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.billingAddress,  { 'attr': {'class': 'form-control'}}) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_widget(form.password) }}
+    </div>
+
+    <div class="form-group row justify-content-center text-center">
+        <button class="btn btn-success">{{ button_label|default('Valider') }}</button>
+    </div>
+
 {{ form_end(form) }}

@@ -26,7 +26,7 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('comment', TextareaType::class, [
-                'label' => 'Commentaire sur la traductions à produire',
+                'label' => 'Commentaire sur la traduction à produire',
                 'attr' => [
                     'placeholder' => 'Commentaires'
                 ]
@@ -37,7 +37,7 @@ class ProductType extends AbstractType
 
         if ($this->security->isGranted("ROLE_ADMIN")) {
             $builder
-                ->add('isPayed', ChoiceType::class, [
+                ->add('isOffLinePayed', ChoiceType::class, [
                     'choices'  => [
                         'Oui' => true,
                         'Non' => false,

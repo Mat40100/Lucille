@@ -64,6 +64,7 @@ class OrphanUserType extends AbstractType
                     'placeholder' => 'Entreprise'
                 ]
             ])
+            ->add('product', ProductType::class);
         ;
     }
 

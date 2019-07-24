@@ -85,6 +85,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user, [
             'email' => true
         ]);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {

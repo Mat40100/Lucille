@@ -20,8 +20,8 @@ class removeProductFieldSubscriber implements EventSubscriberInterface
         $orphan = $event->getData();
         $form = $event->getForm();
 
-        if (!$orphan || null === $orphan->getId()) {
-            $form->add('product', ProductType::class);
+        if (null !== $orphan->getId()) {
+            $form->remove('product');
         }
     }
 

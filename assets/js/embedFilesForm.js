@@ -6,11 +6,7 @@ var $newLinkfile = $('<div class="row justify-content-center align-items-center"
 jQuery(document).ready(function() {
     // Get the ul that holds the collection of tags
 
-    if($('#orphan_user_product_files').length) {
-        $collectionFileHolder = $('#orphan_user_product_files');
-    }else{
-        $collectionFileHolder = $('div.files');
-    }
+    $collectionFileHolder = $('div.files');
 
     // add the "add a tag" anchor and li to the tags ul
     $collectionFileHolder.append($newLinkfile);

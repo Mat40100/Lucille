@@ -29,8 +29,25 @@
             {# form_label(form.postalAddress) #}
             {{ form_widget(form.postalAddress, { 'attr': {'class': 'form-control'} }) }}
         </div>
+
+        {% if form.product is defined %}
+        <div class="form-group">
+            {{ form(form.product.comment,  { 'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <h3>{{ form_label(form.product.files) }}</h3>
+        <div class="files row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.product.files.vars.prototype)|e('html_attr') }}">
+
+        </div>
+        {% endif %}
+
+        <div style="display: none">{{ form_rest(form) }}</div>
+
+        <div class="form-group row justify-content-center text-center">
+            <button class="btn btn-success">{{ button_label|default('Valider') }}</button>
+        </div>
     </div>
-        {{ form_rest(form) }}
+
 
 {{ form_end(form) }}
 
