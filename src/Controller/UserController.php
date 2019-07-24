@@ -103,7 +103,7 @@ class UserController extends AbstractController
             $this->addFlash("warning", "Nous ne trouvons pas votre email, vérifiez vos informations");
         }
 
-        return $this->render('user/new.html.twig',[
+        return $this->render('user/passwordRecovery.html.twig',[
             'form' => $form->createView()
         ]);
     }
