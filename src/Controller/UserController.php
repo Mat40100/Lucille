@@ -57,6 +57,8 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(UserType::class, $user);
+        $form->remove('password');
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -107,6 +109,23 @@ class UserController extends AbstractController
         return $this->render('user/passwordRecovery.html.twig',[
             'form' => $form->createView()
         ]);
+    }
+
+    /**
+     * @Route("/password/change")
+     * @IsGranted("ROLE_USER")
+     */
+    public function changePassword(Request $request)
+    {
+        $form = $this->createForm(UserType::class, $this->getUser(), [
+            'reset' => true
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+
+        }
     }
 
     /**

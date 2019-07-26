@@ -30,13 +30,13 @@ class UserType extends AbstractType
             $builder
                 ->add('password',  RepeatedType::class, [
                     'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match.',
+                    'invalid_message' => 'Les mots de passe doivent être identiques.',
                     'options' => ['attr' => ['class' => 'password-field']],
                     'required' => true,
-                    'first_options'  => ['label' => 'Password', 'attr' => [
+                    'first_options'  => ['label' => 'Mot de passe', 'attr' => [
                         'placeholder' => 'Mot de passe'
                     ]],
-                    'second_options' => ['label' => 'Repeat Password', 'attr' => [
+                    'second_options' => ['label' => 'Répétez votre mot de passe', 'attr' => [
                         'placeholder' => 'Mot de passe'
                     ]],
                 ])
@@ -45,42 +45,52 @@ class UserType extends AbstractType
         else {
             $builder
                 ->add('email', EmailType::class, [
+                    'label' => false,
                     'attr' => [
                         'placeholder' => 'E-mail'
                     ]
                 ])
                 ->add('password',  RepeatedType::class, [
                     'type' => PasswordType::class,
-                    'invalid_message' => 'The password fields must match.',
+                    'invalid_message' => 'Les mots de passe doivent être identiques.',
                     'options' => ['attr' => ['class' => 'password-field']],
                     'required' => true,
-                    'first_options'  => ['label' => 'Password'],
-                    'second_options' => ['label' => 'Repeat Password'],
+                    'first_options'  => ['label' => 'Mot de passe', 'attr' => [
+                        'placeholder' => 'Mot de passe'
+                    ]],
+                    'second_options' => ['label' => 'Répétez votre mot de passe', 'attr' => [
+                        'placeholder' => 'Mot de passe'
+                    ]],
                 ])
                 ->add('lastName', TextType::class, [
+                    'label' => false,
                     'required' => false,
                     'attr' => [
-                        'placeholder' => 'Nom de famille'
+                        'placeholder' => 'Nom de famille (ou le nom de l\'entreprise)'
                     ]
                 ])
                 ->add('firstName', TextType::class, [
+                    'label' => false,
                     'required' => false,
                     'attr' => [
-                        'placeholder' => 'Prénom'
+                        'placeholder' => 'Prénom (ou le nom de l\'entreprise)'
                     ]
                 ])
                 ->add('company', TextType::class, [
+                    'label' => false,
                     'required' => false,
                     'attr' => [
-                        'placeholder' => 'Entreprise'
+                        'placeholder' => 'Entreprise (ou nom / prénom)'
                     ]
                 ])
                 ->add('billingAddress', TextareaType::class, [
+                    'label' => false,
                     'attr' => [
                     'placeholder' => 'Adresse de facturation'
                     ]
                 ])
                 ->add('phoneNumber', TelType::class, [
+                    'label' => false,
                     'attr' => [
                         'placeholder' => 'Numéro de téléphone'
                     ]

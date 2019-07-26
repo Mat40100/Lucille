@@ -14,6 +14,7 @@
                 <th>Numéro de téléphone</th>
                 <th>Date de création</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -27,8 +28,10 @@
                 <td>{{ user.phoneNumber }}</td>
                 <td>{{ user.creationDate | date("m/d/Y h:i") }}</td>
                 <td>
-                    <a href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}">Voir</a>
-                    <a href="{{ path('app_adminspace_edituser', {'user': user.id}) }}">Modifier</a>
+                    <a class="m-2" href="{{ path('app_adminspace_edituser', {'user': user.id}) }}"><button class="btn btn-primary">Modifier</button></a>
+                </td>
+                <td>
+                    <a class="m-2" href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}"><button class="btn btn-primary">Voir</button></a>
                 </td>
             </tr>
         {% else %}

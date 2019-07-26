@@ -29,37 +29,37 @@ class OrphanUserType extends AbstractType
 
         $builder
             ->add('lastName', TextType::class, [
-                'label' => 'Nom de famille',
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Nom de famille'
                 ]
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom',
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Prénom'
                 ]
             ])
             ->add('email', EmailType::class, [
-                'label' => 'E-mail',
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'E-mail'
                 ]
             ])
             ->add('postalAddress', TextareaType::class, [
-                'label' => 'Adresse postale / Adresse de facturation',
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Adresse postale / Adresse de facturation'
                 ]
             ])
             ->add('phoneNumber', TelType::class, [
-                'label' => 'Numéro de téléphone',
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Téléphone'
                 ]
             ])
             ->add('company', TextType::class, [
-                'label' => 'Entreprise',
+                'label' => false,
                 'attr' => [
                     'placeholder' => 'Entreprise'
                 ]

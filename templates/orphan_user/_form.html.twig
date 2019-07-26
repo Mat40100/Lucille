@@ -1,44 +1,30 @@
 {{ form_start(form, {'attr': {'class': 'col-12 flex-column justify-content-center align-items-center'}}) }}
     <div class="col-12 row flex-column justify-content-center align-items-center">
-        <div class="form-group">
-            {# form_label(form.lastName) #}
-            {{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
+        <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-12 flex-column row">
+            {{ form_row(form.firstName,  { 'attr': {'class': 'form-control'}}) }}
+
+            {{ form_row(form.lastName,  { 'attr': {'class': 'form-control'}}) }}
+
+            {{ form_row(form.email,  { 'attr': {'class': 'form-control'}}) }}
         </div>
 
-        <div class="form-group">
-            {# form_label(form.firstName) #}
-            {{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
-        </div>
+        <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-12 flex-column row">
+            {{ form_row(form.company,  { 'attr': {'class': 'form-control'}}) }}
 
-        <div class="form-group">
-            {# form_label(form.email) #}
-            {{ form_widget(form.email, { 'attr': {'class': 'form-control'} }) }}
-        </div>
+            {{ form_row(form.phoneNumber,  { 'attr': {'class': 'form-control'}}) }}
 
-        <div class="form-group">
-            {# form_label(form.company) #}
-            {{ form_widget(form.company, { 'attr': {'class': 'form-control'} }) }}
-        </div>
-
-        <div class="form-group">
-            {# form_label(form.phoneNumber) #}
-            {{ form_widget(form.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
-        </div>
-
-        <div class="form-group">
-            {# form_label(form.postalAddress) #}
-            {{ form_widget(form.postalAddress, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_row(form.postalAddress,  { 'attr': {'class': 'form-control'}}) }}
         </div>
 
         {% if form.product is defined %}
-        <div class="form-group">
-            {{ form(form.product.comment,  { 'attr': {'class': 'form-control'}}) }}
-        </div>
+            <div class="form-group col-xl-8 col-lg-10 col-md-12 col-sm-12 flex-column row">
+                {{ form(form.product.comment,  { 'attr': {'class': 'form-control'}}) }}
+            </div>
 
-        <h3>{{ form_label(form.product.files) }}</h3>
-        <div class="files row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.product.files.vars.prototype)|e('html_attr') }}">
+            <h3>{{ form_label(form.product.files) }}</h3>
+            <div class="files row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.product.files.vars.prototype)|e('html_attr') }}">
 
-        </div>
+            </div>
         {% endif %}
 
         <div style="display: none">{{ form_rest(form) }}</div>
@@ -47,6 +33,7 @@
             <button class="btn btn-success">{{ button_label|default('Valider') }}</button>
         </div>
     </div>
+
 
 
 {{ form_end(form) }}

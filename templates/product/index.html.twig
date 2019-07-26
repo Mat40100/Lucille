@@ -17,6 +17,7 @@
             <th>Facture</th>
             <th>Date de création</th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -40,8 +41,9 @@
                 <td>{{ product.creationDate|date("m/d/Y h:i") }}</td>
                 <td>
                     {{ include('product/editButton.html.twig') }}
-
-                    <a href="{{ path('app_userspace_showproduct', {'product': product.id }) }}">Voir</a>
+                </td>
+                <td>
+                    <a href="{{ path('app_userspace_showproduct', {'product': product.id }) }}"><button class="btn btn-primary">Voir</button></a>
                 </td>
             </tr>
         {% else %}

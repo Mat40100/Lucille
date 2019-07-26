@@ -1,32 +1,31 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr' : {'class': 'col-12 flex-column row text-center justify-content-center align-items-center'}}) }}
 
-    <div class="form-group">
-        {{ form_widget(form.firstName,  { 'attr': {'class': 'form-control'}}) }}
+    <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-12 flex-column row">
+        {{ form_row(form.firstName,  { 'attr': {'class': 'form-control'}}) }}
+
+        {{ form_row(form.lastName,  { 'attr': {'class': 'form-control'}}) }}
+
+        {{ form_row(form.email,  { 'attr': {'class': 'form-control'}}) }}
     </div>
 
-    <div class="form-group">
-        {{ form_widget(form.lastName,  { 'attr': {'class': 'form-control'}}) }}
+    <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-12 flex-column row">
+        {{ form_row(form.company,  { 'attr': {'class': 'form-control'}}) }}
+
+        {{ form_row(form.phoneNumber,  { 'attr': {'class': 'form-control'}}) }}
+
+        {{ form_row(form.billingAddress,  { 'attr': {'class': 'form-control'}}) }}
     </div>
 
-    <div class="form-group">
-        {{ form_widget(form.email,  { 'attr': {'class': 'form-control'}}) }}
-    </div>
+    {% if form.password is defined %}
+        <div class="form-group col-xl-3 col-lg-4 col-md-6 col-sm-12 flex-column row">
+            {{ form_row(form.password.first, { 'attr': {'class': 'form-control m-2'}}) }}
 
-    <div class="form-group">
-        {{ form_widget(form.company,  { 'attr': {'class': 'form-control'}}) }}
-    </div>
+            {{ form_row(form.password.second, { 'attr': {'class': 'form-control m-2'}}) }}
+        </div>
+    {% endif %}
 
-    <div class="form-group">
-        {{ form_widget(form.phoneNumber,  { 'attr': {'class': 'form-control'}}) }}
-    </div>
 
-    <div class="form-group">
-        {{ form_widget(form.billingAddress,  { 'attr': {'class': 'form-control'}}) }}
-    </div>
-
-    <div class="form-group">
-        {{ form_widget(form.password) }}
-    </div>
+    <small id="emailHelp" class="form-text text-muted">Vous devez au moins entrer votre nom et prénom ou le nom de votre entreprise</small>
 
     <div class="form-group row justify-content-center text-center">
         <button class="btn btn-success">{{ button_label|default('Valider') }}</button>
