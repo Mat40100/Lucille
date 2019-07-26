@@ -1,31 +1,31 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': { 'class' : 'col-12 row flex-column justify-content-center align-items-center' }}) }}
 
 <div class="form-group text-danger">
     {{ form_errors(form) }}
 </div>
 
 {% if is_granted("ROLE_ADMIN") %}
-    <div class="form-group row flex-column align-content-center justify-content-center col-lg-6 col-md-4">
-        {{ form_row(form.isPayed) }}
+    <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
+        {{ form_row(form.isOffLinePayed, {'attr' :{'class': 'form-control' }}) }}
+    </div>
 
-        {{ form_row(form.state) }}
+    <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
+        {{ form_row(form.state, {'attr' :{'class': 'form-control' }}) }}
+    </div>
 
-        {% if form.price is defined %}
-            {{ form_row(form.price) }}
-        {% else %}
-            <p>Prix : {{ product.price }}</p>
-        {% endif %}
+    <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
+        {{ form_row(form.price , {'attr' :{'class': 'form-control' }}) }}
     </div>
 {% endif %}
 
 
-<div class="form-group">
+<div class="form-group col-8">
     <h3>{{ form_label(form.comment) }}</h3>
     {{ form_widget(form.comment, {'attr': {'class':'form-control'}}) }}
 </div>
 
 
-<div class="form-group row flex-column align-content-center justify-content-center">
+<div class="form-group row flex-column align-content-center justify-content-center border rounded p-4">
     {% if form.files is defined %}
         <h3>{{ form_label(form.files) }}</h3>
         <div class="files row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.files.vars.prototype)|e('html_attr') }}">
@@ -42,7 +42,7 @@
     {% endif %}
 </div>
 
-<div class="form-group row flex-column align-content-center justify-content-center">
+<div class="form-group row flex-column align-content-center justify-content-center border rounded p-4">
     {% if form.livrables is defined %}
         <h3>{{ form_label(form.livrables) }}</h3>
         <div class="livrables row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.livrables.vars.prototype)|e('html_attr') }}">
