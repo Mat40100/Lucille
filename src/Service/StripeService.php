@@ -47,7 +47,7 @@ class StripeService
             'line_items' => [[
                 'name' => 'Traduction',
                 'description' => 'Traduction number is '.$product->getId(),
-                'amount' => $product->getPrice(),
+                'amount' => $product->getPrice()*100,
                 'currency' => 'eur',
                 'quantity' => 1,
             ]],
