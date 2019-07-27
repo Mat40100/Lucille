@@ -39,7 +39,7 @@ class Bill
     private $file;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="bill", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="bill")
      * @ORM\JoinColumn(nullable=false)
      */
     private $product;

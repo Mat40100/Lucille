@@ -43,6 +43,10 @@ class MailService
 
     public function sendIsValidatedMail(Product $product)
     {
+        if(null === $product->getUser()) {
+            return;
+        }
+
         $message = (new \Swift_Message('Votre commande est maintenant validée.'))
             ->setFrom($this->email)
             ->setTo($product->getUser()->getEmail())
@@ -62,6 +66,10 @@ class MailService
 
     public function sendIsFinishedMail(Product $product)
     {
+        if(null === $product->getUser()) {
+            return;
+        }
+
         $message = (new \Swift_Message('Votre commande est maintenant terminée !'))
             ->setFrom($this->email)
             ->setTo($product->getUser()->getEmail())
@@ -69,6 +77,29 @@ class MailService
                 $this->renderer->render(
                 // templates/emails/registration.html.twig
                     'mails/validatedMail.html.twig', [
+                        'user' => $product->getUser(),
+                        'product' => $product
+                    ]
+                ),
+                'text/html'
+            )
+        ;
+        $this->mailer->send($message);
+    }
+
+    public function sendDevisAvailableMail(Product $product)
+    {
+        if(null === $product->getUser()) {
+            return;
+        }
+
+        $message = (new \Swift_Message('Votre devis est disponible en ligne.'))
+            ->setFrom($this->email)
+            ->setTo($product->getUser()->getEmail())
+            ->setBody(
+                $this->renderer->render(
+                // templates/emails/registration.html.twig
+                    'mails/devisDispo.html.twig', [
                         'user' => $product->getUser(),
                         'product' => $product
                     ]

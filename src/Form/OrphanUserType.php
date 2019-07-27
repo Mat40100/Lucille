@@ -25,8 +25,6 @@ class OrphanUserType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->addEventSubscriber(new removeProductFieldSubscriber());
-
         $builder
             ->add('lastName', TextType::class, [
                 'label' => false,
@@ -64,8 +62,11 @@ class OrphanUserType extends AbstractType
                     'placeholder' => 'Entreprise'
                 ]
             ])
-            ->add('product', ProductType::class);
         ;
+
+        if (null === $options['data']->getId()) {
+            $builder->add('product', ProductType::class);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

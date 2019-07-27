@@ -50,7 +50,7 @@
 
             {% for product in user.products %}
             <tr>
-                <td>{{ path('app_userspace_showproduct' , {'product':product.id}) }}</td>
+                <td><a href="{{ path('app_userspace_showproduct' , {'product':product.id}) }}">{{ product.id }}</a></td>
                 <td>{{ product.state }}</td>
             </tr>
             {% endfor %}

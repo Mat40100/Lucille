@@ -39,7 +39,7 @@ class Devis
     private $file;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="devis", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Product", inversedBy="devis")
      */
     private $product;
 

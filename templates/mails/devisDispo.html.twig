@@ -1,0 +1,9 @@
+<p>Bonjour {{ app.user.firstname }}</p>
+
+<p>Votre devis est disponible en ligne :</p>
+    <ul>
+        <li><a href="{{ default_url }}{{ path('app_userspace_downloaddevis', {'devis': product.devis.id, 'product': product.id }) }}">En téléchargement direct</a></li>
+        <li><a href="{{ default_url }}{{ path('app_userspace_showproduct', {'product': product.id }) }}">Sur votre commande</a></li>
+    </ul>
+
+<p>Bonne journée.</p>

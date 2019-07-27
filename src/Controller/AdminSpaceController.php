@@ -13,6 +13,7 @@ use App\Form\OrphanUserType;
 use App\Repository\ProductRepository;
 use App\Repository\UserRepository;
 use App\Service\FileService;
+use App\Service\MailService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,6 +95,11 @@ class AdminSpaceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if(null !== $product->getBill()) {
+                $fileService->removeFile($product->getBill());
+            }
+
             $product->setBill($form->getData());
             $fileService->saveFile($form->getData());
             $this->getDoctrine()->getManager()->flush();
@@ -111,7 +117,7 @@ class AdminSpaceController extends AbstractController
     /**
      * @Route("/devis/add/{product}")
      */
-    public function uploadDevis(Request $request, Product $product, ProductController $controller, FileService $fileService)
+    public function uploadDevis(Request $request, Product $product, FileService $fileService, MailService $mailService)
     {
         $devis = new Devis();
 
@@ -119,6 +125,11 @@ class AdminSpaceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if(null !== $product->getDevis()) {
+                $fileService->removeFile($product->getDevis());
+            }
+
             $product->setDevis($form->getData());
             $fileService->saveFile($form->getData());
             $this->getDoctrine()->getManager()->flush();
@@ -168,8 +179,8 @@ class AdminSpaceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('app_adminspace_orphanedit', [
-                'orphan' => $orphanUser->getId(),
+            return $this->redirectToRoute('app_adminspace_orphanshow', [
+                'id' => $orphanUser->getId(),
             ]);
         }
 

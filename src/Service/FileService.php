@@ -9,6 +9,7 @@ use App\Entity\Devis;
 use App\Entity\File;
 use App\Entity\Livrable;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileService
@@ -17,16 +18,16 @@ class FileService
     private $bills_directory;
     private $devis_directory;
     private $livrables_directory;
-
+    private $fileSystem;
     private $entityManager;
 
-    public function __construct($files_directory, $bills_directory, $devis_directory, $livrables_directory, EntityManagerInterface $entityManager)
+    public function __construct($files_directory, $bills_directory, $devis_directory, $livrables_directory, EntityManagerInterface $entityManager, Filesystem $fileSystem)
     {
         $this->files_directory = $files_directory;
         $this->bills_directory = $bills_directory;
         $this->devis_directory = $devis_directory;
         $this->livrables_directory = $livrables_directory;
-
+        $this->fileSystem = $fileSystem;
         $this->entityManager = $entityManager;
     }
 
@@ -78,6 +79,22 @@ class FileService
             }
 
             $this->entityManager->persist($file);
+        }
+    }
+
+    /**
+     * @param $file
+     */
+    public function removeFile($file)
+    {
+        $file->setProduct(null);
+        $this->entityManager->remove($file);
+        $this->entityManager->flush();
+
+        try {
+            $this->fileSystem->remove(['symlink', $this->getDir($file), $file->getEncodedName().".".$file->getExtension()]);
+        } catch (FileException $e) {
+
         }
     }
 }

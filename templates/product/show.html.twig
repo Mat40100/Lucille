@@ -58,13 +58,13 @@
         <div id="devis" class="col-auto row p-2 m-1 border rounded justify-content-center">
             <h3 class="col-12 text-center">Devis</h3>
             {% if product.devis is not null %}
-                <a class="col-12" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
+                <a class="col-auto" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
             {% else %}
                 <p>Pas de devis ...</p>
             {% endif %}
 
             {% if is_granted("ROLE_ADMIN") %}
-                <a id ="addDevis" class="col-12" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
+                <a id ="addDevis" class="col-12 text-center" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
             {% endif %}
         </div>
 
@@ -72,7 +72,7 @@
             <h3 class="col-12 text-center">Facture</h3>
             {% if product.isPayed or is_granted('ROLE_ADMIN')%}
                 {% if product.bill is not null %}
-                    <a class="col-12" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
+                    <a class="col-auto" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
                 {% else %}
                     <p>Pas de facture ...</p>
                 {% endif %}

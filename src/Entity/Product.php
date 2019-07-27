@@ -200,9 +200,11 @@ class Product
         return $this->bill;
     }
 
-    public function setBill(Bill $bill): self
+    public function setBill(?Bill $bill): self
     {
         $this->bill = $bill;
+
+        if(null===$bill) return $this;
 
         // set the owning side of the relation if necessary
         if ($this !== $bill->getProduct()) {
@@ -217,9 +219,11 @@ class Product
         return $this->devis;
     }
 
-    public function setDevis(Devis $devis): self
+    public function setDevis(?Devis $devis): self
     {
         $this->devis = $devis;
+
+        if(null === $devis) return $this;
 
         // set (or unset) the owning side of the relation if necessary
         $newProduct = $devis === null ? null : $this;

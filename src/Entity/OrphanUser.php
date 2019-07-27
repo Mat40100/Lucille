@@ -22,7 +22,7 @@ class OrphanUser
     private $phoneNumber;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Product",mappedBy="orphanUser", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Product",mappedBy="orphanUser", cascade={"persist", "remove"})
      */
     private $product;
 
