@@ -44,6 +44,11 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getCredentials(Request $request)
     {
+        if(!$request->request->get('email') || !$request->request->get('password')) {
+
+            throw new CustomUserMessageAuthenticationException('Vous devez fournir un email et un mot de passe.');
+        }
+
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
