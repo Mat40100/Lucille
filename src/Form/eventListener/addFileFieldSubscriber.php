@@ -7,6 +7,7 @@ namespace App\Form\eventListener;
 use App\Form\FileType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 
@@ -23,7 +24,8 @@ class addFileFieldSubscriber implements EventSubscriberInterface
         $form = $event->getForm();
 
         if (!$product->getIsValid()) {
-            $form->add('files', CollectionType::class, [
+            $form
+                ->add('files', CollectionType::class, [
                 'label' => 'Fichiers à traduire',
                 'required' => false,
                 'by_reference' => false,
@@ -31,7 +33,12 @@ class addFileFieldSubscriber implements EventSubscriberInterface
                 'entry_options' => ['label' => false],
                 'allow_add' => true,
                 'allow_delete' => true
-            ]);
+                ])
+
+                ->add('price', IntegerType::class, [
+                    'label' => 'Prix de la commande',
+                    'required' => false
+                ]);
         }
     }
 }

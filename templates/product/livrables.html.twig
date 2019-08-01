@@ -1,0 +1,31 @@
+{% if form.livrables is defined %}
+
+    <div class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
+
+        <h3>{{ form_label(form.livrables) }}</h3>
+        <div class="livrables row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.livrables.vars.prototype)|e('html_attr') }}">
+
+            {% for livrable in form.livrables %}
+                <div class="row col-auto file justify-content-center align-items-center">
+                    <div class="col text-right">{{ livrable.vars.value.name }}</div>
+                    <button type="button" class="btn btn-danger delete"></button>
+
+                    <div style="display:none">{{ form_widget(livrable) }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% else %}
+
+    <div id="livrables" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
+        <h3 class="col-12 text-center">Livrables</h3>
+        {% for livrable in product.livrables %}
+            <a href="{{ path('app_userspace_downloadlivrable', { 'livrable' : livrable.id, 'product' : product.id}) }}"><button class="btn btn-success">{{ livrable.name }}</button></a>
+        {% else %}
+            <p>Pas de fichiers</p>
+        {% endfor %}
+    </div>
+
+{% endif %}
+

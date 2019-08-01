@@ -1,0 +1,31 @@
+{% if form.files is defined %}
+
+    <div id="fichiers" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
+
+        <h3>{{ form_label(form.files) }}</h3>
+        <div class="files row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.files.vars.prototype)|e('html_attr') }}">
+
+            {% for file in form.files %}
+                <div class="row col-auto file justify-content-center align-items-center">
+                    <div class="col text-right">{{ file.vars.value.name }}</div>
+                    <button type="button" class="btn btn-danger delete"></button>
+
+                    <div style="display:none">{{ form_widget(file) }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% else %}
+
+    <div id="fichiers" class="row justify-content-center align-items-center border rounded p-2 m-2">
+        <h3 class="col-12 text-center">Fichiers</h3>
+
+        {% for file in product.files %}
+            <a class="m-2" href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}"><button class="btn btn-success">{{ file.name }}</button></a>
+        {% else %}
+            <p>Pas de fichiers</p>
+        {% endfor %}
+    </div>
+
+{% endif %}

@@ -1,114 +1,56 @@
 {{ form_start(form, {'attr': { 'class' : 'col-12 row flex-column justify-content-center align-items-center' }}) }}
 
-<div class="form-group text-danger">
-    {{ form_errors(form) }}
-</div>
-
-{% if is_granted("ROLE_ADMIN") %}
-    <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
-        {{ form_row(form.isOffLinePayed, {'attr' :{'class': 'form-control' }}) }}
+    <div class="form-group text-danger">
+        {{ form_errors(form) }}
     </div>
 
-    <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
-        {{ form_row(form.state, {'attr' :{'class': 'form-control' }}) }}
-    </div>
-
-    <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
-        {% if product.isValid %}
-            <p>Prix : {{ product.price }}</p>
-        {% else %}
-            {{ form_row(form.price, {'attr' :{'class': 'form-control' }}) }}
-        {% endif %}
-    </div>
-{% endif %}
-
-
-<div class="form-group col-8">
-    <h3>{{ form_label(form.comment) }}</h3>
-    {{ form_widget(form.comment, {'attr': {'class':'form-control'}}) }}
-</div>
-
-<div class="row justify-content-center align-items-center p-2 m-2">
-    <h3 class="col-12 text-center">Fichiers & devis</h3>
-
-    {% if form.files is defined %}
-    <div id="fichiers" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-
-        <h3>{{ form_label(form.files) }}</h3>
-        <div class="files row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.files.vars.prototype)|e('html_attr') }}">
-
-            {% for file in form.files %}
-                <div class="row col-auto file justify-content-center align-items-center">
-                    <div class="col text-right">{{ file.vars.value.name }}</div>
-                    <button type="button" class="btn btn-danger delete"></button>
-
-                    <div style="display:none">{{ form_widget(file) }}</div>
-                </div>
-            {% endfor %}
+    {% if is_granted("ROLE_ADMIN") %}
+        <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
+            {{ form_row(form.isOffLinePayed, {'attr' :{'class': 'form-control' }}) }}
         </div>
-    </div>
+
+        <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
+            {{ form_row(form.state, {'attr' :{'class': 'form-control' }}) }}
+        </div>
+
+        <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
+            {% if product.isValid %}
+                <p>Prix : {{ product.price }}</p>
+            {% else %}
+                {{ form_row(form.price, {'attr' :{'class': 'form-control' }}) }}
+            {% endif %}
+        </div>
     {% endif %}
+
+
+    <div class="form-group col-8">
+        <h3>{{ form_label(form.comment) }}</h3>
+        {{ form_widget(form.comment, {'attr': {'class':'form-control'}}) }}
+    </div>
+
+    <div class="row justify-content-center align-items-center p-2 m-2">
+        <h3 class="col-12 text-center">Fichiers & devis</h3>
+
+        {% include('product/files.html.twig') %}
+
+        {% include('product/devis.html.twig') %}
+    </div>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <div class="row justify-content-center align-items-center">
-            <div id="devis" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-                <h3 class="col-12">Devis</h3>
-                {% if product.devis is not null %}
-                    <a class="col-auto" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
-                {% else %}
-                    <p>Pas de devis ...</p>
-                {% endif %}
+        <div class="row justify-content-center align-items-center p-2 m-2">
+            <h3 class="col-12 text-center">Facture & livrables</h3>
 
-                {% if is_granted("ROLE_ADMIN") and not product.isValid %}
-                    <a id ="addDevis" class="col-12 text-center" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
-                {% endif %}
-            </div>
+            {% include('product/livrables.html.twig') %}
+
+            {% include('product/facture.html.twig') %}
         </div>
     {% endif %}
-</div>
 
-{% if is_granted('ROLE_ADMIN') %}
-    <div class="row justify-content-center align-items-center p-2 m-2">
-        <h3 class="col-12 text-center">Facture & livrables</h3>
+    <div style="display:none">{{ form_rest(form) }}</div>
 
-        <div class="form-group row flex-column align-content-center justify-content-center border rounded p-4">
-            {% if form.livrables is defined %}
-                <h3>{{ form_label(form.livrables) }}</h3>
-                <div class="livrables row col-12  flex-column align-items-center justify-content-center" data-prototype="{{ form_widget(form.livrables.vars.prototype)|e('html_attr') }}">
-
-                    {% for livrable in form.livrables %}
-                        <div class="row col-auto file justify-content-center align-items-center">
-                            <div class="col text-right">{{ livrable.vars.value.name }}</div>
-                            <button type="button" class="btn btn-danger delete"></button>
-
-                            <div style="display:none">{{ form_widget(livrable) }}</div>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-
-        <div id="facture" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-            <h3 class="col-12">Facture</h3>
-
-            {% if product.bill is not null%}
-                <a class="col-auto" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
-            {% else %}
-                <p>Pas de facture ...</p>
-            {% endif %}
-
-            {% if is_granted("ROLE_ADMIN") %}
-                <a id ="addBill" class="col-12 text-center" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
-            {% endif %}
-        </div>
+    <div class="form-group justify-content-center row col-12">
+        <button type="submit" class="col-auto btn btn-success">Valider</button>
     </div>
-{% endif %}
-
-<div style="display:none">{{ form_rest(form) }}</div>
-
-<div class="form-group justify-content-center row col-12">
-    <button type="submit" class="col-auto btn btn-success">Valider</button>
-</div>
 {{ form_end(form) }}
 
 {% block javascripts %}

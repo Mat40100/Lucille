@@ -33,6 +33,9 @@ class ProductType extends AbstractType
             ])
         ;
 
+        /*
+         * DELETE FIELDS IF PRODUCT ALREADY VALIDATED
+         */
         $builder->addEventSubscriber(new addFileFieldSubscriber());
 
         if ($this->security->isGranted("ROLE_ADMIN")) {
@@ -64,15 +67,6 @@ class ProductType extends AbstractType
                     'prototype' => true
                 ])
             ;
-
-            if ($options['data']->getState() == 'En attente' ) {
-                $builder
-                    ->add('price', IntegerType::class, [
-                        'label' => 'Prix de la commande',
-                        'required' => false
-                    ])
-                ;
-            }
         }
     }
 
