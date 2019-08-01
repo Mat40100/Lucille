@@ -86,6 +86,8 @@ class UserSpaceController extends AbstractController
 
             $productService->newProduct($product);
 
+            $this->addFlash('success', 'Votre commande à bien été prise en compte, vous recevrez un mail lorsque le devis sera disponible.');
+
             return $this->redirectToRoute('home');
         }
 

@@ -1,8 +1,8 @@
 
 {% if product.state == "En attente" or is_granted("ROLE_ADMIN") %}
-    <form method="post" action="{{ path('app_userspace_deleteproduct', {'product': product.id}) }}" onsubmit="return confirm('Vous êtes certain de vouloir supprimer ceete commande?');">
+    <form method="post" action="{{ path('app_userspace_deleteproduct', {'product': product.id}) }}" onsubmit="return confirm('Vous êtes certain(e) de vouloir supprimer cette commande?');">
         <input type="hidden" name="_method" value="DELETE">
         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ product.id) }}">
-        <button class="btn btn-danger">Supprimer</button>
+        <button class="btn btn-danger">Supprimer la commande</button>
     </form>
 {% endif %}

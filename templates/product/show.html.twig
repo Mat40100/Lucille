@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Commande</h1>
+    <h1>Commande n°{{ product.id }}</h1>
 
     <table class="table">
         <tbody>
@@ -19,82 +19,83 @@
         </tr>
         <tr>
             <th>Création de la commande</th>
-            <td>{{ product.creationDate | date("m/d/Y h:i")}}</td>
+            <td>{{ product.creationDate | date("d/m/Y h:i")}}</td>
         </tr>
-
-
         </tbody>
     </table>
 
-    <div class="row justify-content-center align-items-center border rounded p-2 m-2">
-        <h3 class="col-12 text-center">Fichiers</h3>
+    <div class="row justify-content-center align-items-center p-2 m-2">
+        <h3 class="col-12 text-center">Fichiers à traduire & devis</h3>
 
-        {% for file in product.files %}
-            <a class="m-2" href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}"><button class="btn btn-success">{{ file.name }}</button></a>
-        {% else %}
-            <div class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-                <p>Pas de fichiers</p>
+        <div class="row justify-content-center align-items-center border rounded p-2 m-2">
+            <h3 class="col-12 text-center">Fichiers</h3>
+
+            {% for file in product.files %}
+                <a class="m-2" href="{{ path('app_userspace_downloadfile', {'file' : file.id, 'product': product.id }) }}"><button class="btn btn-success">{{ file.name }}</button></a>
+            {% else %}
+                <div class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
+                    <p>Pas de fichiers</p>
+                </div>
+            {% endfor %}
+        </div>
+
+
+        <div class="row justify-content-center align-items-center">
+            <div id="devis" class="col-auto row p-2 m-1 border rounded justify-content-center">
+                <h3 class="col-12 text-center">Devis</h3>
+                {% if product.devis is not null %}
+                    <a class="col-auto" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
+                {% endif %}
+
+                {% if product.devis is not null and is_granted('ROLE_ADMIN') %}
+                    <a id ="addDevis" class="col-12 text-center" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
+                {% elseif product.devis is null and is_granted('ROLE_ADMIN') %}
+                    <a id ="addDevis" class="col-12 text-center" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Ajouter un devis</a>
+                {% else %}
+                    <p>Le devis n'est pas encore disponible</p>
+                {% endif %}
             </div>
-        {% endfor %}
+        </div>
     </div>
 
-    <div class="row justify-content-center align-items-center border rounded p-2 m-2">
-        <h3 class="col-12 text-center">Livrables</h3>
-
+    <div class="row justify-content-center align-items-center p-2 m-2">
+        <h3 class="col-12 text-center">Facture & livrables</h3>
         {% if product.isPayed or is_granted('ROLE_ADMIN') %}
+
+            <div id="facture" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
+                <h3 class="col-12 text-center">Facture</h3>
+                {% if product.bill is not null %}
+                    <a class="col-auto" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
+                {% endif %}
+
+                {% if product.bill is not null and is_granted("ROLE_ADMIN") %}
+                    <a id ="addBill" class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
+                {% elseif product.bill is null and is_granted('ROLE_ADMIN') %}
+                    <a id ="addBill" class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Ajouter une facture</a>
+                {% else %}
+                    <p>La facture n'est pas encore disponible</p>
+                {% endif %}
+            </div>
+
+            <div id="livrables" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
+                <h3 class="col-12 text-center">Livrables</h3>
                 {% for livrable in product.livrables %}
                     <a href="{{ path('app_userspace_downloadlivrable', { 'livrable' : livrable.id, 'product' : product.id}) }}"><button class="btn btn-success">{{ livrable.name }}</button></a>
                 {% else %}
-                    <div class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-                        <p>Pas de fichiers</p>
-                    </div>
+                    <p>Pas de fichiers</p>
                 {% endfor %}
+            </div>
+
         {% else %}
-            <p>Pour avoir accès aux livrables, vous devez régler la commande.</p>
+            <p>Vous devez régler la commande pour avoir accès aux livrables et à la facture</p>
         {% endif %}
     </div>
 
-    <div class="row justify-content-center align-items-center">
-        <div id="devis" class="col-auto row p-2 m-1 border rounded justify-content-center">
-            <h3 class="col-12 text-center">Devis</h3>
-            {% if product.devis is not null %}
-                <a class="col-auto" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
-            {% else %}
-                <p>Pas de devis ...</p>
-            {% endif %}
+    {{ include('product/editButton.html.twig') }}
 
-            {% if is_granted("ROLE_ADMIN") %}
-                <a id ="addDevis" class="col-12 text-center" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
-            {% endif %}
-        </div>
+    {% if not product.isPayed  and not is_granted('ROLE_ADMIN') and product.isValid %}
+        <a class="m-2" href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}"><button class="btn btn-primary">Payer en ligne</button></a>
+    {% endif %}
 
-        <div id="facture" class="col-auto row p-2 m-1 border rounded text-center justify-content-center">
-            <h3 class="col-12 text-center">Facture</h3>
-            {% if product.isPayed or is_granted('ROLE_ADMIN')%}
-                {% if product.bill is not null %}
-                    <a class="col-auto" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
-                {% else %}
-                    <p>Pas de facture ...</p>
-                {% endif %}
-            {% else %}
-                <p>Vous devez régler votre commande pour obtenir une facture.</p>
-            {% endif %}
-
-
-
-            {% if is_granted("ROLE_ADMIN") %}
-                <a id ="addBill" class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="row">
-        {{ include('product/editButton.html.twig') }}
-
-        {% if not product.isPayed  and not is_granted('ROLE_ADMIN')%}
-            <a class="m-2" href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}"><button class="btn btn-primary">Payer en ligne</button></a>
-        {% endif %}
-
-        {{ include('product/returnToListButton.html.twig') }}
-    </div>
+    {{ include('product/returnToListButton.html.twig') }}
 {% endblock %}

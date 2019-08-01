@@ -9,6 +9,7 @@
             <th>ID</th>
             {% if is_granted("ROLE_ADMIN") %}
                 <th>Client</th>
+                <th></th>
             {% endif %}
             <th>Etat de la demande</th>
             <th>Paiement</th>
@@ -28,8 +29,10 @@
                 {% if is_granted("ROLE_ADMIN") %}
                     {% if product.user %}
                         <td><a href="{{ path('app_adminspace_seeuser', {'user': product.user.id }) }}">{{ product.user.lastName }} {{ product.user.firstName }}</a></td>
+                        {{ product.user ? '<td>Avec compte</td>' : '<td>Sans compte</td>' }}
                     {% else %}
                         <td><a href="{{ path('app_adminspace_orphanshow', {'id': product.orphanUser.id }) }}">{{ product.orphanUser.lastName }} {{ product.orphanUser.firstName }}</a></td>
+                        {{ product.user ? '<td>Avec compte</td>' : '<td>Sans compte</td>' }}
                     {% endif %}
                 {% endif %}
 

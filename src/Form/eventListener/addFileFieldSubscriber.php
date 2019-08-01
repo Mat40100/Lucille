@@ -22,7 +22,7 @@ class addFileFieldSubscriber implements EventSubscriberInterface
         $product = $event->getData();
         $form = $event->getForm();
 
-        ##if (!$product || null === $product->getId()) {
+        if (!$product->getIsValid()) {
             $form->add('files', CollectionType::class, [
                 'label' => 'Fichiers à traduire',
                 'required' => false,
@@ -32,6 +32,6 @@ class addFileFieldSubscriber implements EventSubscriberInterface
                 'allow_add' => true,
                 'allow_delete' => true
             ]);
-        ##}
+        }
     }
 }

@@ -9,7 +9,9 @@
 
     {{ include('product/_delete_form.html.twig') }}
 
-    <a href="{{ path('app_userspace_showproduct', {'product': product.id}) }}">Retour sur le produit</a>
+    <div class="col-12">
+        <a class="m-2" href="{{ path('app_userspace_showproduct', {'product': product.id}) }}">Retour sur le produit</a>
+    </div>
 
     {{ include('product/returnToListButton.html.twig') }}
 

@@ -1,3 +1,5 @@
 {% if is_granted("ROLE_ADMIN") %}
-    <a class="m-2" href="{{ path('app_adminspace_products') }}"><button class="btn btn-primary">Retour sur la liste</button></a>
+    <div class="col-12">
+        <a class="m-2" href="{{ path('app_adminspace_products') }}"><button class="btn btn-primary">Retour sur la liste</button></a>
+    </div>
 {% endif %}
