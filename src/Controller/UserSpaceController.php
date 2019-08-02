@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/profil")
+ * @Route("/user")
  * @IsGranted("ROLE_USER")
  */
 class UserSpaceController extends AbstractController
