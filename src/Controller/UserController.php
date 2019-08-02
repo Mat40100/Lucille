@@ -77,7 +77,7 @@ class UserController extends AbstractController
 
             $this->addFlash("success", "Le profil a bien été modifié");
 
-            if ($this->isGranted("ROLE_ADMIN")) return $this->redirectToRoute('app_adminspace_clients');
+            if ($this->isGranted("ROLE_ADMIN")) return $this->redirectToRoute('app_adminspace_users');
 
             return $this->redirectToRoute('app_userspace_show');
         }
