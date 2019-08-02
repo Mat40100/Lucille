@@ -58,8 +58,8 @@
     </table>
 
     {% if is_granted("ROLE_ADMIN") %}
-        <a href="{{ path('app_adminspace_clients') }}">Retour sur la liste</a>
-        {# TODO : Supprimer définitivement un utilisateur #}
+        <a href="{{ path('app_adminspace_users') }}">Retour sur la liste</a>
+        <a href="{{ path('app_adminspace_userdelete', {'user': user.id}) }}">Supprimer définitivement</a>
     {% endif %}
 
     {{ include('user/_delete_form.html.twig') }}

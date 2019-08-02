@@ -1,5 +1,5 @@
 <form method="post" action="{{ path('app_userspace_delete', {'id': user.id}) }}" onsubmit="return confirm('Vous êtes sûr de vouloir désactiver votre compte ?');">
     <input type="hidden" name="_method" value="DELETE">
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
-    <button class="btn">Désactiver mon compte</button>
+    <button class="btn">Désactiver le compte</button>
 </form>
