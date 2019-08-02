@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Liste des utilisateurs</h1>
+    <h1>Liste des {{ title }}</h1>
 
     <table class="table">
         <thead>
@@ -27,12 +27,25 @@
                 <td>{{ user.billingAddress }}</td>
                 <td>{{ user.phoneNumber }}</td>
                 <td>{{ user.creationDate | date("m/d/Y h:i") }}</td>
-                <td>
-                    <a class="m-2" href="{{ path('app_adminspace_edituser', {'user': user.id}) }}"><button class="btn btn-primary">Modifier</button></a>
-                </td>
-                <td>
-                    <a class="m-2" href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}"><button class="btn btn-primary">Voir</button></a>
-                </td>
+                {% if user.isActive %}
+                    <td>
+                        <a class="m-2" href="{{ path('app_adminspace_edituser', {'user': user.id}) }}"><button class="btn btn-primary">Modifier</button></a>
+                    </td>
+                    <td>
+                        <a class="m-2" href="{{ path('app_adminspace_seeuser', {'user': user.id}) }}"><button class="btn btn-primary">Voir</button></a>
+                    </td>
+                {% else %}
+                    <td>
+                        <a href="{{ path('app_adminspace_reactiveuser', {'user': user.id}) }}"><button class="btn btn-primary">Réactiver l'utilisateur</button></a>
+                    </td>
+                    <td>
+                        <form method="post" action="{{ path('app_adminspace_userdelete', {'user': user.id}) }}" onsubmit="return confirm('Vous êtes sûr de vouloir supprimer définitiement cet utilisateur ?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                            <button class="btn btn-danger">Supprimer définitivement</button>
+                        </form>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
@@ -41,4 +54,6 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <a href="{{ activePath }}"><button class="btn btn-primary">{{ pathLabel }}</button></a>
 {% endblock %}

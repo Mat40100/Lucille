@@ -44,7 +44,12 @@ class UserSpaceController extends AbstractController
      */
     public function delete()
     {
+        $this->getUser()->setIsActive(false);
+        $this->getDoctrine()->getManager()->flush();
 
+        $this->addFlash('success', 'Votre compte est désactivé, cette mesure sera prise en compte lors de votre prochaine connection. Vous pourrez inverser le processus en me contactant directement.');
+
+        return $this->redirectToRoute('home');
     }
 
     /**

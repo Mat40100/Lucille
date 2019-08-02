@@ -37,10 +37,13 @@ class AdminSpaceController extends AbstractController
     /**
      * @Route("/users")
      */
-    public function clients(UserRepository $userRepository)
+    public function users(UserRepository $userRepository)
     {
         return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
+            'users' => $userRepository->findBoolActive(true),
+            'title' => 'clients',
+            'pathLabel' => 'Voir les utilisateurs désactivés',
+            'activePath' => $this->generateUrl('app_adminspace_seeinactiveusers')
         ]);
     }
 
@@ -50,6 +53,33 @@ class AdminSpaceController extends AbstractController
     public function seeUser(User $user, UserController $controller)
     {
         return $controller->show($user);
+    }
+
+    /**
+     * @Route("/users/inactives")
+     */
+    public function seeInactiveUsers(UserRepository $repository)
+    {
+        return $this->render('user/index.html.twig', [
+            'users' => $repository->findBoolActive(false),
+            'title' => 'clients désactivés',
+            'pathLabel' => 'Voir les utilisateurs actifs',
+            'activePath' => $this->generateUrl('app_adminspace_users')
+        ]);
+    }
+
+    /**
+     * @Route("/user-{user}/reactivate")
+     */
+    public function reactiveUser(User $user, UserRepository $userRepository)
+    {
+        $user = $userRepository->findOneBy(['id' => $user->getId()]);
+        $user->setIsActive(true);
+        $this->getDoctrine()->getManager()->flush();
+
+
+        $this->addFlash('success', 'Le client à bien été réactivé.');
+        return $this->redirectToRoute('app_adminspace_users');
     }
 
     /**
@@ -65,13 +95,20 @@ class AdminSpaceController extends AbstractController
      */
     public function userDelete(Request $request, User $user)
     {
+        if ($user === $this->getUser()) {
+            $this->addFlash('warning', 'Vous ne pouvez pas supprimer le compte administrateur');
+
+            return $this->redirectToRoute('app_adminspace_users');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }
+        $this->addFlash('warning', 'L\'utilisateur à bien été supprimé.');
 
-        return $this->redirectToRoute('app_adminspace_clients');
+        return $this->redirectToRoute('app_adminspace_users');
     }
 
     /**

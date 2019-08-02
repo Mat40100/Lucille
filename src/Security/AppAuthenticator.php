@@ -3,6 +3,7 @@
 namespace App\Security;
 
 use App\Entity\User;
+use App\Service\MailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,8 +74,15 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator
 
         if (!$user) {
             // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email could not be found.');
+            throw new CustomUserMessageAuthenticationException('Email non trouvé.');
         }
+
+        if ($user->getIsActive() === false) {
+            // fail authentication with a custom error
+            throw new CustomUserMessageAuthenticationException('Votre compte est désactivé, contactez l\'administrateur.');
+        }
+
+
 
         return $user;
     }

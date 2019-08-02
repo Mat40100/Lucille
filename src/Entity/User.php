@@ -86,10 +86,16 @@ class User implements UserInterface
      */
     private $creationDate;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->setCreationDate(new \DateTime());
+        $this->isActive = true;
     }
 
     public function getId(): ?int
@@ -293,6 +299,18 @@ class User implements UserInterface
     public function setCreationDate(\DateTimeInterface $creationDate): self
     {
         $this->creationDate = $creationDate;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }

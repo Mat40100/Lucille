@@ -19,6 +19,17 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findBoolActive($boolActive)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.isActive = :bool')
+            ->setParameter('bool', $boolActive)
+            ->orderBy('u.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
