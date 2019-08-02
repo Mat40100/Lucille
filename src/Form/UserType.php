@@ -63,6 +63,7 @@ class UserType extends AbstractType
                     ]],
                 ])
                 ->add('lastName', TextType::class, [
+                    'empty_data' => '',
                     'label' => false,
                     'required' => false,
                     'attr' => [
@@ -70,6 +71,7 @@ class UserType extends AbstractType
                     ]
                 ])
                 ->add('firstName', TextType::class, [
+                    'empty_data' => '',
                     'label' => false,
                     'required' => false,
                     'attr' => [
@@ -77,6 +79,7 @@ class UserType extends AbstractType
                     ]
                 ])
                 ->add('company', TextType::class, [
+                    'empty_data' => '',
                     'label' => false,
                     'required' => false,
                     'attr' => [
@@ -90,6 +93,7 @@ class UserType extends AbstractType
                     ]
                 ])
                 ->add('phoneNumber', TelType::class, [
+                    'empty_data' => '',
                     'label' => false,
                     'attr' => [
                         'placeholder' => 'Numéro de téléphone'

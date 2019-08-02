@@ -27,14 +27,15 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if ($form->get('company')->getData() === null & ($form->get('firstName')->getData() === null || $form->get('lastName')->getData() === null)) {
+            if ($form->get('company') === "" && ($form->get('firstName') === "" || $form->get('lastName')->isEmpty())) {
                 $form->addError(new FormError('Vous devez soit entrer vos nom et prénom, soit donner le nom de votre entreprise.'));
 
                 return $this->render('user/new.html.twig', [
                     'user' => $user,
-                    'form' => $form->createView(),
-                ]);
-            }
+                    'form' => $form->createView()
+                    ]);
+
+            };
 
             $userService->saveNewUser($user);
 
@@ -62,6 +63,16 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->get('company')->isEmpty() && ($form->get('firstName')->isEmpty() || $form->get('lastName')->isEmpty())) {
+            $form->addError(new FormError('Vous devez soit entrer vos nom et prénom, soit donner le nom de votre entreprise.'));
+
+            return $this->render('user/edit.html.twig', [
+                'user' => $user,
+                'form' => $form->createView()
+            ]);
+
+        };
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash("success", "Le profil a bien été modifié");

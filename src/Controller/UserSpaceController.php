@@ -44,7 +44,7 @@ class UserSpaceController extends AbstractController
      */
     public function delete()
     {
-        ##TODO
+
     }
 
     /**

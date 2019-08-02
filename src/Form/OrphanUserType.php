@@ -27,12 +27,14 @@ class OrphanUserType extends AbstractType
     {
         $builder
             ->add('lastName', TextType::class, [
+                'empty_data' => '',
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Nom de famille'
                 ]
             ])
             ->add('firstName', TextType::class, [
+                'empty_data' => '',
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Prénom'
@@ -57,6 +59,7 @@ class OrphanUserType extends AbstractType
                 ]
             ])
             ->add('company', TextType::class, [
+                'empty_data' => '',
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Entreprise'
