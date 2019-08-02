@@ -78,7 +78,7 @@ class AdminSpaceController extends AbstractController
         $this->getDoctrine()->getManager()->flush();
 
 
-        $this->addFlash('success', 'Le client à bien été réactivé.');
+        $this->addFlash('success', 'Le compte est réactivé avec succès.');
         return $this->redirectToRoute('app_adminspace_users');
     }
 
@@ -106,7 +106,7 @@ class AdminSpaceController extends AbstractController
             $entityManager->remove($user);
             $entityManager->flush();
         }
-        $this->addFlash('warning', 'L\'utilisateur à bien été supprimé.');
+        $this->addFlash('warning', 'Le compte est supprimé avec succès.');
 
         return $this->redirectToRoute('app_adminspace_users');
     }

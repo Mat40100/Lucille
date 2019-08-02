@@ -7,6 +7,7 @@ use App\Entity\Devis;
 use App\Entity\File;
 use App\Entity\Livrable;
 use App\Entity\Product;
+use App\Entity\User;
 use App\Form\ProductType;
 use App\Service\FileService;
 use App\Service\MailService;
@@ -40,14 +41,25 @@ class UserSpaceController extends AbstractController
     }
 
     /**
-     * @Route("/delete")
+     * @Route("/delete/{user}")
      */
-    public function delete()
+    public function delete(User $user)
     {
-        $this->getUser()->setIsActive(false);
+        if(in_array('ROLE_ADMIN',$user->getRoles())) {
+            $this->addFlash('warning','Vous ne pouvez pas désactiver le compte administrateur.');
+
+            return $this->redirectToRoute('app_adminspace_users');
+        }
+
+        $user->setIsActive(false);
         $this->getDoctrine()->getManager()->flush();
 
-        $this->addFlash('success', 'Votre compte est désactivé, cette mesure sera prise en compte lors de votre prochaine connection. Vous pourrez inverser le processus en me contactant directement.');
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $this->addFlash('success', 'Compte désactivé avec succès');
+        }
+        else {
+            $this->addFlash('success', 'Votre compte est désactivé, cette mesure sera prise en compte lors de votre prochaine connection. Vous pourrez inverser le processus en me contactant directement.');
+        }
 
         return $this->redirectToRoute('home');
     }
