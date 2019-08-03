@@ -20,8 +20,9 @@ class FileService
     private $livrables_directory;
     private $fileSystem;
     private $entityManager;
+    private $antiVirus;
 
-    public function __construct($files_directory, $bills_directory, $devis_directory, $livrables_directory, EntityManagerInterface $entityManager, Filesystem $fileSystem)
+    public function __construct($files_directory, $bills_directory, $devis_directory, $livrables_directory, EntityManagerInterface $entityManager, Filesystem $fileSystem, AntiVirusService $antiVirusService)
     {
         $this->files_directory = $files_directory;
         $this->bills_directory = $bills_directory;
@@ -29,6 +30,7 @@ class FileService
         $this->livrables_directory = $livrables_directory;
         $this->fileSystem = $fileSystem;
         $this->entityManager = $entityManager;
+        $this->antiVirus = $antiVirusService;
     }
 
     /**
@@ -63,8 +65,8 @@ class FileService
     }
 
     /**
-     * @param File $file
-     * Save file of any kind
+     * @param $file
+     * @return bool
      */
     public function saveFile($file)
     {
@@ -74,11 +76,19 @@ class FileService
                     $this->getDir($file),
                     $file->getEncodedName()
                 );
+
+                if(!$this->antiVirus->isFileSafe($this->getFileUrl($file))) {
+
+                    return false;
+                }
+
             } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
+                return false;
             }
 
             $this->entityManager->persist($file);
+
+            return true;
         }
     }
 
