@@ -3,7 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Product;
-use App\Form\eventListener\addFileFieldSubscriber;
+use App\Form\eventListener\AdminProductSuscriber;
+use App\Form\eventListener\ValidatedProductSuscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -31,43 +32,26 @@ class ProductType extends AbstractType
                     'placeholder' => 'Commentaires'
                 ]
             ])
+            ->add('files', CollectionType::class, [
+                'label' => 'Fichiers à traduire',
+                'required' => false,
+                'by_reference' => false,
+                'entry_type' => FileType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true
+            ])
         ;
+
+        if ($this->security->isGranted("ROLE_ADMIN")) {
+            $builder->addEventSubscriber(new AdminProductSuscriber());
+        }
 
         /*
          * DELETE FIELDS IF PRODUCT ALREADY VALIDATED
          */
-        $builder->addEventSubscriber(new addFileFieldSubscriber());
+        $builder->addEventSubscriber(new ValidatedProductSuscriber());
 
-        if ($this->security->isGranted("ROLE_ADMIN")) {
-            $builder
-                ->add('isOffLinePayed', ChoiceType::class, [
-                    'choices'  => [
-                        'Oui' => true,
-                        'Non' => false,
-                    ],
-                    'label' => 'Payée ?',
-                ])
-                ->add('state', ChoiceType::class, [
-                    'choices'  => [
-                        'Commencée' => 'Commencée',
-                        'Terminée' => 'Terminée',
-                        'Validée' => 'Validée',
-                        'En attente' => 'En attente'
-                    ],
-                    'label' => 'Etat de la commande'
-                ])
-                ->add('livrables', CollectionType::class, [
-                    'label' => 'Livrables',
-                    'required' => false,
-                    'by_reference' => false,
-                    'entry_type' => LivrableType::class,
-                    'entry_options' => ['label' => false],
-                    'allow_add' => true,
-                    'allow_delete' => true,
-                    'prototype' => true
-                ])
-            ;
-        }
     }
 
     public function configureOptions(OptionsResolver $resolver)

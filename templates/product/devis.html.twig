@@ -1,16 +1,16 @@
 <div class="row justify-content-center align-items-center">
     <div id="devis" class="col-auto row p-2 m-1 border rounded justify-content-center">
         <h3 class="col-12 text-center">Devis</h3>
-        {% if product.devis is not null %}
+        {% if product.devis is not null and not is_granted('ROLE_ADMIN') %}
             <a class="col-auto" href="{{ path('app_userspace_downloaddevis', {'product' : product.id, 'devis' : product.devis.id}) }}"><button class="btn btn-success" type="button">{{ product.devis.name }}</button></a>
+        {% else %}
+            <p>Le devis n'est pas encore disponible</p>
         {% endif %}
 
         {% if product.devis is not null and is_granted('ROLE_ADMIN') %}
             <a id ="addDevis" class="col-12 text-center" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Changer le devis</a>
         {% elseif product.devis is null and is_granted('ROLE_ADMIN') %}
             <a id ="addDevis" class="col-12 text-center" href="{{ path('app_adminspace_uploaddevis', {'product': product.id}) }}">Ajouter un devis</a>
-        {% else %}
-            <p>Le devis n'est pas encore disponible</p>
         {% endif %}
     </div>
 </div>

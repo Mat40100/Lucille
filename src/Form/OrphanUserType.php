@@ -3,7 +3,7 @@
 namespace App\Form;
 
 use App\Entity\OrphanUser;
-use App\Form\eventListener\addFileFieldSubscriber;
+use App\Form\eventListener\validatedProductSuscriber;
 use App\Form\eventListener\removeProductFieldSubscriber;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
