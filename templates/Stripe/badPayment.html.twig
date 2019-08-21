@@ -7,9 +7,6 @@
 
         <p>{{ message }}</p>
 
-        <a href="{{ path('app_stripe_redirecttocheckout', {'product' : product.id}) }}"><button class="btn btn-primary">Paiement</button></a>
-
-
         <a href="{{ path('app_userspace_showproduct', {'product' : product.id}) }}"><button class="btn btn-primary">Retour sur la commande</button></a>
     </div>
 {% endblock %}

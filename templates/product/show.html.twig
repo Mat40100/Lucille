@@ -21,6 +21,15 @@
             <th>Création de la commande</th>
             <td>{{ product.creationDate | date("d/m/Y h:i")}}</td>
         </tr>
+        <tr>
+            <th>Prix</th>
+            <td>{% if product.price %}
+                {{ product.price }} €
+                {% else %}
+                    L'estimation n'est pas encore disponible.
+                {% endif %}
+            </td>
+        </tr>
         </tbody>
     </table>
 
@@ -49,8 +58,13 @@
     {{ include('product/editButton.html.twig') }}
 
     {% if not product.isPayed  and not is_granted('ROLE_ADMIN') and product.isValid %}
-        <a class="m-2" href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}"><button class="btn btn-primary">Payer en ligne</button></a>
+        {# <a id="OnlinePaymentButton" class="m-2" href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}"><button class="btn btn-primary">Payer en ligne</button></a> #}
+        <button id="OnlinePaymentButton" data-product="{{ product.id }}" class="btn btn-primary">Payer en ligne</button>
     {% endif %}
 
     {{ include('product/returnToListButton.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('StripeApi') }}
 {% endblock %}
