@@ -38,11 +38,15 @@ class ProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             foreach ($product->getFiles() as $file) {
-                $fileService->saveFile($file);
+                if($fileService->saveFile($file) === false){
+                    $product->removeFile($file);
+                };
             }
 
             foreach ($product->getLivrables() as $file) {
-                $fileService->saveFile($file);
+                if(!$fileService->saveFile($file)){
+                    $product->removeFile($file);
+                };
             }
 
             if ((!$product->getPrice() || !$product->getDevis() ) && $product->getIsValid()) {
@@ -84,6 +88,12 @@ class ProductController extends AbstractController
     public function delete(Request $request, Product $product, ProductService $productService): Response
     {
         if(!$productService->checkEditable($product)) return $this->render("product/show.html.twig", ['product' => $product]);
+
+        if($product->getIsPayed()) {
+            $this->addFlash("warning", "Vous ne pouvez pas supprimer une commande déjà payée.");
+
+            return $this->render("product/show.html.twig", ['product' => $product]);
+        }
 
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

@@ -26,8 +26,6 @@ class AntiVirusService implements AntiVirusInterface
         // On supprime le fichier si virus détecté + demande explicite de suppression
         if ($removeUnsafe && !$process->isSuccessful()) {
             unlink($filePath);
-
-            $this->session->getFlashBag()->add('danger', 'Votre dossier est marqué comme contenant un virus, l\'upload n\'a donc pas été effectué.');
         }
 
         return $process->isSuccessful();

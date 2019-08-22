@@ -11,6 +11,7 @@ use App\Entity\Livrable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FileService
 {
@@ -21,8 +22,9 @@ class FileService
     private $fileSystem;
     private $entityManager;
     private $antiVirus;
+    private $session;
 
-    public function __construct($files_directory, $bills_directory, $devis_directory, $livrables_directory, EntityManagerInterface $entityManager, Filesystem $fileSystem, AntiVirusService $antiVirusService)
+    public function __construct(SessionInterface $session, $files_directory, $bills_directory, $devis_directory, $livrables_directory, EntityManagerInterface $entityManager, Filesystem $fileSystem, AntiVirusService $antiVirusService)
     {
         $this->files_directory = $files_directory;
         $this->bills_directory = $bills_directory;
@@ -31,6 +33,7 @@ class FileService
         $this->fileSystem = $fileSystem;
         $this->entityManager = $entityManager;
         $this->antiVirus = $antiVirusService;
+        $this->session = $session;
     }
 
     /**
@@ -78,7 +81,7 @@ class FileService
                 );
 
                 if(!$this->antiVirus->isFileSafe($this->getFileUrl($file), true)) {
-
+                    $this->session->getFlashBag()->add('danger', 'Votre fichier '.$file->getName().' est marqué comme contenant un virus, l\'upload n\'a donc pas été effectué.');
 
                     return false;
                 }
