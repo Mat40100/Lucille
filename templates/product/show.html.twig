@@ -3,7 +3,7 @@
 {% block body %}
     <h1>Commande n°{{ product.id }}</h1>
 
-    <table class="table">
+    <table class="table col-lg-6 col-md-9 col-sm-12">
         <tbody>
         <tr>
             <th>Commande payée ?</th>
@@ -19,10 +19,6 @@
                 {% endif %}
             </tr>
         {% endif %}
-        <tr>
-            <th>Commentaires</th>
-            <td>{{ product.comment }}</td>
-        </tr>
         <tr>
             <th>Etat de la commande</th>
             <td>{{ product.state }}</td>
@@ -42,6 +38,12 @@
         </tr>
         </tbody>
     </table>
+
+    <div class="col-12 row flex-column justify-content-center align-items-center p-2 m-2">
+        <h3 class="col-lg-6 col-md-9 col-sm-12 text-center">Commentaire</h3>
+        <p class="col-lg-6 col-md-9 col-sm-12 border rounded p-2 text-center">{{ product.comment }}</p>
+    </div>
+
 
     <div class="row justify-content-center align-items-center p-2 m-2">
         <h3 class="col-12 text-center">Fichiers à traduire & devis</h3>

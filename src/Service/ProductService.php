@@ -54,8 +54,14 @@ class ProductService
      */
     public function checkEditable(Product $product)
     {
-        if (($product->getState() != 'En attente' && !$this->security->isGranted("ROLE_ADMIN")) || $product->getIsPayed()) {
+        if (($product->getState() != 'En attente' && !$this->security->isGranted("ROLE_ADMIN"))) {
             $this->session->getFlashBag()->add("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
+
+            return false;
+        }
+
+        if($product->getIsPayed()) {
+            $this->session->getFlashBag()->add("warning", "Vous ne pouvez pas supprimer une commande déjà payée.");
 
             return false;
         }

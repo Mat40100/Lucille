@@ -27,7 +27,7 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('comment', TextareaType::class, [
-                'label' => 'Commentaire sur la traduction à produire',
+                'label' => 'Commentaire',
                 'attr' => [
                     'placeholder' => 'Commentaires'
                 ]
