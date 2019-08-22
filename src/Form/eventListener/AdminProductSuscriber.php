@@ -56,7 +56,7 @@ class AdminProductSuscriber implements EventSubscriberInterface
             'required' => false
         ]);
 
-        if($product->isStripePayed()) {
+        if($product->getIsStripePayed()) {
             $form->remove('isOffLinePayed');
         }
     }
