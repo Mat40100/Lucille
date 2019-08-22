@@ -60,12 +60,6 @@ class ProductService
             return false;
         }
 
-        if($product->getIsPayed()) {
-            $this->session->getFlashBag()->add("warning", "Vous ne pouvez pas supprimer une commande déjà payée.");
-
-            return false;
-        }
-
         return true;
     }
 }

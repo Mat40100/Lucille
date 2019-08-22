@@ -20,7 +20,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="product", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="product", orphanRemoval=true, cascade={"remove"})
      * @Assert\Valid()
      */
     private $files;
@@ -51,12 +51,12 @@ class Product
     private $state;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Bill", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Bill", mappedBy="product",orphanRemoval=true, cascade={"remove"})
      */
     private $bill;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Devis", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\Devis", mappedBy="product",orphanRemoval=true, cascade={"remove"})
      */
     private $devis;
 
@@ -76,7 +76,7 @@ class Product
     private $isStripePayed;
 
     /**
-     * @ORM\OneToMany(targetEntity="Livrable", mappedBy="product", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Livrable", mappedBy="product", orphanRemoval=true ,cascade={"remove"})
      */
     private $livrables;
 

@@ -12,7 +12,6 @@ use App\Form\ProductType;
 use App\Service\FileService;
 use App\Service\MailService;
 use App\Service\ProductService;
-use App\Service\StripeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -97,12 +96,17 @@ class UserSpaceController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             foreach ($product->getFiles() as $file) {
-                $file->setProduct($product);
-                $fileService->saveFile($file);
+                if($fileService->saveFile($file) === false){
+                    $product->removeFile($file);
+
+                    return $this->render('product/new.html.twig', [
+                        'product' => $product,
+                        'form' => $form->createView(),
+                    ]);
+                };
             }
 
             $productService->newProduct($product);
-
             $this->addFlash('success', 'Votre commande à bien été prise en compte, vous recevrez un mail lorsque le devis sera disponible.');
 
             return $this->redirectToRoute('home');
