@@ -2,13 +2,13 @@
     <h3 class="col-12 text-center">Facture</h3>
     {% if product.bill is not null %}
         <a class="col-auto" href="{{ path('app_userspace_downloadbill', {'product' : product.id, 'bill' : product.bill.id}) }}"><button class="btn btn-success" type="button">{{ product.bill.name }}</button></a>
+    {% else %}
+        <p>La facture n'est pas encore disponible</p>
     {% endif %}
 
     {% if product.bill is not null and is_granted("ROLE_ADMIN") %}
         <a id ="addBill" class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Changer la facture</a>
     {% elseif product.bill is null and is_granted('ROLE_ADMIN') %}
         <a id ="addBill" class="col-12" href="{{ path('app_adminspace_uploadbill', {'product': product.id}) }}">Ajouter une facture</a>
-    {% else %}
-        <p>La facture n'est pas encore disponible</p>
     {% endif %}
 </div>
