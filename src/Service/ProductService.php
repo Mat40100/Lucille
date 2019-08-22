@@ -54,7 +54,7 @@ class ProductService
      */
     public function checkEditable(Product $product)
     {
-        if ($product->getState() != 'En attente' && !$this->security->isGranted("ROLE_ADMIN")) {
+        if (($product->getState() != 'En attente' && !$this->security->isGranted("ROLE_ADMIN")) || $product->getIsPayed()) {
             $this->session->getFlashBag()->add("warning", "Vous ne pouvez pas modifier une demande une fois validée, contactez Lucille !");
 
             return false;

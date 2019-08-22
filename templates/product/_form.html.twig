@@ -5,9 +5,11 @@
     </div>
 
     {% if is_granted("ROLE_ADMIN") %}
-        <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
-            {{ form_row(form.isOffLinePayed, {'attr' :{'class': 'form-control' }}) }}
-        </div>
+        {% if form.isOffLinePayed is defined %}
+            <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
+                {{ form_row(form.isOffLinePayed, {'attr' :{'class': 'form-control' }}) }}
+            </div>
+        {% endif %}
 
         <div class="form-group row flex-column align-content-baseline justify-content-center col-lg-6 col-md-4">
             {{ form_row(form.state, {'attr' :{'class': 'form-control' }}) }}

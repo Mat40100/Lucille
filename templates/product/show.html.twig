@@ -9,6 +9,16 @@
             <th>Commande payée ?</th>
             <td>{{ product.isPayed ? 'Oui' : 'Non' }}</td>
         </tr>
+        {% if product.isPayed %}
+            <tr>
+                <th>Type de paiement</th>
+                {% if product.isStripePayed %}
+                    <td>Paiement Stripe</td>
+                {% elseif product.isOffLinePayed %}
+                    <td>Paiement hors ligne</td>
+                {% endif %}
+            </tr>
+        {% endif %}
         <tr>
             <th>Commentaires</th>
             <td>{{ product.comment }}</td>

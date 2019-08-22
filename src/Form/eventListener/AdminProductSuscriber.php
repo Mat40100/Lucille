@@ -23,13 +23,14 @@ class AdminProductSuscriber implements EventSubscriberInterface
     public function preSetData(FormEvent $event)
     {
         $form = $event->getForm();
+        $product = $event->getData();
 
         $form->add('isOffLinePayed', ChoiceType::class, [
             'choices'  => [
                 'Oui' => true,
                 'Non' => false,
             ],
-            'label' => 'Payée ?',
+            'label' => 'Payée hors ligne?',
         ])
         ->add('state', ChoiceType::class, [
             'choices'  => [
@@ -54,5 +55,9 @@ class AdminProductSuscriber implements EventSubscriberInterface
             'label' => 'Prix de la commande',
             'required' => false
         ]);
+
+        if($product->isStripePayed()) {
+            $form->remove('isOffLinePayed');
+        }
     }
 }
