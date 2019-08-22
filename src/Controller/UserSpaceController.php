@@ -12,7 +12,6 @@ use App\Form\ProductType;
 use App\Service\FileService;
 use App\Service\MailService;
 use App\Service\ProductService;
-use App\Service\StripeService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

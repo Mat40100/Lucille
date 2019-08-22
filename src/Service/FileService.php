@@ -77,7 +77,8 @@ class FileService
                     $file->getEncodedName()
                 );
 
-                if(!$this->antiVirus->isFileSafe($this->getFileUrl($file))) {
+                if(!$this->antiVirus->isFileSafe($this->getFileUrl($file), true)) {
+
 
                     return false;
                 }
