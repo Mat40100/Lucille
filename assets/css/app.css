@@ -6,3 +6,8 @@ body {
     margin-right:0px!important;
     margin-left:0px!important;
 }
+
+#ajax-loading {
+    height: 100px;
+    width: 200px;
+}

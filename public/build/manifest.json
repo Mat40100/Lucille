@@ -6,5 +6,6 @@
   "build/app.js": "/build/app.js",
   "build/runtime.js": "/build/runtime.js",
   "build/vendors~EmbedFiles~EmbedLivrables.js": "/build/vendors~EmbedFiles~EmbedLivrables.js",
-  "build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js": "/build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js"
+  "build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js": "/build/vendors~EmbedFiles~EmbedLivrables~StripeApi.js",
+  "build/images/Loading_icon .gif": "/build/images/Loading_icon .gif"
 }

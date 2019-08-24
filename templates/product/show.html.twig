@@ -71,7 +71,8 @@
 
     {% if not product.isPayed  and not is_granted('ROLE_ADMIN') and product.isValid %}
         {# <a id="OnlinePaymentButton" class="m-2" href="{{ path('app_stripe_redirecttocheckout', {'id': product.id}) }}"><button class="btn btn-primary">Payer en ligne</button></a> #}
-        <button id="OnlinePaymentButton" data-product="{{ product.id }}" class="btn btn-primary">Payer en ligne</button>
+        <button id="OnlinePaymentButton" data-product="{{ product.id }}" class="btn btn-primary">Payer en ligne avec Stripe</button>
+        <img style="display: none" alt="loading icon" src="{{ asset('build/images/Loading_icon .gif') }}" id="ajax-loading">
     {% endif %}
 
     {{ include('product/returnToListButton.html.twig') }}
