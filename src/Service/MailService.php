@@ -24,6 +24,13 @@ class MailService
         $this->security = $security;
     }
 
+    /**
+     * Send email with token to recover account's password.
+     * @param User $user
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function sendRecoveryMail(User $user)
     {
         $message = (new \Swift_Message('Récupération de compte Akatraduction !'))
@@ -41,6 +48,13 @@ class MailService
         $this->mailer->send($message);
     }
 
+    /**
+     * Send Email when product is validated by admin
+     * @param Product $product
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function sendIsValidatedMail(Product $product)
     {
         if(null === $product->getUser()) {
@@ -64,6 +78,13 @@ class MailService
         $this->mailer->send($message);
     }
 
+    /**
+     * Send Email when wor on a product is completly over.
+     * @param Product $product
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function sendIsFinishedMail(Product $product)
     {
         if(null === $product->getUser()) {
@@ -87,6 +108,13 @@ class MailService
         $this->mailer->send($message);
     }
 
+    /**
+     * Send mail when a devis is available.
+     * @param Product $product
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
     public function sendDevisAvailableMail(Product $product)
     {
         if(null === $product->getUser()) {
@@ -99,9 +127,35 @@ class MailService
             ->setBody(
                 $this->renderer->render(
                 // templates/emails/registration.html.twig
-                    'mails/devisDispo.html.twig', [
+                    'mails/devisDispo.html.twig',
+                    [
                         'user' => $product->getUser(),
                         'product' => $product
+                    ]
+                ),
+                'text/html'
+            )
+        ;
+        $this->mailer->send($message);
+    }
+
+    /**
+     * Send mail when a user is created.
+     * @param User $user
+     * @throws \Twig\Error\LoaderError
+     * @throws \Twig\Error\RuntimeError
+     * @throws \Twig\Error\SyntaxError
+     */
+    public function sendNewUserEmail(User $user)
+    {
+        $message = (new \Swift_Message('Création du compte Akatraduction'))
+            ->setFrom($this->email)
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderer->render(
+                    'mails/newUser.html.twig',
+                    [
+                        'user' => $user,
                     ]
                 ),
                 'text/html'

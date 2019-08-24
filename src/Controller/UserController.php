@@ -20,7 +20,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/new", methods={"GET","POST"})
      */
-    public function new(Request $request, UserService $userService): Response
+    public function new(Request $request, UserService $userService, MailService $mailService): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -38,6 +38,8 @@ class UserController extends AbstractController
             };
 
             $userService->saveNewUser($user);
+            $this->addFlash('success', 'Votre compte a bien été créé, vous pouvez dès à présent vous connecter.');
+            $mailService->sendNewUserEmail($user);
 
             return $this->redirectToRoute('home');
         }
@@ -135,7 +137,7 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-
+            
         }
     }
 
