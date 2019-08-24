@@ -11,6 +11,7 @@ use App\Entity\Livrable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class FileService
@@ -110,5 +111,25 @@ class FileService
         } catch (FileException $e) {
 
         }
+    }
+
+    /**
+     * Take FileBag in request, and delete file with no uploads in it to avoid a null array
+     * Work for oprhanUsers Only
+     * @param Request $request
+     * @return Request
+     */
+    public function removeEmptyFilesInRequest(Request $request)
+    {
+        foreach ($request->files as $orphan) {
+            foreach ($orphan['product']['files'] as $key => $file) {
+                if ($orphan['product']['files'][$key]['file'] === null) {
+                    unset($orphan['product']['files'][$key]);
+                }
+            };
+        }
+        $request->files->replace(['orphan_user' => $orphan]);
+
+        return $request;
     }
 }

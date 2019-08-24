@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\File;
 use App\Entity\OrphanUser;
+use App\Entity\Product;
 use App\Form\OrphanUserType;
 use App\Service\FileService;
 use App\Service\OrphanUserService;
@@ -17,12 +19,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class OrphanController extends AbstractController
 {
     /**
-     * @Route("/new", methods={"GET","POST"})
+     * @Route("/new")
      */
     public function new(Request $request, FileService $fileService, OrphanUserService $userService): Response
     {
         $orphanUser = new OrphanUser();
         $form = $this->createForm(OrphanUserType::class, $orphanUser);
+
+        if($request->getMethod() === 'POST') {
+            $fileService->removeEmptyFilesInRequest($request);
+        }
 
         $form->handleRequest($request);
 
