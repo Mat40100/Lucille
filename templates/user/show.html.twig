@@ -57,11 +57,18 @@
         </tbody>
     </table>
 
+    {% if user is same as(app.user) %}
+        <a class="m-2" href="{{ path('app_user_changepassword') }}"><button class="btn btn-warning">Changer mon mot de passe</button></a>
+        <a class="m-2" href="{{ path('app_userspace_edit') }}"><button class="btn btn-warning">Modifier mon profil</button></a>
+    {% endif %}
+
     {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('app_adminspace_users') }}">Retour sur la liste</a>
         <a href="{{ path('app_adminspace_userdelete', {'user': user.id}) }}">Supprimer définitivement</a>
     {% endif %}
 
-    {{ include('user/_delete_form.html.twig') }}
+    <div class="col-12 justify-content-start">
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
 
 {% endblock %}

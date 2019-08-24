@@ -22,7 +22,8 @@ class UserType extends AbstractType
                 ->add('email', EmailType::class, [
                     'attr' => [
                         'placeholder' => 'Email'
-                    ]
+                    ],
+                    'mapped' => false
                 ])
             ;
         }

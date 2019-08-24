@@ -120,7 +120,8 @@ class UserController extends AbstractController
         }
 
         return $this->render('user/passwordRecovery.html.twig',[
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'title' => 'Récupération de mot de passe'
         ]);
     }
 
@@ -128,7 +129,7 @@ class UserController extends AbstractController
      * @Route("/password/change")
      * @IsGranted("ROLE_USER")
      */
-    public function changePassword(Request $request)
+    public function changePassword(Request $request, UserService $userService)
     {
         $form = $this->createForm(UserType::class, $this->getUser(), [
             'reset' => true
@@ -137,8 +138,16 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            
+            $userService->resetPassword($this->getUser());
+
+            $this->addFlash('success', 'Votre mot de passe a bien été modifié.');
+            return $this->redirectToRoute('app_userspace_show');
         }
+
+        return $this->render('user/passwordRecovery.html.twig', [
+            'form' => $form->createView(),
+            'title' => 'Changement de mot de passe'
+        ]);
     }
 
     /**
@@ -157,12 +166,14 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $service->resetPassword($user);
+            $this->addFlash('success', 'Votre mot de passe a été changé avec succès, vous pouvez vous connecter dès à présent.');
 
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('user/passwordRecovery.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'title' => 'Récuperez votre compte'
         ]);
     }
 }
