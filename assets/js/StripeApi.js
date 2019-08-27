@@ -29,7 +29,7 @@ $(document).ready(function () {
                         // instead of the {{CHECKOUT_SESSION_ID}} placeholder.
                         sessionId: ID
                     }).then(function (result) {
-                        alert(result);
+                        console.log(result);
                     });
                 })
             },

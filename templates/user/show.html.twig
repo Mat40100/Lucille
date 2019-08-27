@@ -47,7 +47,6 @@
         </tr>
         </thead>
         <tbody>
-
             {% for product in user.products %}
             <tr>
                 <td><a href="{{ path('app_userspace_showproduct' , {'product':product.id}) }}">{{ product.id }}</a></td>
