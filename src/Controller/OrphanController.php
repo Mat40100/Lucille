@@ -38,6 +38,7 @@ class OrphanController extends AbstractController
                 $file->setProduct($orphanUser->getProduct());
                 $fileService->saveFile($file);
             }
+            $this->getDoctrine()->getManager()->persist($orphanUser->getProduct());
             $userService->save($orphanUser);
 
             $this->addFlash('success', 'Votre commande est en attente de validation, vous serez bientôt contacté.');
