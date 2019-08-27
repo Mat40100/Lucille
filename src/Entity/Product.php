@@ -20,7 +20,7 @@ class Product
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="product", orphanRemoval=true, cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\File", mappedBy="product", orphanRemoval=true, cascade={"remove", "persist"})
      * @Assert\Valid()
      */
     private $files;
